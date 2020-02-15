@@ -78,43 +78,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
-    </Reference>
-    <Reference Include="DotParser, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotParser.1.0.6\lib\net45\DotParser.dll</HintPath>
-    </Reference>
-    <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="FSharpx.Collections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FSharpx.Collections.2.0.0\lib\netstandard2.0\FSharpx.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="FSharpx.Collections.Experimental, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FSharpx.Collections.Experimental.2.0.0\lib\netstandard2.0\FSharpx.Collections.Experimental.dll</HintPath>
-    </Reference>
-    <Reference Include="FSharpx.Core, Version=1.8.32.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FSharpx.Core.1.8.32\lib\40\FSharpx.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.NETStandard, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QuickGraph.NETStandard.3.8.0\lib\netstandard2.0\QuickGraph.NETStandard.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.4.5.1\lib\net461\System.Drawing.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Primitives.4.3.0\lib\net45\System.Drawing.Primitives.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -133,14 +101,6 @@
     <Page Include="MetroMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\IconsNonShared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\PocGraphDataTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -183,7 +143,6 @@
       <SubType>Code</SubType>
     </Compile>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -213,7 +172,6 @@
     </Compile>
     <Compile Include="ViewModel\LayoutAnalyzerViewModel.SampleGraphs.cs" />
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -275,10 +233,33 @@
     <SplashScreen Include="Themes\GraphSharp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
+    <PackageReference Include="DotNet.Contracts">
+      <Version>1.10.20606.1</Version>
+    </PackageReference>
+    <PackageReference Include="DotParser">
+      <Version>1.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="FSharp.Core">
+      <Version>4.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="FSharpx.Collections">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="FSharpx.Collections.Experimental">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="FSharpx.Core">
+      <Version>1.8.32</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro">
+      <Version>1.6.5</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro.Resources">
+      <Version>0.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="QuickGraph.NETStandard">
+      <Version>3.8.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
