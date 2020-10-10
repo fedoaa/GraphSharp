@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using QuickGraph;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 {

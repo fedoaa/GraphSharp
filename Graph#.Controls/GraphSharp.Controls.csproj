@@ -8,14 +8,15 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>GraphSharpCore</PackageId>
+    <PackageId>GraphSharp.Core</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
     <title>GraphSharp fork</title>
     <Authors>palesz,andypelzer,NineTailLabs,fedoaa</Authors>
     <PackageProjectUrl>https://github.com/fedoaa/GraphSharp</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>Graph layout framework and control. This fork is based on https://graphsharp.codeplex.com/. This is not an official release.</Description>
-    <PackageTags>GraphSharp,WPF,QuickGraph</PackageTags>
+    <PackageTags>GraphSharp,WPF,QuickGraph,QuikGraph</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="QuickGraph.NETStandard" Version="3.8.0" />
+    <PackageReference Include="QuikGraph" Version="2.2.0" />
   </ItemGroup>
 
   <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">

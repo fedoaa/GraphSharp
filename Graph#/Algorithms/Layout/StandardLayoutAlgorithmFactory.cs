@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GraphSharp.Algorithms.Layout.Contextual;
-using QuickGraph;
+using QuikGraph;
 using GraphSharp.Algorithms.Layout.Simple.Tree;
 using GraphSharp.Algorithms.Layout.Simple.Circular;
 using GraphSharp.Algorithms.Layout.Simple.FDP;

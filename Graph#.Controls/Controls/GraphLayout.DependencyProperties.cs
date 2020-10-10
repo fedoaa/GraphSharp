@@ -4,7 +4,7 @@ using GraphSharp.Algorithms.EdgeRouting;
 using GraphSharp.Algorithms.Highlight;
 using GraphSharp.Algorithms.Layout;
 using GraphSharp.Algorithms.OverlapRemoval;
-using QuickGraph;
+using QuikGraph;
 
 namespace GraphSharp.Controls
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using GraphSharp.Algorithms.EdgeRouting;
-using QuickGraph;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 {

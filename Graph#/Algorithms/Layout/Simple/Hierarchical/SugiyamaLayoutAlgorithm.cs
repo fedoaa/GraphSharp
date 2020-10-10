@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using GraphSharp.Algorithms.EdgeRouting;
-using QuickGraph;
-using QuickGraph.Algorithms.Search;
+using QuikGraph;
+using QuikGraph.Algorithms.Search;
 
 namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 {

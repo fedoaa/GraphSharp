@@ -1,4 +1,4 @@
-﻿using QuickGraph;
+﻿using QuikGraph;
 
 namespace Palesz.QuickGraph.Test.Metrics
 {

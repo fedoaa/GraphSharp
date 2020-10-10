@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-using QuickGraph.Algorithms;
+using QuikGraph.Algorithms;
 
 namespace GraphSharp.Algorithms
 {

@@ -1,6 +1,6 @@
 ﻿using GraphSharp.Algorithms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QuickGraph;
+using QuikGraph;
 using System.Diagnostics;
 
 namespace GraphSharp.Test

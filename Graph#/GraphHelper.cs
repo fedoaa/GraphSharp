@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using QuickGraph;
-using QuickGraph.Algorithms;
-using QuickGraph.Algorithms.ShortestPath;
+using QuikGraph;
+using QuikGraph.Algorithms;
+using QuikGraph.Algorithms.ShortestPath;
 
 namespace GraphSharp
 {

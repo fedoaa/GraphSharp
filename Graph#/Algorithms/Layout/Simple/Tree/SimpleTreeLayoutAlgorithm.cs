@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using QuickGraph;
-using QuickGraph.Algorithms.Search;
-using QuickGraph.Collections;
+using QuikGraph;
+using QuikGraph.Algorithms.Search;
+using QuikGraph.Collections;
 
 namespace GraphSharp.Algorithms.Layout.Simple.Tree
 {
@@ -56,7 +56,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
         {
             _spanningTree = new BidirectionalGraph<TVertex, Edge<TVertex>>(false);
             _spanningTree.AddVertexRange(VisitedGraph.Vertices);
-            IQueue<TVertex> vb = new QuickGraph.Collections.Queue<TVertex>();
+            IQueue<TVertex> vb = new QuikGraph.Collections.Queue<TVertex>();
             if (VisitedGraph.VertexCount > 0)
                 vb.Enqueue(VisitedGraph.Vertices.OrderBy(v => VisitedGraph.InDegree(v)).First());
             switch (Parameters.SpanningTreeGeneration)
