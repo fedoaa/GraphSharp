@@ -4,6 +4,8 @@
     <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RootNamespace>GraphSharp</RootNamespace>
+    <AssemblyName>GraphSharp.Controls</AssemblyName>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 

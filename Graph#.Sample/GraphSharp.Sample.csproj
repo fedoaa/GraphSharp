@@ -6,6 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputType>WinExe</OutputType>
+    <RootNamespace>GraphSharp.Sample</RootNamespace>
+    <AssemblyName>GraphSharp.Sample</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
