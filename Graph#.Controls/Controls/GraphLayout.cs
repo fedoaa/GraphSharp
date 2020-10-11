@@ -452,7 +452,7 @@ namespace GraphSharp.Controls
                 var vertex = kvp.Key;
                 var control = kvp.Value;
 
-                GraphElementBehaviour.SetLayoutInfo(control, iterArgs.GetVertexInfo(vertex));
+                GraphElementBehavior.SetLayoutInfo(control, iterArgs.GetVertexInfo(vertex));
             }
 
             foreach (var kvp in EdgeControls)
@@ -460,7 +460,7 @@ namespace GraphSharp.Controls
                 var edge = kvp.Key;
                 var control = kvp.Value;
 
-                GraphElementBehaviour.SetLayoutInfo(control, iterArgs.GetEdgeInfo(edge));
+                GraphElementBehavior.SetLayoutInfo(control, iterArgs.GetEdgeInfo(edge));
             }
         }
 
@@ -474,7 +474,7 @@ namespace GraphSharp.Controls
                 var vertex = kvp.Key;
                 var control = kvp.Value;
 
-                GraphElementBehaviour.SetLayoutInfo(control, LayoutAlgorithm.GetVertexInfo(vertex));
+                GraphElementBehavior.SetLayoutInfo(control, LayoutAlgorithm.GetVertexInfo(vertex));
             }
 
             foreach (var kvp in EdgeControls)
@@ -482,7 +482,7 @@ namespace GraphSharp.Controls
                 var edge = kvp.Key;
                 var control = kvp.Value;
 
-                GraphElementBehaviour.SetLayoutInfo(control, LayoutAlgorithm.GetEdgeInfo(edge));
+                GraphElementBehavior.SetLayoutInfo(control, LayoutAlgorithm.GetEdgeInfo(edge));
             }
         }
 

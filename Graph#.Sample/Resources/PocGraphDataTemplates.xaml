@@ -38,7 +38,7 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="controls:GraphElementBehaviour.HighlightTrigger" Value="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Self}}"/>
+		<Setter Property="controls:GraphElementBehavior.HighlightTrigger" Value="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="behaviors:DragChildrenBehavior.IsDragEnabled" Value="True"/>
         <Setter Property="behaviors:DragChildrenBehavior.X" Value="{Binding Path=(controls:GraphCanvas.X), Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
 		<Setter Property="behaviors:DragChildrenBehavior.Y" Value="{Binding Path=(controls:GraphCanvas.Y), Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
@@ -51,28 +51,28 @@
 		<Setter Property="BorderBrush" Value="#FF393939"/>
         
 		<Style.Triggers>
-			<Trigger Property="controls:GraphElementBehaviour.IsHighlighted" Value="True">
+			<Trigger Property="controls:GraphElementBehavior.IsHighlighted" Value="True">
 				<Setter Property="BorderBrush" Value="{StaticResource HighlightedVertexBorderBrush}"/>
 				<Setter Property="Background" Value="{StaticResource HighlightedVertexBackgroundBrush}"/>
 				<Setter Property="Foreground" Value="{StaticResource HighlightedVertexForegroundBrush}"/>
 			</Trigger>
-			<Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted" Value="True">
+			<Trigger Property="controls:GraphElementBehavior.IsSemiHighlighted" Value="True">
 				<Setter Property="BorderBrush" Value="{StaticResource HighlightedVertexBorderBrush}"/>
 				<Setter Property="Background" Value="{StaticResource HighlightedVertexBackgroundBrush}"/>
 				<Setter Property="Foreground" Value="{StaticResource HighlightedVertexForegroundBrush}"/>
 			</Trigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
-					<Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted" Value="True"/>
-					<Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo" Value="Source"/>
+					<Condition Property="controls:GraphElementBehavior.IsSemiHighlighted" Value="True"/>
+					<Condition Property="controls:GraphElementBehavior.SemiHighlightInfo" Value="Source"/>
 				</MultiTrigger.Conditions>
 				<Setter Property="BorderBrush" Value="{StaticResource SemiHighlightedSourceVertexBorderBrush}"/>
 				<Setter Property="Background" Value="{StaticResource SemiHighlightedSourceVertexBackgroundBrush}"/>
 			</MultiTrigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
-					<Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted" Value="True"/>
-					<Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo" Value="Target"/>
+					<Condition Property="controls:GraphElementBehavior.IsSemiHighlighted" Value="True"/>
+					<Condition Property="controls:GraphElementBehavior.SemiHighlightInfo" Value="Target"/>
 				</MultiTrigger.Conditions>
 				<Setter Property="BorderBrush" Value="{StaticResource SemiHighlightedTargetVertexBorderBrush}"/>
 				<Setter Property="Background" Value="{StaticResource SemiHighlightedTargetVertexBackgroundBrush}"/>
@@ -121,7 +121,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="controls:GraphElementBehaviour.HighlightTrigger"
+        <Setter Property="controls:GraphElementBehavior.HighlightTrigger"
                 Value="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" />
         <Setter Property="MinWidth"
                 Value="1" />
@@ -134,21 +134,21 @@
         <Setter Property="Opacity"
                 Value="0.5" />
         <Style.Triggers>
-            <Trigger Property="controls:GraphElementBehaviour.IsHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsHighlighted"
                      Value="True">
                 <Setter Property="Foreground"
                         Value="{DynamicResource HighlightedEdgeBrush}" />
             </Trigger>
-            <Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsSemiHighlighted"
                      Value="True">
                 <Setter Property="Foreground"
                         Value="{DynamicResource HighlightedEdgeBrush}" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="InEdge" />
                 </MultiTrigger.Conditions>
                 <Setter Property="Foreground"
@@ -156,9 +156,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="OutEdge" />
                 </MultiTrigger.Conditions>
                 <Setter Property="Foreground"
@@ -194,7 +194,7 @@
             </Setter.Value>
         </Setter>
         
-        <Setter Property="controls:GraphElementBehaviour.HighlightTrigger"
+        <Setter Property="controls:GraphElementBehavior.HighlightTrigger"
                 Value="{Binding RelativeSource={RelativeSource Self},Path=IsMouseOver}" />
         <Setter Property="behaviors:DragChildrenBehavior.IsDragEnabled"
                 Value="True" />
@@ -257,14 +257,14 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            <Trigger Property="controls:GraphElementBehaviour.IsHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsHighlighted"
                      Value="True">
                 <Setter Property="BorderBrush"
                         Value="Orange" />
                 <Setter Property="BorderThickness"
                         Value="2" />
             </Trigger>
-            <Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsSemiHighlighted"
                      Value="True">
                 <Setter Property="BorderBrush"
                         Value="Yellow" />
@@ -273,9 +273,9 @@
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="Source" />
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
@@ -285,9 +285,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="Target" />
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"

@@ -34,9 +34,9 @@ namespace GraphSharp.Controls
 
 	public delegate void HighlightTriggerEventHandler( object sender, HighlightTriggeredEventArgs args );
 
-	public static class GraphElementBehaviour
+	public static class GraphElementBehavior
 	{
-		public static readonly RoutedEvent HighlightEvent = EventManager.RegisterRoutedEvent( "Highlight", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( GraphElementBehaviour ) );
+		public static readonly RoutedEvent HighlightEvent = EventManager.RegisterRoutedEvent( "Highlight", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( GraphElementBehavior ) );
 		public static void AddHighlightHandler( DependencyObject d, RoutedEventHandler handler )
 		{
             var e = d as UIElement;
@@ -51,7 +51,7 @@ namespace GraphSharp.Controls
 				e.RemoveHandler( HighlightEvent, handler );
 		}
 
-		public static readonly RoutedEvent UnhighlightEvent = EventManager.RegisterRoutedEvent( "Unhighlight", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( GraphElementBehaviour ) );
+		public static readonly RoutedEvent UnhighlightEvent = EventManager.RegisterRoutedEvent( "Unhighlight", RoutingStrategy.Bubble, typeof( RoutedEventHandler ), typeof( GraphElementBehavior ) );
 		public static void AddUnhighlightHandler( DependencyObject d, RoutedEventHandler handler )
 		{
             var e = d as UIElement;
@@ -66,7 +66,7 @@ namespace GraphSharp.Controls
 				e.RemoveHandler( UnhighlightEvent, handler );
 		}
 
-		internal static readonly RoutedEvent HighlightTriggeredEvent = EventManager.RegisterRoutedEvent( "HighlightTriggered", RoutingStrategy.Bubble, typeof( HighlightTriggerEventHandler ), typeof( GraphElementBehaviour ) );
+		internal static readonly RoutedEvent HighlightTriggeredEvent = EventManager.RegisterRoutedEvent( "HighlightTriggered", RoutingStrategy.Bubble, typeof( HighlightTriggerEventHandler ), typeof( GraphElementBehavior ) );
 		public static void AddHighlightTriggeredHandler( DependencyObject d, RoutedEventHandler handler )
 		{
             var e = d as UIElement;
@@ -81,7 +81,7 @@ namespace GraphSharp.Controls
 				e.RemoveHandler( HighlightTriggeredEvent, handler );
 		}
 
-		public static readonly RoutedEvent HighlightInfoChangedEvent = EventManager.RegisterRoutedEvent( "HighlightInfoChanged", RoutingStrategy.Bubble, typeof( HighlightInfoChangedEventHandler ), typeof( GraphElementBehaviour ) );
+		public static readonly RoutedEvent HighlightInfoChangedEvent = EventManager.RegisterRoutedEvent( "HighlightInfoChanged", RoutingStrategy.Bubble, typeof( HighlightInfoChangedEventHandler ), typeof( GraphElementBehavior ) );
 		public static void AddHighlightInfoChangedHandler( DependencyObject d, RoutedEventHandler handler )
 		{
             var e = d as UIElement;
@@ -108,7 +108,7 @@ namespace GraphSharp.Controls
 
 		// Using a DependencyProperty as the backing store for HighlightTrigger.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty HighlightTriggerProperty =
-			DependencyProperty.RegisterAttached( "HighlightTrigger", typeof( bool ), typeof( GraphElementBehaviour ), new UIPropertyMetadata( false, null, HighlightTriggerCoerce ) );
+			DependencyProperty.RegisterAttached( "HighlightTrigger", typeof( bool ), typeof( GraphElementBehavior ), new UIPropertyMetadata( false, null, HighlightTriggerCoerce ) );
 
 		private static object HighlightTriggerCoerce( DependencyObject d, object baseValue )
 		{
@@ -134,7 +134,7 @@ namespace GraphSharp.Controls
 
 		public static readonly DependencyProperty IsHighlightedProperty;
 		private static readonly DependencyPropertyKey IsHighlightedPropertyKey =
-			DependencyProperty.RegisterAttachedReadOnly( "IsHighlighted", typeof( bool ), typeof( GraphElementBehaviour ), new UIPropertyMetadata( false, IsHighlightedPropertyChanged ) );
+			DependencyProperty.RegisterAttachedReadOnly( "IsHighlighted", typeof( bool ), typeof( GraphElementBehavior ), new UIPropertyMetadata( false, IsHighlightedPropertyChanged ) );
 
 
 
@@ -164,7 +164,7 @@ namespace GraphSharp.Controls
 
 		public static readonly DependencyProperty HighlightInfoProperty;
 		private static readonly DependencyPropertyKey HighlightInfoPropertyKey =
-			DependencyProperty.RegisterAttachedReadOnly( "HighlightInfo", typeof( object ), typeof( GraphElementBehaviour ),
+			DependencyProperty.RegisterAttachedReadOnly( "HighlightInfo", typeof( object ), typeof( GraphElementBehavior ),
 												 new PropertyMetadata( null, HighlightInfoPropertyChanged ) );
 
 
@@ -190,7 +190,7 @@ namespace GraphSharp.Controls
 
 		public static readonly DependencyProperty IsSemiHighlightedProperty;
 		private static readonly DependencyPropertyKey IsSemiHighlightedPropertyKey =
-			DependencyProperty.RegisterAttachedReadOnly( "IsSemiHighlighted", typeof( bool ), typeof( GraphElementBehaviour ),
+			DependencyProperty.RegisterAttachedReadOnly( "IsSemiHighlighted", typeof( bool ), typeof( GraphElementBehavior ),
 												 new PropertyMetadata( false ) );
 
 		public static bool GetIsSemiHighlighted( DependencyObject obj )
@@ -205,7 +205,7 @@ namespace GraphSharp.Controls
 
 		public static readonly DependencyProperty SemiHighlightInfoProperty;
 		private static readonly DependencyPropertyKey SemiHighlightInfoPropertyKey =
-			DependencyProperty.RegisterAttachedReadOnly( "SemiHighlightInfo", typeof( object ), typeof( GraphElementBehaviour ), new PropertyMetadata( null ) );
+			DependencyProperty.RegisterAttachedReadOnly( "SemiHighlightInfo", typeof( object ), typeof( GraphElementBehavior ), new PropertyMetadata( null ) );
 
 		public static object GetSemiHighlightInfo( DependencyObject obj )
 		{
@@ -218,7 +218,7 @@ namespace GraphSharp.Controls
 		}
 
 		public static readonly DependencyProperty LayoutInfoProperty =
-			DependencyProperty.RegisterAttached( "LayoutInfo", typeof( object ), typeof( GraphElementBehaviour ), new UIPropertyMetadata( null ) );
+			DependencyProperty.RegisterAttached( "LayoutInfo", typeof( object ), typeof( GraphElementBehavior ), new UIPropertyMetadata( null ) );
 
 		public static object GetLayoutInfo( DependencyObject obj )
 		{
@@ -230,7 +230,7 @@ namespace GraphSharp.Controls
 			obj.SetValue( LayoutInfoProperty, value );
 		}
 
-		static GraphElementBehaviour()
+		static GraphElementBehavior()
 		{
 			IsSemiHighlightedProperty = IsSemiHighlightedPropertyKey.DependencyProperty;
 			SemiHighlightInfoProperty = SemiHighlightInfoPropertyKey.DependencyProperty;

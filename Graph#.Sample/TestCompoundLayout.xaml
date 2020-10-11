@@ -1,7 +1,7 @@
 ﻿<Window x:Class="GraphSharp.Sample.TestCompoundLayout"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:attachedBehaviours="clr-namespace:GraphSharp.AttachedBehaviours;assembly=GraphSharp.Controls"
+        xmlns:attachedBehaviors="clr-namespace:GraphSharp.AttachedBehaviors;assembly=GraphSharp.Controls"
         xmlns:zoom="clr-namespace:GraphSharp.Controls.Zoom;assembly=GraphSharp.Controls"
         xmlns:controls="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
         xmlns:graph="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
@@ -45,13 +45,13 @@
                         </Setter.Value>
                     </Setter>
 
-                    <Setter Property="controls:GraphElementBehaviour.HighlightTrigger"
+                    <Setter Property="controls:GraphElementBehavior.HighlightTrigger"
                             Value="{Binding RelativeSource={RelativeSource Self},Path=IsMouseOver}" />
-                    <Setter Property="attachedBehaviours:DragBehaviour.IsDragEnabled"
+                    <Setter Property="attachedBehaviors:DragBehavior.IsDragEnabled"
                             Value="True" />
-                    <Setter Property="attachedBehaviours:DragBehaviour.X"
+                    <Setter Property="attachedBehaviors:DragBehavior.X"
                             Value="{Binding RelativeSource={RelativeSource Self},Path=(controls:GraphCanvas.X),Mode=TwoWay}" />
-                    <Setter Property="attachedBehaviours:DragBehaviour.Y"
+                    <Setter Property="attachedBehaviors:DragBehavior.Y"
                             Value="{Binding RelativeSource={RelativeSource Self},Path=(controls:GraphCanvas.Y),Mode=TwoWay}" />
                     <Setter Property="BorderThickness"
                             Value="2" />
@@ -70,7 +70,7 @@
                     </Setter>
                     <Setter Property="LayoutMode"
                             Value="{Binding RelativeSource={RelativeSource Self},Path=Vertex,Converter={StaticResource layoutModeConverter}}" />
-                    <Setter Property="attachedBehaviours:DragBehaviour.IsDragEnabled"
+                    <Setter Property="attachedBehaviors:DragBehavior.IsDragEnabled"
                             Value="False" />
                     <Style.Triggers>
                         <Trigger Property="LayoutMode"
@@ -121,14 +121,14 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="controls:GraphElementBehaviour.IsHighlighted"
+                        <Trigger Property="controls:GraphElementBehavior.IsHighlighted"
                                  Value="True">
                             <Setter Property="BorderBrush"
                                     Value="Orange" />
                             <Setter Property="BorderThickness"
                                     Value="2" />
                         </Trigger>
-                        <Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                        <Trigger Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                  Value="True">
                             <Setter Property="BorderBrush"
                                     Value="Yellow" />
@@ -137,9 +137,9 @@
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                                <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                            Value="True" />
-                                <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                                <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                            Value="Source" />
                             </MultiTrigger.Conditions>
                             <Setter Property="BorderBrush"
@@ -149,9 +149,9 @@
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                                <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                            Value="True" />
-                                <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                                <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                            Value="Target" />
                             </MultiTrigger.Conditions>
                             <Setter Property="BorderBrush"
@@ -163,7 +163,7 @@
                 </Style>
 
                 <Style TargetType="{x:Type graph:VertexControl}">
-                    <Setter Property="attachedBehaviours:DragBehaviour.IsDragEnabled"
+                    <Setter Property="attachedBehaviors:DragBehavior.IsDragEnabled"
                             Value="False" />
                 </Style>
             </ResourceDictionary>

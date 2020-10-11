@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 
-namespace GraphSharp.AttachedBehaviours
+namespace GraphSharp.AttachedBehaviors
 {
-    public interface IDragBehaviour
+    public interface IDragBehavior
     {
         IEnumerable<FrameworkElement> GetChildElements();
     }

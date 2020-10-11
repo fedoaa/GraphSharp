@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using GraphSharp.AttachedBehaviours;
+using GraphSharp.AttachedBehaviors;
 
 namespace GraphSharp.Controls
 {
-    public partial class VertexControl : IDragBehaviour
+    public partial class VertexControl : IDragBehavior
     {
         public IEnumerable<FrameworkElement> GetChildElements()
         {

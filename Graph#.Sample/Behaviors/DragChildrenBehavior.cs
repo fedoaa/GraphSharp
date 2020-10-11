@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using GraphSharp.AttachedBehaviours;
+using GraphSharp.AttachedBehaviors;
 
 namespace GraphSharp.Sample.Behaviors
 {
@@ -147,7 +147,7 @@ namespace GraphSharp.Sample.Behaviors
         {
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                IDragBehaviour draggable = element as IDragBehaviour;
+                IDragBehavior draggable = element as IDragBehavior;
                 if (draggable != null)
                 {
                     foreach (FrameworkElement obj in draggable.GetChildElements())
@@ -200,7 +200,7 @@ namespace GraphSharp.Sample.Behaviors
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
 
-                IDragBehaviour draggable = element as IDragBehaviour;
+                IDragBehavior draggable = element as IDragBehavior;
                 if (draggable != null)
                 {
                     foreach (FrameworkElement obj in draggable.GetChildElements())
@@ -257,7 +257,7 @@ namespace GraphSharp.Sample.Behaviors
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
 
-                IDragBehaviour draggable = element as IDragBehaviour;
+                IDragBehavior draggable = element as IDragBehavior;
                 if (draggable != null)
                 {
                     foreach (FrameworkElement obj in draggable.GetChildElements())

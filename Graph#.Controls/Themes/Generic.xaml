@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:GraphSharp.Converters"
                     xmlns:controls="clr-namespace:GraphSharp.Controls"
-                    xmlns:attachedBehaviours="clr-namespace:GraphSharp.AttachedBehaviours"
+                    xmlns:attachedBehaviors="clr-namespace:GraphSharp.AttachedBehaviors"
                     xmlns:zoom="clr-namespace:GraphSharp.Controls.Zoom">
 
     <converters:EdgeRouteToPathConverter x:Key="RouteToPathConverter" />
@@ -54,7 +54,7 @@
 				</ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="controls:GraphElementBehaviour.HighlightTrigger"
+        <Setter Property="controls:GraphElementBehavior.HighlightTrigger"
                 Value="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" />
         <Setter Property="MinWidth"
                 Value="1" />
@@ -67,21 +67,21 @@
         <Setter Property="Opacity"
                 Value="0.5" />
         <Style.Triggers>
-            <Trigger Property="controls:GraphElementBehaviour.IsHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsHighlighted"
                      Value="True">
                 <Setter Property="Foreground"
                         Value="Black" />
             </Trigger>
-            <Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsSemiHighlighted"
                      Value="True">
                 <Setter Property="Foreground"
                         Value="Yellow" />
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="InEdge" />
                 </MultiTrigger.Conditions>
                 <Setter Property="Foreground"
@@ -89,9 +89,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="OutEdge" />
                 </MultiTrigger.Conditions>
                 <Setter Property="Foreground"
@@ -113,27 +113,27 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="controls:GraphElementBehaviour.HighlightTrigger"
+        <Setter Property="controls:GraphElementBehavior.HighlightTrigger"
                 Value="{Binding RelativeSource={RelativeSource Self},Path=IsMouseOver}" />
-        <Setter Property="attachedBehaviours:DragBehaviour.IsDragEnabled"
+        <Setter Property="attachedBehaviors:DragBehavior.IsDragEnabled"
                 Value="True" />
-        <Setter Property="attachedBehaviours:DragBehaviour.X"
+        <Setter Property="attachedBehaviors:DragBehavior.X"
                 Value="{Binding RelativeSource={RelativeSource Self},Path=(controls:GraphCanvas.X),Mode=TwoWay}" />
-        <Setter Property="attachedBehaviours:DragBehaviour.Y"
+        <Setter Property="attachedBehaviors:DragBehavior.Y"
                 Value="{Binding RelativeSource={RelativeSource Self},Path=(controls:GraphCanvas.Y),Mode=TwoWay}" />
         <Setter Property="BorderThickness"
                 Value="2" />
         <Setter Property="BorderBrush"
                 Value="Transparent" />
         <Style.Triggers>
-            <Trigger Property="controls:GraphElementBehaviour.IsHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsHighlighted"
                      Value="True">
                 <Setter Property="BorderBrush"
                         Value="Orange" />
                 <Setter Property="BorderThickness"
                         Value="2" />
             </Trigger>
-            <Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsSemiHighlighted"
                      Value="True">
                 <Setter Property="BorderBrush"
                         Value="Yellow" />
@@ -142,9 +142,9 @@
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="Source" />
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
@@ -154,9 +154,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="Target" />
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
@@ -199,13 +199,13 @@
             </Setter.Value>
         </Setter>
         
-        <Setter Property="controls:GraphElementBehaviour.HighlightTrigger"
+        <Setter Property="controls:GraphElementBehavior.HighlightTrigger"
                 Value="{Binding RelativeSource={RelativeSource Self},Path=IsMouseOver}" />
-        <Setter Property="attachedBehaviours:DragBehaviour.IsDragEnabled"
+        <Setter Property="attachedBehaviors:DragBehavior.IsDragEnabled"
                 Value="True" />
-        <Setter Property="attachedBehaviours:DragBehaviour.X"
+        <Setter Property="attachedBehaviors:DragBehavior.X"
                 Value="{Binding RelativeSource={RelativeSource Self},Path=(controls:GraphCanvas.X),Mode=TwoWay}" />
-        <Setter Property="attachedBehaviours:DragBehaviour.Y"
+        <Setter Property="attachedBehaviors:DragBehavior.Y"
                 Value="{Binding RelativeSource={RelativeSource Self},Path=(controls:GraphCanvas.Y),Mode=TwoWay}" />
         <Setter Property="BorderThickness"
                 Value="2" />
@@ -261,14 +261,14 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            <Trigger Property="controls:GraphElementBehaviour.IsHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsHighlighted"
                      Value="True">
                 <Setter Property="BorderBrush"
                         Value="Orange" />
                 <Setter Property="BorderThickness"
                         Value="2" />
             </Trigger>
-            <Trigger Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+            <Trigger Property="controls:GraphElementBehavior.IsSemiHighlighted"
                      Value="True">
                 <Setter Property="BorderBrush"
                         Value="Yellow" />
@@ -277,9 +277,9 @@
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="Source" />
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"
@@ -289,9 +289,9 @@
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
-                    <Condition Property="controls:GraphElementBehaviour.IsSemiHighlighted"
+                    <Condition Property="controls:GraphElementBehavior.IsSemiHighlighted"
                                Value="True" />
-                    <Condition Property="controls:GraphElementBehaviour.SemiHighlightInfo"
+                    <Condition Property="controls:GraphElementBehavior.SemiHighlightInfo"
                                Value="Target" />
                 </MultiTrigger.Conditions>
                 <Setter Property="BorderBrush"

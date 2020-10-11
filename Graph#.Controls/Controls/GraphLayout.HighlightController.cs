@@ -82,8 +82,8 @@ namespace GraphSharp.Controls
 			VertexControl vc;
 			if ( VertexControls.TryGetValue( vertex, out vc ) )
 			{
-				GraphElementBehaviour.SetIsHighlighted( vc, true );
-				GraphElementBehaviour.SetHighlightInfo( vc, highlightInfo );
+				GraphElementBehavior.SetIsHighlighted( vc, true );
+				GraphElementBehavior.SetHighlightInfo( vc, highlightInfo );
 			}
 		}
 
@@ -93,8 +93,8 @@ namespace GraphSharp.Controls
 			VertexControl vc;
 			if ( VertexControls.TryGetValue( vertex, out vc ) )
 			{
-				GraphElementBehaviour.SetIsSemiHighlighted( vc, true );
-				GraphElementBehaviour.SetSemiHighlightInfo( vc, semiHighlightInfo );
+				GraphElementBehavior.SetIsSemiHighlighted( vc, true );
+				GraphElementBehavior.SetSemiHighlightInfo( vc, semiHighlightInfo );
 			}
 		}
 
@@ -104,8 +104,8 @@ namespace GraphSharp.Controls
 			EdgeControl ec;
 			if ( EdgeControls.TryGetValue( edge, out ec ) )
 			{
-				GraphElementBehaviour.SetIsHighlighted( ec, true );
-				GraphElementBehaviour.SetHighlightInfo( ec, highlightInfo );
+				GraphElementBehavior.SetIsHighlighted( ec, true );
+				GraphElementBehavior.SetHighlightInfo( ec, highlightInfo );
 			}
 		}
 
@@ -115,8 +115,8 @@ namespace GraphSharp.Controls
 			EdgeControl ec;
 			if ( EdgeControls.TryGetValue( edge, out ec ) )
 			{
-				GraphElementBehaviour.SetIsSemiHighlighted( ec, true );
-				GraphElementBehaviour.SetSemiHighlightInfo( ec, semiHighlightInfo );
+				GraphElementBehavior.SetIsSemiHighlighted( ec, true );
+				GraphElementBehavior.SetSemiHighlightInfo( ec, semiHighlightInfo );
 			}
 		}
 
@@ -126,8 +126,8 @@ namespace GraphSharp.Controls
 			VertexControl vc;
 			if ( VertexControls.TryGetValue( vertex, out vc ) )
 			{
-				GraphElementBehaviour.SetIsHighlighted( vc, false );
-				GraphElementBehaviour.SetHighlightInfo( vc, null );
+				GraphElementBehavior.SetIsHighlighted( vc, false );
+				GraphElementBehavior.SetHighlightInfo( vc, null );
 			}
 		}
 
@@ -137,8 +137,8 @@ namespace GraphSharp.Controls
 			VertexControl vc;
 			if ( VertexControls.TryGetValue( vertex, out vc ) )
 			{
-				GraphElementBehaviour.SetIsSemiHighlighted( vc, false );
-				GraphElementBehaviour.SetSemiHighlightInfo( vc, null );
+				GraphElementBehavior.SetIsSemiHighlighted( vc, false );
+				GraphElementBehavior.SetSemiHighlightInfo( vc, null );
 			}
 		}
 
@@ -148,8 +148,8 @@ namespace GraphSharp.Controls
 			EdgeControl ec;
 			if ( EdgeControls.TryGetValue( edge, out ec ) )
 			{
-				GraphElementBehaviour.SetIsHighlighted( ec, false );
-				GraphElementBehaviour.SetHighlightInfo( ec, null );
+				GraphElementBehavior.SetIsHighlighted( ec, false );
+				GraphElementBehavior.SetHighlightInfo( ec, null );
 			}
 		}
 
@@ -159,8 +159,8 @@ namespace GraphSharp.Controls
 			EdgeControl ec;
 			if ( EdgeControls.TryGetValue( edge, out ec ) )
 			{
-				GraphElementBehaviour.SetIsSemiHighlighted( ec, false );
-				GraphElementBehaviour.SetSemiHighlightInfo( ec, null );
+				GraphElementBehavior.SetIsSemiHighlighted( ec, false );
+				GraphElementBehavior.SetSemiHighlightInfo( ec, null );
 			}
 		}
 
@@ -171,15 +171,15 @@ namespace GraphSharp.Controls
 			object highlightInfo;
 			if ( IsHighlightedVertex( vertex, out highlightInfo ) )
 			{
-				GraphElementBehaviour.SetIsHighlighted( presenter, true );
-				GraphElementBehaviour.SetHighlightInfo( presenter, highlightInfo );
+				GraphElementBehavior.SetIsHighlighted( presenter, true );
+				GraphElementBehavior.SetHighlightInfo( presenter, highlightInfo );
 			}
 
 			object semiHighlightInfo;
 			if ( IsSemiHighlightedVertex( vertex, out semiHighlightInfo ) )
 			{
-				GraphElementBehaviour.SetIsSemiHighlighted( presenter, true );
-				GraphElementBehaviour.SetSemiHighlightInfo( presenter, semiHighlightInfo );
+				GraphElementBehavior.SetIsSemiHighlighted( presenter, true );
+				GraphElementBehavior.SetSemiHighlightInfo( presenter, semiHighlightInfo );
 			}
 		}
 
@@ -188,15 +188,15 @@ namespace GraphSharp.Controls
 			object highlightInfo;
 			if (IsHighlightedEdge(edge, out highlightInfo))
 			{
-				GraphElementBehaviour.SetIsHighlighted( edgeControl, true );
-				GraphElementBehaviour.SetHighlightInfo( edgeControl, highlightInfo );
+				GraphElementBehavior.SetIsHighlighted( edgeControl, true );
+				GraphElementBehavior.SetHighlightInfo( edgeControl, highlightInfo );
 			}
 
 			object semiHighlightInfo;
 			if ( IsSemiHighlightedEdge( edge, out semiHighlightInfo ) )
 			{
-				GraphElementBehaviour.SetIsSemiHighlighted( edgeControl, true );
-				GraphElementBehaviour.SetSemiHighlightInfo( edgeControl, semiHighlightInfo );
+				GraphElementBehavior.SetIsSemiHighlighted( edgeControl, true );
+				GraphElementBehavior.SetSemiHighlightInfo( edgeControl, semiHighlightInfo );
 			}
 		}
 	}

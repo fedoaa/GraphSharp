@@ -220,7 +220,7 @@ namespace GraphSharp.Controls
 
         public GraphLayout()
         {
-            AddHandler(GraphElementBehaviour.HighlightTriggeredEvent,
+            AddHandler(GraphElementBehavior.HighlightTriggeredEvent,
                        new HighlightTriggerEventHandler(HighlightTriggerEventHandler));
         }
 
