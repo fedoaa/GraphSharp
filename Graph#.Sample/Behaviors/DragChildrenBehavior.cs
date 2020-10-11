@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using GraphSharp.AttachedBehaviours;
 
-namespace GraphSharp.Sample.NewFolder1
+namespace GraphSharp.Sample.Behaviors
 {
-
-
-	public static class DragChildrenBehaviour
+	public static class DragChildrenBehavior
     {
         #region IsDragEnabled
 
-        public static readonly DependencyProperty IsDragEnabledProperty = DependencyProperty.RegisterAttached( "IsDragEnabled", typeof( bool ), typeof( DragChildrenBehaviour ), new UIPropertyMetadata( false, OnIsDragEnabledPropertyChanged ) );
+        public static readonly DependencyProperty IsDragEnabledProperty = DependencyProperty.RegisterAttached( "IsDragEnabled", typeof( bool ), typeof(DragChildrenBehavior), new UIPropertyMetadata( false, OnIsDragEnabledPropertyChanged ) );
 
         public static bool GetIsDragEnabled(DependencyObject obj)
         {
@@ -28,7 +25,7 @@ namespace GraphSharp.Sample.NewFolder1
 
         #region IsDragging
 
-        public static readonly DependencyProperty IsDraggingProperty = DependencyProperty.RegisterAttached( "IsDragging", typeof( bool ), typeof( DragChildrenBehaviour ), new UIPropertyMetadata( false ) );
+        public static readonly DependencyProperty IsDraggingProperty = DependencyProperty.RegisterAttached( "IsDragging", typeof( bool ), typeof( DragChildrenBehavior ), new UIPropertyMetadata( false ) );
 
         public static bool GetIsDragging(DependencyObject obj)
         {
@@ -44,7 +41,7 @@ namespace GraphSharp.Sample.NewFolder1
 
         #region X / Y
 
-        public static readonly DependencyProperty XProperty = DependencyProperty.RegisterAttached("X", typeof(double), typeof(DragChildrenBehaviour), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty XProperty = DependencyProperty.RegisterAttached("X", typeof(double), typeof(DragChildrenBehavior), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static double GetX(DependencyObject obj)
         {
@@ -56,7 +53,7 @@ namespace GraphSharp.Sample.NewFolder1
             obj.SetValue(XProperty, value);
         }
 
-        public static readonly DependencyProperty YProperty = DependencyProperty.RegisterAttached("Y", typeof(double), typeof(DragChildrenBehaviour), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public static readonly DependencyProperty YProperty = DependencyProperty.RegisterAttached("Y", typeof(double), typeof(DragChildrenBehavior), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static double GetY(DependencyObject obj)
         {
@@ -72,7 +69,7 @@ namespace GraphSharp.Sample.NewFolder1
 
         #region OriginalX / OriginalY
 
-        private static readonly DependencyPropertyKey OriginalXPropertyKey = DependencyProperty.RegisterAttachedReadOnly( "OriginalX", typeof( double ), typeof( DragChildrenBehaviour ), new UIPropertyMetadata( 0.0 ) );
+        private static readonly DependencyPropertyKey OriginalXPropertyKey = DependencyProperty.RegisterAttachedReadOnly( "OriginalX", typeof( double ), typeof( DragChildrenBehavior ), new UIPropertyMetadata( 0.0 ) );
 
         private static double GetOriginalX(DependencyObject obj)
         {
@@ -84,7 +81,7 @@ namespace GraphSharp.Sample.NewFolder1
             obj.SetValue(OriginalXPropertyKey, value);
         }
 
-		private static readonly DependencyPropertyKey OriginalYPropertyKey = DependencyProperty.RegisterAttachedReadOnly( "OriginalY", typeof( double ), typeof( DragChildrenBehaviour ), new UIPropertyMetadata( 0.0 ) );
+		private static readonly DependencyPropertyKey OriginalYPropertyKey = DependencyProperty.RegisterAttachedReadOnly( "OriginalY", typeof( double ), typeof( DragChildrenBehavior ), new UIPropertyMetadata( 0.0 ) );
 
         private static double GetOriginalY(DependencyObject obj)
         {

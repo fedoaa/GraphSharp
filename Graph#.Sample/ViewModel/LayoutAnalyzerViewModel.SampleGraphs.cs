@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using GraphSharp.Sample.Model;
-using Scraper.ViewModel.Logs;
 
 namespace GraphSharp.Sample.ViewModel
 {

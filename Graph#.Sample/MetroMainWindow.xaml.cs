@@ -21,5 +21,10 @@ namespace GraphSharp.Sample
         {
             new TestCompoundLayout().Show();
         }
+
+        private void OnOpenRightFlyout(object sender, RoutedEventArgs e)
+        {
+            Flyout.IsOpen = true;
+        }
     }
 }
