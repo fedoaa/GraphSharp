@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>GraphSharp.Core</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <title>GraphSharp fork</title>
     <Authors>palesz,andypelzer,NineTailLabs,fedoaa</Authors>
     <PackageProjectUrl>https://github.com/fedoaa/GraphSharp</PackageProjectUrl>
