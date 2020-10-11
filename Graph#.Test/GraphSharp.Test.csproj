@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>
-    <UseWpf>true</UseWpf>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>GraphSharp.Test</RootNamespace>
     <AssemblyName>GraphSharp.Test</AssemblyName>
