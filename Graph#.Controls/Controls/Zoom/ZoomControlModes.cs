@@ -1,4 +1,4 @@
-﻿namespace GraphSharp.Controls.Zoom
+namespace GraphSharp.Controls.Zoom
 {
     public enum ZoomControlModes
     {

@@ -3,75 +3,76 @@ using System.Windows;
 
 namespace GraphSharp.Algorithms.OverlapRemoval
 {
-	public abstract class OverlapRemovalAlgorithmBase<TObject, TParam> : AlgorithmBase, IOverlapRemovalAlgorithm<TObject, TParam>
-		where TObject : class
-		where TParam : IOverlapRemovalParameters
-	{
-		protected IDictionary<TObject, Rect> OriginalRectangles;
-		public IDictionary<TObject, Rect> Rectangles
-		{
-			get { return OriginalRectangles; }
-		}
+    public abstract class OverlapRemovalAlgorithmBase<TObject, TParam> : AlgorithmBase, IOverlapRemovalAlgorithm<TObject, TParam>
+        where TObject : class
+        where TParam : IOverlapRemovalParameters
+    {
+        protected IDictionary<TObject, Rect> OriginalRectangles;
 
-		public TParam Parameters { get; private set; }
+        public IDictionary<TObject, Rect> Rectangles
+        {
+            get { return OriginalRectangles; }
+        }
 
-		public IOverlapRemovalParameters GetParameters()
-		{
-			return Parameters;
-		}
+        public TParam Parameters { get; private set; }
 
-		protected List<RectangleWrapper<TObject>> WrappedRectangles;
+        public IOverlapRemovalParameters GetParameters()
+        {
+            return Parameters;
+        }
 
-	    protected OverlapRemovalAlgorithmBase( IDictionary<TObject, Rect> rectangles, TParam parameters )
-		{
-			OriginalRectangles = rectangles;
-			WrappedRectangles = new List<RectangleWrapper<TObject>>();
+        protected List<RectangleWrapper<TObject>> WrappedRectangles;
 
-			int i = 0;
-			foreach ( var kvpRect in rectangles )
-			{
-				WrappedRectangles.Insert( i, new RectangleWrapper<TObject>( kvpRect.Value, kvpRect.Key ) );
-				i++;
-			}
+        protected OverlapRemovalAlgorithmBase(IDictionary<TObject, Rect> rectangles, TParam parameters)
+        {
+            OriginalRectangles = rectangles;
+            WrappedRectangles = new List<RectangleWrapper<TObject>>();
 
-			Parameters = parameters;
-		}
+            int i = 0;
+            foreach (var kvpRect in rectangles)
+            {
+                WrappedRectangles.Insert(i, new RectangleWrapper<TObject>(kvpRect.Value, kvpRect.Key));
+                i++;
+            }
 
-		protected sealed override void InternalCompute()
-		{
-		    if (WrappedRectangles.Count == 0)
-		        return;
+            Parameters = parameters;
+        }
 
-			AddGaps();
+        protected sealed override void InternalCompute()
+        {
+            if (WrappedRectangles.Count == 0)
+                return;
 
-			RemoveOverlap();
+            AddGaps();
 
-			RemoveGaps();
+            RemoveOverlap();
 
-			foreach ( var r in WrappedRectangles )
-				OriginalRectangles[r.Id] = r.Rectangle;
-		}
+            RemoveGaps();
 
-		protected virtual void AddGaps()
-		{
-			foreach ( var r in WrappedRectangles )
-			{
-				r.Rectangle.Width += Parameters.HorizontalGap;
-				r.Rectangle.Height += Parameters.VerticalGap;
-				r.Rectangle.Offset( -Parameters.HorizontalGap / 2, -Parameters.VerticalGap / 2 );
-			}
-		}
+            foreach (var r in WrappedRectangles)
+                OriginalRectangles[r.Id] = r.Rectangle;
+        }
 
-		protected virtual void RemoveGaps()
-		{
-			foreach ( var r in WrappedRectangles )
-			{
-				r.Rectangle.Width -= Parameters.HorizontalGap;
-				r.Rectangle.Height -= Parameters.VerticalGap;
-				r.Rectangle.Offset( Parameters.HorizontalGap / 2, Parameters.VerticalGap / 2 );
-			}
-		}
+        protected virtual void AddGaps()
+        {
+            foreach (var r in WrappedRectangles)
+            {
+                r.Rectangle.Width += Parameters.HorizontalGap;
+                r.Rectangle.Height += Parameters.VerticalGap;
+                r.Rectangle.Offset(-Parameters.HorizontalGap / 2, -Parameters.VerticalGap / 2);
+            }
+        }
 
-		protected abstract void RemoveOverlap();
-	}
+        protected virtual void RemoveGaps()
+        {
+            foreach (var r in WrappedRectangles)
+            {
+                r.Rectangle.Width -= Parameters.HorizontalGap;
+                r.Rectangle.Height -= Parameters.VerticalGap;
+                r.Rectangle.Offset(Parameters.HorizontalGap / 2, Parameters.VerticalGap / 2);
+            }
+        }
+
+        protected abstract void RemoveOverlap();
+    }
 }

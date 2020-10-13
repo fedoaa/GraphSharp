@@ -1,4 +1,4 @@
-﻿using QuikGraph;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Contextual
 {

@@ -1,7 +1,7 @@
-﻿namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
+namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 {
-	public class EfficientSugiyamaLayoutParameters : LayoutParametersBase
-	{
+    public class EfficientSugiyamaLayoutParameters : LayoutParametersBase
+    {
         //private LayoutDirection _direction = LayoutDirection.TopToBottom;
         private double _layerDistance = 15.0;
         private double _vertexDistance = 15.0;
@@ -116,5 +116,5 @@
                 NotifyPropertyChanged("EdgeRouting");
             }
         }
-	}
+    }
 }

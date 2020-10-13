@@ -1,15 +1,15 @@
-﻿namespace GraphSharp.Algorithms.Layout
+namespace GraphSharp.Algorithms.Layout
 {
-	public enum LayoutMode
-	{
-		/// <summary>
-		/// Simple layout mode without compound vertices.
-		/// </summary>
-		Simple,
+    public enum LayoutMode
+    {
+        /// <summary>
+        /// Simple layout mode without compound vertices.
+        /// </summary>
+        Simple,
 
-		/// <summary>
-		/// Compound vertices, compound graph.
-		/// </summary>
-		Compound
-	}
+        /// <summary>
+        /// Compound vertices, compound graph.
+        /// </summary>
+        Compound
+    }
 }

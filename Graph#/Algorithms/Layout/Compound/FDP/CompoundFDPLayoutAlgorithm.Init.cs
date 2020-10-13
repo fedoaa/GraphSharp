@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using QuikGraph;
-using System;
 
 namespace GraphSharp.Algorithms.Layout.Compound.FDP
 {
@@ -68,6 +68,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 sumWidth += v.Size.Width;
                 sumHeight += v.Size.Height;
             }
+
             if (_levels[0].Count > 0)
                 _gravityForceMagnitude = Math.Min(sumWidth, sumHeight) / _levels[0].Count;
         }
@@ -94,10 +95,10 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                     //the vertex is a leaf tree node
                     removed = true;
                     while (_removedRootTreeNodeLevels.Count <= i)
-                        _removedRootTreeNodeLevels.Push(new List<RemovedTreeNodeData<TVertex,TEdge>>());
+                        _removedRootTreeNodeLevels.Push(new List<RemovedTreeNodeData<TVertex, TEdge>>());
 
                     //add to the removed vertices
-                    _removedRootTreeNodeLevels.Peek().Add(new RemovedTreeNodeData<TVertex,TEdge>(vertex, edge));
+                    _removedRootTreeNodeLevels.Peek().Add(new RemovedTreeNodeData<TVertex, TEdge>(vertex, edge));
                     _removedRootTreeNodes.Add(vertex);
                     _removedRootTreeEdges.Add(edge);
                 }
@@ -124,7 +125,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
 
                 //find the not fixed predecessor
                 TVertex movableVertex = fixedLayoutedCompoundVertex;
-                for (; ; )
+                for (;;)
                 {
                     //if the vertex hasn't parent
                     if (movableVertex == null)
@@ -221,6 +222,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                         dataContainer.Parent = _rootCompoundVertex;
                         _rootCompoundVertex.Children.Add(dataContainer);
                     }
+
                     _compoundVertexDatas[vertex] = dataContainer;
                     _vertexDatas[vertex] = dataContainer;
 
@@ -257,6 +259,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                     foreach (var children in _compoundGraph.GetChildrenVertices(parent))
                         nextLevel.Add(children);
                 }
+
                 _levels.Add(nextLevel);
                 RemoveAll(verticesLeft, nextLevel);
             }

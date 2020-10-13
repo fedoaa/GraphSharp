@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 using QuikGraph;
 
@@ -6,7 +6,7 @@ namespace GraphSharp.Algorithms.Layout.Compound
 {
     public class TestingCompoundLayoutIterationEventArgs<TVertex, TEdge, TVertexInfo, TEdgeInfo>
         : CompoundLayoutIterationEventArgs<TVertex, TEdge>, ILayoutInfoIterationEventArgs<TVertex, TEdge, TVertexInfo, TEdgeInfo>
-        where TVertex : class 
+        where TVertex : class
         where TEdge : IEdge<TVertex>
     {
         private IDictionary<TVertex, TVertexInfo> vertexInfos;
@@ -14,13 +14,13 @@ namespace GraphSharp.Algorithms.Layout.Compound
         public Point GravitationCenter { get; private set; }
 
         public TestingCompoundLayoutIterationEventArgs(
-            int iteration, 
-            double statusInPercent, 
-            string message, 
-            IDictionary<TVertex, Point> vertexPositions, 
+            int iteration,
+            double statusInPercent,
+            string message,
+            IDictionary<TVertex, Point> vertexPositions,
             IDictionary<TVertex, Size> innerCanvasSizes,
             IDictionary<TVertex, TVertexInfo> vertexInfos,
-            Point gravitationCenter) 
+            Point gravitationCenter)
             : base(iteration, statusInPercent, message, vertexPositions, innerCanvasSizes)
         {
             this.vertexInfos = vertexInfos;

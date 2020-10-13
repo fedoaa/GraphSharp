@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 using GraphSharp.AttachedBehaviors;
 
@@ -23,8 +23,5 @@ namespace GraphSharp.Controls
         public EdgeControlCollection AsSources { get; } = new EdgeControlCollection();
 
         public EdgeControlCollection AsTargets { get; } = new EdgeControlCollection();
-
-
-
     }
 }

@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 
 namespace GraphSharp.Algorithms.Layout
 {
-	[DebuggerDisplay("First = {First}, Second = {Second}")]
-	public class Pair
-	{
-		public int First;
-		public int Second;
+    [DebuggerDisplay("First = {First}, Second = {Second}")]
+    public class Pair
+    {
+        public int First;
+        public int Second;
         public int Weight = 1;
-	}
+    }
 
-	public static class LayoutUtil
-	{
-
-		public static int BiLayerCrossCount(IEnumerable<Pair> pairs, int firstLayerVertexCount, int secondLayerVertexCount)
+    public static class LayoutUtil
+    {
+        public static int BiLayerCrossCount(IEnumerable<Pair> pairs, int firstLayerVertexCount, int secondLayerVertexCount)
         {
             if (pairs == null)
                 return 0;
@@ -25,6 +24,7 @@ namespace GraphSharp.Algorithms.Layout
             //radix sort of the pair, order by First asc, Second asc
 
             #region Sort by Second ASC
+
             var radixBySecond = new List<Pair>[secondLayerVertexCount];
             List<Pair> r;
             int pairCount = 0;
@@ -37,12 +37,15 @@ namespace GraphSharp.Algorithms.Layout
                     r = new List<Pair>();
                     radixBySecond[pair.Second] = r;
                 }
+
                 r.Add(pair);
                 pairCount++;
             }
+
             #endregion
 
             #region Sort By First ASC
+
             var radixByFirst = new List<Pair>[firstLayerVertexCount];
             foreach (var list in radixBySecond)
             {
@@ -58,9 +61,11 @@ namespace GraphSharp.Algorithms.Layout
                         r = new List<Pair>();
                         radixByFirst[pair.First] = r;
                     }
+
                     r.Add(pair);
                 }
             }
+
             #endregion
 
             //
@@ -114,6 +119,7 @@ namespace GraphSharp.Algorithms.Layout
                 if (sides[i] <= 1)
                     fi = Math.Max(fi, sides[i]);
             }
+
             if (fi == 0)
             {
                 fi = double.PositiveInfinity;
@@ -141,18 +147,19 @@ namespace GraphSharp.Algorithms.Layout
             {
                 firstMap.Add(firsts[i], i);
             }
+
             for (int i = 0; i < seconds.Length; i++)
             {
                 secondMap.Add(seconds[i], i);
             }
+
             foreach (var pair in edgePairs)
             {
                 pair.First = firstMap[pair.First];
                 pair.Second = secondMap[pair.Second];
             }
+
             return BiLayerCrossCount(edgePairs, firsts.Length, seconds.Length);
         }
     }
-
-
 }

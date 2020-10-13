@@ -1,14 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Windows;
-using GraphSharp.Algorithms.Layout;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows;
+using GraphSharp.Algorithms.Layout;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GraphSharp.Test
 {
-    
-    
     /// <summary>
     ///This is a test class for LayoutHelperTest and is intended
     ///to contain all LayoutHelperTest Unit Tests
@@ -19,10 +17,10 @@ namespace GraphSharp.Test
         [TestMethod]
         public void GetClippingPoint_Target_Outside_Source_Rect_ClippingPoint_OnCorner_Test()
         {
-            Size size = new Size(10,10);
-            Point s = new Point(5,5);
-            Point t = new Point(20,20);
-            Point expected = new Point(10,10);
+            Size size = new Size(10, 10);
+            Point s = new Point(5, 5);
+            Point t = new Point(20, 20);
+            Point expected = new Point(10, 10);
 
             Point actual = LayoutUtil.GetClippingPoint(size, s, t);
             Assert.AreEqual(expected, actual);
@@ -60,13 +58,14 @@ namespace GraphSharp.Test
         [TestMethod()]
         public void BiLayerCrossCountTest()
         {
-            IEnumerable<Pair> pairs = new Pair[] { 
-			                                     	new Pair() { First = 0, Second = 1, Weight = 2},
-			                                     	new Pair() { First = 0, Second = 2, Weight = 3},
-			                                     	new Pair() { First = 3, Second = 0, Weight = 2}, 
-                                                    new Pair() { First = 3, Second = 1, Weight = 4},
-                                                    new Pair() { First = 5, Second = 0, Weight = 3}
-			                                     };
+            IEnumerable<Pair> pairs = new Pair[]
+            {
+                new Pair() { First = 0, Second = 1, Weight = 2 },
+                new Pair() { First = 0, Second = 2, Weight = 3 },
+                new Pair() { First = 3, Second = 0, Weight = 2 },
+                new Pair() { First = 3, Second = 1, Weight = 4 },
+                new Pair() { First = 5, Second = 0, Weight = 3 }
+            };
             int firstLayerVertexCount = 26;
             int secondLayerVertexCount = 3;
             int expected = 49;
@@ -80,15 +79,16 @@ namespace GraphSharp.Test
         [TestMethod()]
         public void Markable_BiLayerCrossCountTest()
         {
-            CrossCounterPair[] pairs = new CrossCounterPair[] { 
-			                                     	new CrossCounterPair() { First = 0, Second = 1, Weight = 1, Markable = true},
-			                                     	new CrossCounterPair() { First = 1, Second = 0, Weight = 1, Markable = false},
-			                                     	new CrossCounterPair() { First = 3, Second = 1, Weight = 1, Markable = true}, 
-                                                    new CrossCounterPair() { First = 3, Second = 2, Weight = 1, Markable = true},
-                                                    new CrossCounterPair() { First = 3, Second = 3, Weight = 1, Markable = true},
-                                                    new CrossCounterPair() { First = 4, Second = 2, Weight = 1, Markable = false},
-                                                    new CrossCounterPair() { First = 2, Second = 2, Weight = 1, Markable = false}
-			                                     };
+            CrossCounterPair[] pairs = new CrossCounterPair[]
+            {
+                new CrossCounterPair() { First = 0, Second = 1, Weight = 1, Markable = true },
+                new CrossCounterPair() { First = 1, Second = 0, Weight = 1, Markable = false },
+                new CrossCounterPair() { First = 3, Second = 1, Weight = 1, Markable = true },
+                new CrossCounterPair() { First = 3, Second = 2, Weight = 1, Markable = true },
+                new CrossCounterPair() { First = 3, Second = 3, Weight = 1, Markable = true },
+                new CrossCounterPair() { First = 4, Second = 2, Weight = 1, Markable = false },
+                new CrossCounterPair() { First = 2, Second = 2, Weight = 1, Markable = false }
+            };
             int firstLayerVertexCount = 5;
             int secondLayerVertexCount = 5;
             int expected = 3;
@@ -131,6 +131,7 @@ namespace GraphSharp.Test
             //radix sort of the pair, order by First asc, Second asc
 
             #region Sort by Second ASC
+
             var radixBySecond = new List<CrossCounterPair>[secondLayerVertexCount];
             List<CrossCounterPair> r;
             int pairCount = 0;
@@ -143,12 +144,15 @@ namespace GraphSharp.Test
                     r = new List<CrossCounterPair>();
                     radixBySecond[pair.Second] = r;
                 }
+
                 r.Add(pair);
                 pairCount++;
             }
+
             #endregion
 
             #region Sort By First ASC
+
             var radixByFirst = new List<CrossCounterPair>[firstLayerVertexCount];
             foreach (var list in radixBySecond)
             {
@@ -164,9 +168,11 @@ namespace GraphSharp.Test
                         r = new List<CrossCounterPair>();
                         radixByFirst[pair.First] = r;
                     }
+
                     r.Add(pair);
                 }
             }
+
             #endregion
 
             //
@@ -206,6 +212,7 @@ namespace GraphSharp.Test
                         default:
                             break;
                     }
+
                     while (index > 0)
                     {
                         if (index % 2 > 0)
@@ -219,17 +226,20 @@ namespace GraphSharp.Test
                                     {
                                         queue.Dequeue().Marked = true;
                                     }
+
                                     break;
                                 case true:
-                                    if (tree[index+1].InnerSegmentMarker)
+                                    if (tree[index + 1].InnerSegmentMarker)
                                     {
                                         pair.Marked = true;
                                     }
+
                                     break;
                                 default:
                                     break;
                             }
                         }
+
                         index = (index - 1) / 2;
                         tree[index].Accumulator += pair.Weight;
                         switch (pair.Markable)

@@ -1,6 +1,6 @@
-﻿namespace GraphSharp.Algorithms.EdgeRouting
+namespace GraphSharp.Algorithms.EdgeRouting
 {
-	public interface IEdgeRoutingParameters : IAlgorithmParameters
-	{		
-	}
+    public interface IEdgeRoutingParameters : IAlgorithmParameters
+    {
+    }
 }

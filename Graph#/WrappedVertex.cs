@@ -1,17 +1,17 @@
-﻿namespace GraphSharp
+namespace GraphSharp
 {
-	public class WrappedVertex<TVertex>
-	{
-		private readonly TVertex _originalVertex;
+    public class WrappedVertex<TVertex>
+    {
+        private readonly TVertex _originalVertex;
 
-		public TVertex Original
-		{
-			get { return _originalVertex; }
-		}
+        public TVertex Original
+        {
+            get { return _originalVertex; }
+        }
 
-		public WrappedVertex(TVertex original)
-		{
-			_originalVertex = original;
-		}
-	}
+        public WrappedVertex(TVertex original)
+        {
+            _originalVertex = original;
+        }
+    }
 }

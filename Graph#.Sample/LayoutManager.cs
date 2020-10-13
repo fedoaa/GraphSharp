@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 using GraphSharp.Sample.ViewModel;
 
@@ -9,7 +9,7 @@ namespace GraphSharp.Sample
         private static LayoutManager _instance;
 
         public static readonly DependencyProperty ManagedLayoutProperty =
-                DependencyProperty.RegisterAttached("ManagedLayout", typeof (bool), typeof (LayoutManager), new PropertyMetadata(false, OnManagedLayoutPropertyChanged));
+            DependencyProperty.RegisterAttached("ManagedLayout", typeof(bool), typeof(LayoutManager), new PropertyMetadata(false, OnManagedLayoutPropertyChanged));
 
         private readonly HashSet<PocGraphLayout> _graphLayouts = new HashSet<PocGraphLayout>();
 

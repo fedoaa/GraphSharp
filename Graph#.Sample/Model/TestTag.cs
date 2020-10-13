@@ -1,4 +1,4 @@
-﻿namespace GraphSharp.Sample.Model
+namespace GraphSharp.Sample.Model
 {
     public enum TestTag
     {

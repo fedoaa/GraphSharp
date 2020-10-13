@@ -1,6 +1,6 @@
-﻿using QuikGraph;
 using System.Diagnostics;
 using System.Windows;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 {
@@ -12,7 +12,9 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
         protected class SugiEdge : TaggedEdge<SugiVertex, TEdge>
         {
             public SugiEdge(TEdge originalEdge, SugiVertex source, SugiVertex target)
-                : base(source, target, originalEdge) { }
+                : base(source, target, originalEdge)
+            {
+            }
 
             /// <summary>
             /// Gets the original edge of this SugiEdge.
@@ -37,7 +39,6 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 Marked = TempMark;
             }
         }
-
 
 
         protected enum VertexTypes

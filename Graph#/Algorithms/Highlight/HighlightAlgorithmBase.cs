@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using QuikGraph;
 
 namespace GraphSharp.Algorithms.Highlight
@@ -20,34 +20,35 @@ namespace GraphSharp.Algorithms.Highlight
 
         protected HighlightAlgorithmBase(
             IHighlightController<TVertex, TEdge, TGraph> controller,
-            IHighlightParameters parameters )
+            IHighlightParameters parameters)
         {
             Controller = controller;
-            TrySetParameters( parameters );
+            TrySetParameters(parameters);
         }
 
         public abstract void ResetHighlight();
-        public abstract bool OnVertexHighlighting( TVertex vertex );
-        public abstract bool OnVertexHighlightRemoving( TVertex vertex );
-        public abstract bool OnEdgeHighlighting( TEdge edge );
-        public abstract bool OnEdgeHighlightRemoving( TEdge edge );
+        public abstract bool OnVertexHighlighting(TVertex vertex);
+        public abstract bool OnVertexHighlightRemoving(TVertex vertex);
+        public abstract bool OnEdgeHighlighting(TEdge edge);
+        public abstract bool OnEdgeHighlightRemoving(TEdge edge);
 
-        public bool IsParametersSettable( IHighlightParameters parameters )
+        public bool IsParametersSettable(IHighlightParameters parameters)
         {
             return parameters != null && parameters is TParameters;
         }
 
-        public bool TrySetParameters( IHighlightParameters parameters )
+        public bool TrySetParameters(IHighlightParameters parameters)
         {
-            if ( IsParametersSettable( parameters ) )
+            if (IsParametersSettable(parameters))
             {
-                if ( Parameters != null )
+                if (Parameters != null)
                     Parameters.PropertyChanged -= OnParameterPropertyChanged;
-                Parameters = (TParameters)parameters;
-                if ( Parameters != null )
+                Parameters = (TParameters) parameters;
+                if (Parameters != null)
                     Parameters.PropertyChanged += OnParameterPropertyChanged;
                 return true;
             }
+
             return false;
         }
 
@@ -56,7 +57,7 @@ namespace GraphSharp.Algorithms.Highlight
             this.ResetHighlight();
         }
 
-        private void OnParameterPropertyChanged( object sender, PropertyChangedEventArgs e )
+        private void OnParameterPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnParametersChanged();
         }

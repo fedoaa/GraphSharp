@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 using GraphSharp.Algorithms.EdgeRouting;
 using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 {
-    public partial class EfficientSugiyamaLayoutAlgorithm<TVertex, TEdge, TGraph> 
+    public partial class EfficientSugiyamaLayoutAlgorithm<TVertex, TEdge, TGraph>
         : DefaultParameterizedLayoutAlgorithmBase<TVertex, TEdge, TGraph, EfficientSugiyamaLayoutParameters>,
-          IEdgeRoutingAlgorithm<TVertex, TEdge, TGraph>
+            IEdgeRoutingAlgorithm<TVertex, TEdge, TGraph>
         where TVertex : class
         where TEdge : IEdge<TVertex>
         where TGraph : IVertexAndEdgeListGraph<TVertex, TEdge>
@@ -31,8 +31,8 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
         private readonly IList<IList<SugiVertex>> _layers = new List<IList<SugiVertex>>();
 
         public EfficientSugiyamaLayoutAlgorithm(
-            TGraph visitedGraph, 
-            EfficientSugiyamaLayoutParameters parameters, 
+            TGraph visitedGraph,
+            EfficientSugiyamaLayoutParameters parameters,
             IDictionary<TVertex, Point> vertexPositions,
             IDictionary<TVertex, Size> vertexSizes)
             : base(visitedGraph, vertexPositions, parameters)

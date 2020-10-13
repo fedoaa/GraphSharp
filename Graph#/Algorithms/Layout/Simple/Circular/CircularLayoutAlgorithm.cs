@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using QuikGraph;
@@ -12,8 +12,8 @@ namespace GraphSharp.Algorithms.Layout.Simple.Circular
     {
         readonly IDictionary<TVertex, Size> sizes;
 
-        public CircularLayoutAlgorithm( TGraph visitedGraph, IDictionary<TVertex, Point> vertexPositions, IDictionary<TVertex, Size> vertexSizes, CircularLayoutParameters parameters )
-            : base( visitedGraph, vertexPositions, parameters )
+        public CircularLayoutAlgorithm(TGraph visitedGraph, IDictionary<TVertex, Point> vertexPositions, IDictionary<TVertex, Size> vertexSizes, CircularLayoutParameters parameters)
+            : base(visitedGraph, vertexPositions, parameters)
         {
             //Contract.Requires( vertexSizes != null );
             //Contract.Requires( visitedGraph.Vertices.All( v => vertexSizes.ContainsKey( v ) ) );
@@ -27,44 +27,44 @@ namespace GraphSharp.Algorithms.Layout.Simple.Circular
             double perimeter = 0;
             double[] halfSize = new double[VisitedGraph.VertexCount];
             int i = 0;
-            foreach ( var v in VisitedGraph.Vertices )
+            foreach (var v in VisitedGraph.Vertices)
             {
                 Size s = sizes[v];
-                halfSize[i] = Math.Sqrt( s.Width * s.Width + s.Height * s.Height ) * 0.5;
+                halfSize[i] = Math.Sqrt(s.Width * s.Width + s.Height * s.Height) * 0.5;
                 perimeter += halfSize[i] * 2;
                 i++;
             }
 
-            double radius = perimeter / ( 2 * Math.PI );
+            double radius = perimeter / (2 * Math.PI);
 
             //
             //precalculation
             //
             double angle = 0, a;
             i = 0;
-            foreach ( var v in VisitedGraph.Vertices )
+            foreach (var v in VisitedGraph.Vertices)
             {
-                a = Math.Sin( halfSize[i] * 0.5 / radius ) * 2;
+                a = Math.Sin(halfSize[i] * 0.5 / radius) * 2;
                 angle += a;
-                if ( ReportOnIterationEndNeeded )
-                    VertexPositions[v] = new Point( Math.Cos( angle ) * radius + radius, Math.Sin( angle ) * radius + radius );
+                if (ReportOnIterationEndNeeded)
+                    VertexPositions[v] = new Point(Math.Cos(angle) * radius + radius, Math.Sin(angle) * radius + radius);
                 angle += a;
             }
 
-            if ( ReportOnIterationEndNeeded )
-                OnIterationEnded( 0, 50, "Precalculation done.", false );
+            if (ReportOnIterationEndNeeded)
+                OnIterationEnded(0, 50, "Precalculation done.", false);
 
             //recalculate radius
-            radius = angle / ( 2 * Math.PI ) * radius;
+            radius = angle / (2 * Math.PI) * radius;
 
             //calculation
             angle = 0;
             i = 0;
-            foreach ( var v in VisitedGraph.Vertices )
+            foreach (var v in VisitedGraph.Vertices)
             {
-                a = Math.Sin( halfSize[i] * 0.5 / radius ) * 2;
+                a = Math.Sin(halfSize[i] * 0.5 / radius) * 2;
                 angle += a;
-                VertexPositions[v] = new Point( Math.Cos( angle ) * radius + radius, Math.Sin( angle ) * radius + radius );
+                VertexPositions[v] = new Point(Math.Cos(angle) * radius + radius, Math.Sin(angle) * radius + radius);
                 angle += a;
             }
         }

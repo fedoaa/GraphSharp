@@ -1,7 +1,6 @@
-﻿
 namespace GraphSharp.Algorithms.Layout
 {
-	public interface ILayoutParameters : IAlgorithmParameters
-	{
-	}
+    public interface ILayoutParameters : IAlgorithmParameters
+    {
+    }
 }

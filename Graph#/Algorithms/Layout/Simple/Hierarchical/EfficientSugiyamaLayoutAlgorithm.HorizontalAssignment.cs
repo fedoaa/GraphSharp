@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -61,7 +61,6 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     DoOrthogonalEdgeRouting();
                     break;
             }
-
         }
 
         private void DoOrthogonalEdgeRouting()
@@ -97,8 +96,9 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 for (int i = 0; i < kvp.Value.Count; i++)
                 {
                     var vertex = kvp.Value[i];
-                    routePoints[i+2] = new Point(vertex.HorizontalPosition, vertex.VerticalPosition);
+                    routePoints[i + 2] = new Point(vertex.HorizontalPosition, vertex.VerticalPosition);
                 }
+
                 routePoints[1] = new Point(routePoints[2].X, routePoints[0].Y);
                 routePoints[kvp.Value.Count + 2] = new Point(routePoints[kvp.Value.Count + 1].X, routePoints[kvp.Value.Count + 3].Y);
                 _edgeRoutingPoints[kvp.Key] = routePoints;
@@ -115,9 +115,9 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     var vertex = kvp.Value[i];
                     routePoints[i] = new Point(vertex.HorizontalPosition, vertex.VerticalPosition);
                 }
+
                 _edgeRoutingPoints[kvp.Key] = routePoints;
             }
-
         }
 
         private void SavePositions()
@@ -127,7 +127,6 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 if (vertex.Type == VertexTypes.Original)
                     VertexPositions[vertex.OriginalVertex] = new Point(vertex.HorizontalPosition, vertex.VerticalPosition);
             }
-
         }
 
         private void PutbackIsolatedVertices()
@@ -148,10 +147,12 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     _sparseCompactionByLayerBackup[layer].Add(edge);
                     _sparseCompactionGraph.AddEdge(edge);
                 }
+
                 if (layer > 0 && prevIsolatedVertex != null)
                 {
                     _graph.AddEdge(new SugiEdge(default(TEdge), prevIsolatedVertex, isolatedVertex));
                 }
+
                 layer = (layer + 1) % _layers.Count;
                 prevIsolatedVertex = isolatedVertex;
             }
@@ -163,7 +164,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             for (int i = 0; i < _layers.Count; i++)
                 _layerHeights[i] = _layers[i].Max(v => v.Size.Height);
 
-            if (_layers.Count == 0) 
+            if (_layers.Count == 0)
                 return;
 
             _layerPositions = new double[_layers.Count];
@@ -186,7 +187,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 {
                     vertex.HorizontalPosition =
                         (vertex.HorizontalPositions[0] + vertex.HorizontalPositions[1]
-                         + vertex.HorizontalPositions[2] + vertex.HorizontalPositions[3]) / 4.0;
+                                                       + vertex.HorizontalPositions[2] + vertex.HorizontalPositions[3]) / 4.0;
                 }
                 else
                 {
@@ -208,7 +209,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
         /// <param name="upperLowerEdges">Alignment based on which edges (upper or lower ones).</param>
         private void CalculateHorizontalPositions(LeftRightMode leftRightMode, UpperLowerEdges upperLowerEdges)
         {
-            int modeIndex = (byte)upperLowerEdges * 2 + (byte)leftRightMode;
+            int modeIndex = (byte) upperLowerEdges * 2 + (byte) leftRightMode;
             InitializeRootsAndAligns(modeIndex);
             DoAlignment(modeIndex, leftRightMode, upperLowerEdges);
             WriteOutAlignment(modeIndex);
@@ -256,7 +257,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 var wSegment = w as Segment;
                 if (_sparseCompactionGraph.ContainsVertex(w) &&
                     ((leftRightMode == LeftRightMode.Left && _sparseCompactionGraph.InDegree(w) > 0)
-                      || (leftRightMode == LeftRightMode.Right && _sparseCompactionGraph.OutDegree(w) > 0)))
+                     || (leftRightMode == LeftRightMode.Right && _sparseCompactionGraph.OutDegree(w) > 0)))
                 {
                     var edges = leftRightMode == LeftRightMode.Left
                         ? _sparseCompactionGraph.InEdges(w)
@@ -266,17 +267,18 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         SugiVertex u;
                         Data pred = leftRightMode == LeftRightMode.Left ? edge.Source : edge.Target;
                         if (pred is SugiVertex)
-                            u = ((SugiVertex)pred).Roots[modeIndex];
+                            u = ((SugiVertex) pred).Roots[modeIndex];
                         else
                         {
-                            var segment = (Segment)pred;
+                            var segment = (Segment) pred;
                             u = upperLowerEdges == UpperLowerEdges.Upper ? segment.PVertex.Roots[modeIndex] : segment.QVertex.Roots[modeIndex];
                         }
+
                         PlaceBlock(modeIndex, leftRightMode, upperLowerEdges, u);
                         if (v.Sinks[modeIndex] == v)
                             v.Sinks[modeIndex] = u.Sinks[modeIndex];
                         //var xDelta = delta + (v.Roots[modeIndex].BlockWidths[modeIndex] + u.BlockWidths[modeIndex]) / 2.0;
-                        var xDelta = delta + ((wVertex != null ? wVertex.Size.Width : 0.0) + ((pred is SugiVertex) ? ((SugiVertex)pred).Size.Width : u.BlockWidths[modeIndex])) / 2.0;
+                        var xDelta = delta + ((wVertex != null ? wVertex.Size.Width : 0.0) + ((pred is SugiVertex) ? ((SugiVertex) pred).Size.Width : u.BlockWidths[modeIndex])) / 2.0;
                         if (v.Sinks[modeIndex] != u.Sinks[modeIndex])
                         {
                             var s = leftRightMode == LeftRightMode.Left
@@ -296,6 +298,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         }
                     }
                 }
+
                 if (wSegment != null)
                     w = (upperLowerEdges == UpperLowerEdges.Upper) ? wSegment.QVertex : wSegment.PVertex;
                 else if (wVertex.Type == VertexTypes.PVertex && upperLowerEdges == UpperLowerEdges.Upper)
@@ -304,7 +307,8 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     w = wVertex.Segment;
                 else
                     w = wVertex.Aligns[modeIndex];
-            } while (w != v);
+            }
+            while (w != v);
         }
 
         private void DoHorizontalCompaction(int modeIndex, LeftRightMode leftRightMode, UpperLowerEdges upperLowerEdges)
@@ -339,6 +343,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 layerEnd = -1;
                 layerStep = -1;
             }
+
             for (int i = layerStart; i != layerEnd; i += layerStep)
             {
                 int r = leftRightMode == LeftRightMode.Left ? int.MinValue : int.MaxValue;
@@ -356,6 +361,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     vertexEnd = -1;
                     vertexStep = -1;
                 }
+
                 for (int j = vertexStart; j != vertexEnd; j += vertexStep)
                 {
                     var vertex = layer[j];
@@ -365,17 +371,17 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         || (vertex.Type == VertexTypes.QVertex && upperLowerEdges == UpperLowerEdges.Lower))
                     {
                         List<SugiEdge> neighbourEdges = upperLowerEdges == UpperLowerEdges.Upper
-                                ? _graph.InEdges(vertex).OrderBy(e => e.Source.Position).ToList()
-                                : _graph.OutEdges(vertex).OrderBy(e => e.Target.Position).ToList();
+                            ? _graph.InEdges(vertex).OrderBy(e => e.Source.Position).ToList()
+                            : _graph.OutEdges(vertex).OrderBy(e => e.Target.Position).ToList();
                         if (neighbourEdges.Count <= 0)
                             continue;
 
-                        int c1 = (int)Math.Floor((neighbourEdges.Count + 1) / 2.0) - 1;
-                        int c2 = (int)Math.Ceiling((neighbourEdges.Count + 1) / 2.0) - 1;
+                        int c1 = (int) Math.Floor((neighbourEdges.Count + 1) / 2.0) - 1;
+                        int c2 = (int) Math.Ceiling((neighbourEdges.Count + 1) / 2.0) - 1;
                         int[] medians;
                         if (c1 == c2)
                         {
-                            medians = new[] {c1};
+                            medians = new[] { c1 };
                         }
                         else
                         {
@@ -383,6 +389,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                                 ? new[] { c1, c2 }
                                 : new[] { c2, c1 };
                         }
+
                         for (int m = 0; m < medians.Length; m++)
                         {
                             if (vertex.Aligns[modeIndex] != vertex)
@@ -393,7 +400,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                             var neighbour = edge.OtherVertex(vertex);
                             if (!edge.Marked &&
                                 ((leftRightMode == LeftRightMode.Left && r < neighbour.Position)
-                                    || (leftRightMode == LeftRightMode.Right && r > neighbour.Position)))
+                                 || (leftRightMode == LeftRightMode.Right && r > neighbour.Position)))
                             {
                                 neighbour.Aligns[modeIndex] = vertex;
                                 neighbour.BlockWidths[modeIndex] = Math.Max(neighbour.BlockWidths[modeIndex], vertex.Size.Width);

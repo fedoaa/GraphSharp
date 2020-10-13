@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using GraphSharp.Controls.Animations;
@@ -9,38 +9,39 @@ namespace GraphSharp.Controls
     public class GraphCanvas : Panel
     {
         #region Attached Dependency Property registrations
+
         public static readonly DependencyProperty XProperty =
             DependencyProperty.RegisterAttached("X", typeof(double), typeof(GraphCanvas),
-                                                 new FrameworkPropertyMetadata(double.NaN,
-                                                                                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                                                                                FrameworkPropertyMetadataOptions.AffectsArrange |
-                                                                                FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                FrameworkPropertyMetadataOptions.AffectsParentMeasure |
-                                                                                FrameworkPropertyMetadataOptions.AffectsParentArrange |
-                                                                                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                                                                                XPropertyChanged));
+                new FrameworkPropertyMetadata(double.NaN,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure |
+                    FrameworkPropertyMetadataOptions.AffectsArrange |
+                    FrameworkPropertyMetadataOptions.AffectsRender |
+                    FrameworkPropertyMetadataOptions.AffectsParentMeasure |
+                    FrameworkPropertyMetadataOptions.AffectsParentArrange |
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    XPropertyChanged));
 
         private static void XPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var xChange = (double)e.NewValue - (double)e.OldValue;
+            var xChange = (double) e.NewValue - (double) e.OldValue;
             PositionChanged(d, xChange, 0);
         }
 
 
         public static readonly DependencyProperty YProperty =
             DependencyProperty.RegisterAttached("Y", typeof(double), typeof(GraphCanvas),
-                                                 new FrameworkPropertyMetadata(double.NaN,
-                                                                                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                                                                                FrameworkPropertyMetadataOptions.AffectsArrange |
-                                                                                FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                FrameworkPropertyMetadataOptions.AffectsParentMeasure |
-                                                                                FrameworkPropertyMetadataOptions.AffectsParentArrange |
-                                                                                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                                                                                YPropertyChanged));
+                new FrameworkPropertyMetadata(double.NaN,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure |
+                    FrameworkPropertyMetadataOptions.AffectsArrange |
+                    FrameworkPropertyMetadataOptions.AffectsRender |
+                    FrameworkPropertyMetadataOptions.AffectsParentMeasure |
+                    FrameworkPropertyMetadataOptions.AffectsParentArrange |
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    YPropertyChanged));
 
         private static void YPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var yChange = (double)e.NewValue - (double)e.OldValue;
+            var yChange = (double) e.NewValue - (double) e.OldValue;
             PositionChanged(d, 0, yChange);
         }
 
@@ -54,10 +55,11 @@ namespace GraphSharp.Controls
         #endregion
 
         #region Attached Properties
+
         [AttachedPropertyBrowsableForChildren]
         public static double GetX(DependencyObject obj)
         {
-            return (double)obj.GetValue(XProperty);
+            return (double) obj.GetValue(XProperty);
         }
 
         public static void SetX(DependencyObject obj, double value)
@@ -68,7 +70,7 @@ namespace GraphSharp.Controls
         [AttachedPropertyBrowsableForChildren]
         public static double GetY(DependencyObject obj)
         {
-            return (double)obj.GetValue(YProperty);
+            return (double) obj.GetValue(YProperty);
         }
 
         public static void SetY(DependencyObject obj, double value)
@@ -79,8 +81,10 @@ namespace GraphSharp.Controls
         #endregion
 
         #region Attached Routed Events
+
         public static readonly RoutedEvent PositionChangedEvent =
             EventManager.RegisterRoutedEvent("PositionChanged", RoutingStrategy.Bubble, typeof(PositionChangedEventHandler), typeof(GraphCanvas));
+
         public static void AddPositionChangedHandler(DependencyObject d, RoutedEventHandler handler)
         {
             var e = d as UIElement;
@@ -94,6 +98,7 @@ namespace GraphSharp.Controls
             if (e != null)
                 e.RemoveHandler(PositionChangedEvent, handler);
         }
+
         #endregion
 
         #region Measure & Arrange
@@ -113,14 +118,14 @@ namespace GraphSharp.Controls
             Vector graphSize = (_bottomRight - _topLeft);
 
             if (double.IsNaN(graphSize.X) || double.IsNaN(graphSize.Y) ||
-                 double.IsInfinity(graphSize.X) || double.IsInfinity(graphSize.Y))
+                double.IsInfinity(graphSize.X) || double.IsInfinity(graphSize.Y))
                 translate = new Vector(0, 0);
 
             Translation = translate;
 
             graphSize = InternalChildren.Count > 0
-                            ? new Vector(double.NegativeInfinity, double.NegativeInfinity)
-                            : new Vector(0, 0);
+                ? new Vector(double.NegativeInfinity, double.NegativeInfinity)
+                : new Vector(0, 0);
 
             //translate with the topLeft
             foreach (UIElement child in InternalChildren)
@@ -143,6 +148,7 @@ namespace GraphSharp.Controls
                     x -= child.DesiredSize.Width * 0.5;
                     y -= child.DesiredSize.Height * 0.5;
                 }
+
                 child.Arrange(new Rect(new Point(x, y), child.DesiredSize));
 
                 graphSize.X = Math.Max(0, Math.Max(graphSize.X, x + child.DesiredSize.Width));
@@ -187,16 +193,17 @@ namespace GraphSharp.Controls
                 _bottomRight.Y = Math.Max(_bottomRight.Y, top + halfHeight - Origo.Y);
             }
 
-            var graphSize = (Size)(_bottomRight - _topLeft);
+            var graphSize = (Size) (_bottomRight - _topLeft);
             graphSize.Width = Math.Max(0, graphSize.Width);
             graphSize.Height = Math.Max(0, graphSize.Height);
 
             if (double.IsNaN(graphSize.Width) || double.IsNaN(graphSize.Height) ||
-                 double.IsInfinity(graphSize.Width) || double.IsInfinity(graphSize.Height))
+                double.IsInfinity(graphSize.Width) || double.IsInfinity(graphSize.Height))
                 return new Size(0, 0);
 
             return graphSize;
         }
+
         #endregion
 
         #region DP - Animation length
@@ -210,12 +217,13 @@ namespace GraphSharp.Controls
         /// </summary>
         public TimeSpan AnimationLength
         {
-            get { return (TimeSpan)GetValue(AnimationLengthProperty); }
+            get { return (TimeSpan) GetValue(AnimationLengthProperty); }
             set { SetValue(AnimationLengthProperty, value); }
         }
 
         public static readonly DependencyProperty AnimationLengthProperty =
             DependencyProperty.Register("AnimationLength", typeof(TimeSpan), typeof(GraphCanvas), new UIPropertyMetadata(new TimeSpan(0, 0, 0, 0, 500)));
+
         #endregion
 
         #region DP - CreationAnimation
@@ -225,7 +233,7 @@ namespace GraphSharp.Controls
         /// </summary>
         public ITransition CreationTransition
         {
-            get { return (ITransition)GetValue(CreationTransitionProperty); }
+            get { return (ITransition) GetValue(CreationTransitionProperty); }
             set { SetValue(CreationTransitionProperty, value); }
         }
 
@@ -243,7 +251,7 @@ namespace GraphSharp.Controls
         /// </summary>
         public bool IsAnimationEnabled
         {
-            get { return (bool)GetValue(IsAnimationEnabledProperty); }
+            get { return (bool) GetValue(IsAnimationEnabledProperty); }
             set { SetValue(IsAnimationEnabledProperty, value); }
         }
 
@@ -259,7 +267,7 @@ namespace GraphSharp.Controls
         /// </summary>
         public IAnimation MoveAnimation
         {
-            get { return (IAnimation)GetValue(MoveAnimationProperty); }
+            get { return (IAnimation) GetValue(MoveAnimationProperty); }
             set { SetValue(MoveAnimationProperty, value); }
         }
 
@@ -275,14 +283,13 @@ namespace GraphSharp.Controls
         /// </summary>
         public ITransition DestructionTransition
         {
-            get { return (ITransition)GetValue(DestructionTransitionProperty); }
+            get { return (ITransition) GetValue(DestructionTransitionProperty); }
             set { SetValue(DestructionTransitionProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for DestructionAnimation.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DestructionTransitionProperty =
             DependencyProperty.Register("DestructionTransition", typeof(ITransition), typeof(GraphCanvas), new UIPropertyMetadata(new FadeOutTransition()));
-
 
         #endregion
 
@@ -293,7 +300,7 @@ namespace GraphSharp.Controls
         /// </summary>
         public Point Origo
         {
-            get { return (Point)GetValue(OrigoProperty); }
+            get { return (Point) GetValue(OrigoProperty); }
             set { SetValue(OrigoProperty, value); }
         }
 
@@ -311,11 +318,12 @@ namespace GraphSharp.Controls
 
         public Vector Translation
         {
-            get { return (Vector)GetValue(TranslationProperty); }
+            get { return (Vector) GetValue(TranslationProperty); }
             protected set { SetValue(TranslationPropertyKey, value); }
         }
 
         public static readonly DependencyProperty TranslationProperty;
+
         protected static readonly DependencyPropertyKey TranslationPropertyKey =
             DependencyProperty.RegisterReadOnly("Translation", typeof(Vector), typeof(GraphCanvas), new UIPropertyMetadata(new Vector()));
 

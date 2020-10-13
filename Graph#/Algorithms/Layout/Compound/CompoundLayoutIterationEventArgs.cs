@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using QuikGraph;
+using System.Collections.Generic;
 using System.Windows;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Compound
 {
@@ -10,8 +10,8 @@ namespace GraphSharp.Algorithms.Layout.Compound
         where TEdge : IEdge<TVertex>
     {
         public CompoundLayoutIterationEventArgs(
-            int iteration, 
-            double statusInPercent, 
+            int iteration,
+            double statusInPercent,
             string message,
             IDictionary<TVertex, Point> vertexPositions,
             IDictionary<TVertex, Size> innerCanvasSizes)
@@ -22,10 +22,7 @@ namespace GraphSharp.Algorithms.Layout.Compound
 
         #region ICompoundLayoutIterationEventArgs<TVertex> Members
 
-        public IDictionary<TVertex, Size> InnerCanvasSizes
-        {
-            get; private set;
-        }
+        public IDictionary<TVertex, Size> InnerCanvasSizes { get; private set; }
 
         #endregion
     }

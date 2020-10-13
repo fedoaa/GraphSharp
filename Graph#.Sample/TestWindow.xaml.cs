@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows;
 using GraphSharp.Controls;
@@ -58,13 +58,16 @@ namespace GraphSharp.Sample
             {
                 parents[j] = _graph.Vertices.ElementAt(rnd.Next(_graph.VertexCount));
             }
+
             for (int i = 0; i < verticesToAdd; i++)
             {
                 string newVertex;
                 do
                 {
                     newVertex = rnd.Next(0, _graph.VertexCount + 20) + "_new";
-                } while (_graph.ContainsVertex(newVertex));
+                }
+                while (_graph.ContainsVertex(newVertex));
+
                 _graph.AddVertex(newVertex);
 
                 if (_graph.VertexCount < 2)
@@ -120,5 +123,7 @@ namespace GraphSharp.Sample
         }
     }
 
-    public class MyGraphLayout : GraphLayout<string, IEdge<string>, IBidirectionalGraph<string, IEdge<string>>> { }
+    public class MyGraphLayout : GraphLayout<string, IEdge<string>, IBidirectionalGraph<string, IEdge<string>>>
+    {
+    }
 }

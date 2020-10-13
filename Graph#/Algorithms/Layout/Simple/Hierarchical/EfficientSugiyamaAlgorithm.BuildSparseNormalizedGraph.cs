@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using QuikGraph;
@@ -78,7 +78,9 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             do
             {
                 optimized = DoWHOptimizationStep();
-            } while (optimized);
+            }
+            while (optimized);
+
             RewriteLayerIndexes();
         }
 
@@ -91,6 +93,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 {
                     vertex.LayerIndex = i;
                 }
+
                 i++;
             }
         }
@@ -139,16 +142,20 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     {
                         width += Math.Max(0, _graph.OutDegree(vertex) - 1) * Parameters.LayerDistance;
                     }
+
                     c += 1;
                 }
+
                 if (insertedLayerIndex < _layers.Count - 1)
                 {
                     foreach (var vertex in _layers[insertedLayerIndex])
                     {
                         width += Math.Max(0, _graph.OutDegree(vertex) - 1) * Parameters.LayerDistance;
                     }
+
                     c += 1;
                 }
+
                 if (c > 0)
                     width /= c;
 
@@ -163,8 +170,8 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 
                 double height = 0.0;
                 while (insertedLayerInfo.LayerWidth < _whOptLayerInfos[insertedLayerIndex - 1].LayerWidth
-                    && _whOptLayerInfos[insertedLayerIndex - 1].Vertices.Count > 0
-                    && insertedLayerInfo.LayerWidth <= (desiredWidth - _whOptLayerInfos[insertedLayerIndex - 1].Vertices.Peek().Cost))
+                       && _whOptLayerInfos[insertedLayerIndex - 1].Vertices.Count > 0
+                       && insertedLayerInfo.LayerWidth <= (desiredWidth - _whOptLayerInfos[insertedLayerIndex - 1].Vertices.Peek().Cost))
                 {
                     var repositionedVertex = _whOptLayerInfos[insertedLayerIndex - 1].Vertices.Dequeue();
                     insertedLayerInfo.LayerWidth += repositionedVertex.Cost;
@@ -173,6 +180,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     insertedLayer.Add(repositionedVertex.Vertex);
                     height = Math.Max(height, repositionedVertex.Vertex.Size.Height);
                 }
+
                 _actualHeight += height + Parameters.LayerDistance;
                 _actualWidth = _whOptLayerInfos.Max(li => li.LayerWidth);
             }
@@ -200,6 +208,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                             layerInfo.Vertices.Enqueue(vertexInfo);
                     }
                 }
+
                 layerInfo.LayerWidth += Math.Max(0, layer.Count - 1) * Parameters.VertexDistance;
                 _actualWidth = Math.Max(layerInfo.LayerWidth, _actualWidth);
                 var vertexList = new List<WHOptimizationVertexInfo>();
@@ -208,6 +217,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     if (!double.IsNaN(v.ValuePerCost) && !double.IsPositiveInfinity(v.ValuePerCost) && !double.IsNegativeInfinity(v.ValuePerCost))
                         vertexList.Add(v);
                 }
+
                 vertexList.Sort(new Comparison<WHOptimizationVertexInfo>(
                     (v1, v2) => Math.Sign(v2.ValuePerCost - v1.ValuePerCost)));
                 _actualHeight += layerInfo.LayerHeight + Parameters.LayerDistance;
@@ -216,8 +226,10 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 {
                     layerInfo.Vertices.Enqueue(v);
                 }
+
                 _whOptLayerInfos.Add(layerInfo);
             }
+
             _actualHeight -= Parameters.LayerDistance;
             _actualWidth -= Parameters.VertexDistance;
         }
@@ -238,6 +250,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 vertexCount++;
                 _whAverageVertexHeight += vertex.Size.Height;
             }
+
             _whAverageVertexHeight /= vertexCount;
         }
 
@@ -281,7 +294,8 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     var layer = _layers[i];
                     foreach (var v in layer.ToList())
                     {
-                        if (_graph.OutDegree(v) == 0) continue;
+                        if (_graph.OutDegree(v) == 0)
+                            continue;
 
                         //put the vertex above the descendant on the highest layer
                         int newLayerIndex = _graph.OutEdges(v).Min(edge => edge.Target.LayerIndex - 1);
@@ -342,6 +356,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         dummyVertexList.Add(qVertex);
                         dummyVertexList.Add(pVertex);
                     }
+
                     _graph.AddEdge(new SugiEdge(edge.OriginalEdge, edge.Source, pVertex));
                     _graph.AddEdge(new SugiEdge(edge.OriginalEdge, qVertex, edge.Target));
                     var segment = AddSegment(pVertex, qVertex, edge);

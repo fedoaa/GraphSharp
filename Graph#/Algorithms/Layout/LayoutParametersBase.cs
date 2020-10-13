@@ -2,27 +2,27 @@ using System.ComponentModel;
 
 namespace GraphSharp.Algorithms.Layout
 {
-	public abstract class LayoutParametersBase : ILayoutParameters
-	{
-		#region ICloneable Members
+    public abstract class LayoutParametersBase : ILayoutParameters
+    {
+        #region ICloneable Members
 
-		public object Clone()
-		{
-			return this.MemberwiseClone();
-		}
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
 
-		#endregion
+        #endregion
 
-		#region INotifyPropertyChanged Members
+        #region INotifyPropertyChanged Members
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		protected void NotifyPropertyChanged(string propertyName)
-		{
-			//delegating to the event...
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion
-	}
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            //delegating to the event...
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+    }
 }

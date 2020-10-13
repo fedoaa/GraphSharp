@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,7 +14,7 @@ namespace GraphSharp.Controls.Zoom
 
         public static readonly DependencyProperty AnimationLengthProperty =
             DependencyProperty.Register("AnimationLength", typeof(TimeSpan), typeof(ZoomControl),
-                                        new UIPropertyMetadata(TimeSpan.FromMilliseconds(500)));
+                new UIPropertyMetadata(TimeSpan.FromMilliseconds(500)));
 
         public static readonly DependencyProperty MaxZoomProperty =
             DependencyProperty.Register("MaxZoom", typeof(double), typeof(ZoomControl), new UIPropertyMetadata(100.0));
@@ -24,12 +24,12 @@ namespace GraphSharp.Controls.Zoom
 
         public static readonly DependencyProperty ModeProperty =
             DependencyProperty.Register("Mode", typeof(ZoomControlModes), typeof(ZoomControl),
-                                        new UIPropertyMetadata(ZoomControlModes.Custom, ModePropertyChanged));
+                new UIPropertyMetadata(ZoomControlModes.Custom, ModePropertyChanged));
 
         private static void ModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var zc = (ZoomControl)d;
-            var mode = (ZoomControlModes)e.NewValue;
+            var zc = (ZoomControl) d;
+            var mode = (ZoomControlModes) e.NewValue;
             switch (mode)
             {
                 case ZoomControlModes.Fill:
@@ -47,25 +47,26 @@ namespace GraphSharp.Controls.Zoom
 
         public static readonly DependencyProperty ModifierModeProperty =
             DependencyProperty.Register("ModifierMode", typeof(ZoomViewModifierMode), typeof(ZoomControl),
-                                        new UIPropertyMetadata(ZoomViewModifierMode.None));
+                new UIPropertyMetadata(ZoomViewModifierMode.None));
 
         public static readonly DependencyProperty TranslateXProperty =
             DependencyProperty.Register("TranslateX", typeof(double), typeof(ZoomControl),
-                                        new UIPropertyMetadata(0.0, TranslateXPropertyChanged, TranslateXCoerce));
+                new UIPropertyMetadata(0.0, TranslateXPropertyChanged, TranslateXCoerce));
 
         public static readonly DependencyProperty TranslateYProperty =
             DependencyProperty.Register("TranslateY", typeof(double), typeof(ZoomControl),
-                                        new UIPropertyMetadata(0.0, TranslateYPropertyChanged, TranslateYCoerce));
+                new UIPropertyMetadata(0.0, TranslateYPropertyChanged, TranslateYCoerce));
 
         public static readonly DependencyProperty ZoomProperty =
             DependencyProperty.Register("Zoom", typeof(double), typeof(ZoomControl),
-                                        new UIPropertyMetadata(1.0, ZoomPropertyChanged));
+                new UIPropertyMetadata(1.0, ZoomPropertyChanged));
 
         private Point _mouseDownPos;
         private ZoomContentPresenter _presenter;
 
         /// <summary>Applied to the presenter.</summary>
         private ScaleTransform _scaleTransform;
+
         private Vector _startTranslate;
         private TransformGroup _transformGroup;
 
@@ -90,7 +91,7 @@ namespace GraphSharp.Controls.Zoom
 
         public double TranslateX
         {
-            get { return (double)GetValue(TranslateXProperty); }
+            get { return (double) GetValue(TranslateXProperty); }
             set
             {
                 BeginAnimation(TranslateXProperty, null);
@@ -100,7 +101,7 @@ namespace GraphSharp.Controls.Zoom
 
         public double TranslateY
         {
-            get { return (double)GetValue(TranslateYProperty); }
+            get { return (double) GetValue(TranslateYProperty); }
             set
             {
                 BeginAnimation(TranslateYProperty, null);
@@ -110,28 +111,28 @@ namespace GraphSharp.Controls.Zoom
 
         public TimeSpan AnimationLength
         {
-            get { return (TimeSpan)GetValue(AnimationLengthProperty); }
+            get { return (TimeSpan) GetValue(AnimationLengthProperty); }
             set { SetValue(AnimationLengthProperty, value); }
         }
 
         public double MinZoom
         {
-            get { return (double)GetValue(MinZoomProperty); }
+            get { return (double) GetValue(MinZoomProperty); }
             set { SetValue(MinZoomProperty, value); }
         }
 
         public double MaxZoom
         {
-            get { return (double)GetValue(MaxZoomProperty); }
+            get { return (double) GetValue(MaxZoomProperty); }
             set { SetValue(MaxZoomProperty, value); }
         }
 
         public double Zoom
         {
-            get { return (double)GetValue(ZoomProperty); }
+            get { return (double) GetValue(ZoomProperty); }
             set
             {
-                if (value == (double)GetValue(ZoomProperty))
+                if (value == (double) GetValue(ZoomProperty))
                     return;
                 BeginAnimation(ZoomProperty, null);
                 SetValue(ZoomProperty, value);
@@ -161,27 +162,27 @@ namespace GraphSharp.Controls.Zoom
         /// <summary>Gets or sets the active modifier mode.</summary>
         public ZoomViewModifierMode ModifierMode
         {
-            get { return (ZoomViewModifierMode)GetValue(ModifierModeProperty); }
+            get { return (ZoomViewModifierMode) GetValue(ModifierModeProperty); }
             set { SetValue(ModifierModeProperty, value); }
         }
 
         /// <summary>Gets or sets the mode of the zoom control.</summary>
         public ZoomControlModes Mode
         {
-            get { return (ZoomControlModes)GetValue(ModeProperty); }
+            get { return (ZoomControlModes) GetValue(ModeProperty); }
             set { SetValue(ModeProperty, value); }
         }
 
         private static object TranslateXCoerce(DependencyObject d, object basevalue)
         {
-            var zc = (ZoomControl)d;
-            return zc._presenter == null ? 0.0 : (double)basevalue;
+            var zc = (ZoomControl) d;
+            return zc._presenter == null ? 0.0 : (double) basevalue;
         }
 
         private static object TranslateYCoerce(DependencyObject d, object basevalue)
         {
-            var zc = (ZoomControl)d;
-            return zc._presenter == null ? 0.0 : (double)basevalue;
+            var zc = (ZoomControl) d;
+            return zc._presenter == null ? 0.0 : (double) basevalue;
         }
 
         private void ZoomControlMouseUp(object sender, MouseButtonEventArgs e)
@@ -237,37 +238,37 @@ namespace GraphSharp.Controls.Zoom
 
         private static void TranslateXPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var zc = (ZoomControl)d;
+            var zc = (ZoomControl) d;
             if (zc._translateTransform == null)
                 return;
-            zc._translateTransform.X = (double)e.NewValue;
+            zc._translateTransform.X = (double) e.NewValue;
             if (!zc._isZooming)
                 zc.Mode = ZoomControlModes.Custom;
         }
 
         private static void TranslateYPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var zc = (ZoomControl)d;
+            var zc = (ZoomControl) d;
             if (zc._translateTransform == null)
                 return;
-            zc._translateTransform.Y = (double)e.NewValue;
+            zc._translateTransform.Y = (double) e.NewValue;
             if (!zc._isZooming)
                 zc.Mode = ZoomControlModes.Custom;
         }
 
         private static void ZoomPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var zc = (ZoomControl)d;
+            var zc = (ZoomControl) d;
 
             if (zc._scaleTransform == null)
                 return;
 
-            var zoom = (double)e.NewValue;
+            var zoom = (double) e.NewValue;
             zc._scaleTransform.ScaleX = zoom;
             zc._scaleTransform.ScaleY = zoom;
             if (!zc._isZooming)
             {
-                double delta = (double)e.NewValue / (double)e.OldValue;
+                double delta = (double) e.NewValue / (double) e.OldValue;
                 zc.TranslateX *= delta;
                 zc.TranslateY *= delta;
                 zc.Mode = ZoomControlModes.Custom;
@@ -330,17 +331,18 @@ namespace GraphSharp.Controls.Zoom
             {
                 _zoomAnimCount++;
                 animation.Completed += (s, args) =>
-                                           {
-                                               _zoomAnimCount--;
-                                               if (_zoomAnimCount > 0)
-                                                   return;
+                {
+                    _zoomAnimCount--;
+                    if (_zoomAnimCount > 0)
+                        return;
 
-                                               var zoom = Zoom;
-                                               BeginAnimation(ZoomProperty, null);
-                                               SetValue(ZoomProperty, zoom);
-                                               _isZooming = false;
-                                           };
+                    var zoom = Zoom;
+                    BeginAnimation(ZoomProperty, null);
+                    SetValue(ZoomProperty, zoom);
+                    _isZooming = false;
+                };
             }
+
             BeginAnimation(dp, animation, HandoffBehavior.Compose);
         }
 
@@ -373,7 +375,7 @@ namespace GraphSharp.Controls.Zoom
             if (_presenter == null || Mode != ZoomControlModes.Fill)
                 return;
 
-            var deltaZoom = Math.Min(ActualWidth/_presenter.ContentSize.Width, ActualHeight/_presenter.ContentSize.Height);
+            var deltaZoom = Math.Min(ActualWidth / _presenter.ContentSize.Width, ActualHeight / _presenter.ContentSize.Height);
             var initialTranslate = GetInitialTranslate();
             DoZoomAnimation(deltaZoom, initialTranslate.X * deltaZoom, initialTranslate.Y * deltaZoom);
         }
@@ -388,6 +390,7 @@ namespace GraphSharp.Controls.Zoom
                 Presenter.SizeChanged += (s, a) => DoZoomToFill();
                 Presenter.ContentSizeChanged += (s, a) => DoZoomToFill();
             }
+
             ZoomToFill();
         }
     }

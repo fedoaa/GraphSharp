@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using QuikGraph;
 
@@ -36,6 +36,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                             prevContainer.Join(actualContainer);
                             RemoveAt(i);
                         }
+
                         if (i >= Count)
                             break;
                     }
@@ -115,6 +116,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     else
                         clonedLayer.Add(item);
                 }
+
                 return clonedLayer;
             }
 

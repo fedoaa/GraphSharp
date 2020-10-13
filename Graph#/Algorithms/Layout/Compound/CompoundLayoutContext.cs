@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Compound
 {
-    public class CompoundLayoutContext<TVertex, TEdge, TGraph> 
+    public class CompoundLayoutContext<TVertex, TEdge, TGraph>
         : LayoutContext<TVertex, TEdge, TGraph>, ICompoundLayoutContext<TVertex, TEdge, TGraph>
         where TEdge : IEdge<TVertex>
         where TGraph : class, IBidirectionalGraph<TVertex, TEdge>
@@ -16,7 +16,7 @@ namespace GraphSharp.Algorithms.Layout.Compound
             LayoutMode mode,
             IDictionary<TVertex, Thickness> vertexBorders,
             IDictionary<TVertex, CompoundVertexInnerLayoutType> layoutTypes)
-            : base( graph, positions, sizes, mode )
+            : base(graph, positions, sizes, mode)
         {
             VertexBorders = vertexBorders;
             LayoutTypes = layoutTypes;

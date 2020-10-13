@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using GraphSharp.Algorithms.Layout;
 using QuikGraph;
@@ -6,11 +6,11 @@ using QuikGraph;
 namespace GraphSharp.Algorithms.EdgeRouting
 {
     public class StandardEdgeRoutingAlgorithmFactory<TVertex, TEdge, TGraph> : IEdgeRoutingAlgorithmFactory<TVertex, TEdge, TGraph>
-            where TVertex : class
-            where TEdge : IEdge<TVertex>
-            where TGraph : class, IBidirectionalGraph<TVertex, TEdge>
+        where TVertex : class
+        where TEdge : IEdge<TVertex>
+        where TGraph : class, IBidirectionalGraph<TVertex, TEdge>
     {
-        protected static readonly string[] algorithmTypes = {};
+        protected static readonly string[] algorithmTypes = { };
 
         public IEnumerable<string> AlgorithmTypes
         {
@@ -18,7 +18,7 @@ namespace GraphSharp.Algorithms.EdgeRouting
         }
 
         public IEdgeRoutingAlgorithm<TVertex, TEdge, TGraph> CreateAlgorithm(string newAlgorithmType, ILayoutContext<TVertex, TEdge, TGraph> context,
-                                                                             IEdgeRoutingParameters parameters)
+            IEdgeRoutingParameters parameters)
         {
             return null;
         }

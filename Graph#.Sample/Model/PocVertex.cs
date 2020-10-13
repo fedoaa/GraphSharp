@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Xml.Serialization;
 
 namespace GraphSharp.Sample.Model

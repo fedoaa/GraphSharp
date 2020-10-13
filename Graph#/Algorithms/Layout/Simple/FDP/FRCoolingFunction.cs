@@ -1,4 +1,4 @@
-﻿namespace GraphSharp.Algorithms.Layout.Simple.FDP
+namespace GraphSharp.Algorithms.Layout.Simple.FDP
 {
     public enum FRCoolingFunction
     {

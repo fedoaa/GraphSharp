@@ -1,28 +1,27 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace GraphSharp.Algorithms.Highlight
 {
-	public class HighlightParameterBase : IHighlightParameters
-	{
-		#region ICloneable Members
+    public class HighlightParameterBase : IHighlightParameters
+    {
+        #region ICloneable Members
 
-		public object Clone()
-		{
-			return MemberwiseClone();
-		}
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
 
-		#endregion
+        #endregion
 
-		#region INotifyPropertyChanged Members
+        #region INotifyPropertyChanged Members
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		protected void OnPropertyChanged( string propertyName )
-		{
-			if ( PropertyChanged != null )
-				PropertyChanged( this, new PropertyChangedEventArgs( propertyName ) );
-		}
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

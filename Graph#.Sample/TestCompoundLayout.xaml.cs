@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Windows;
-using QuikGraph;
 using GraphSharp.Controls;
+using QuikGraph;
 
 namespace GraphSharp.Sample
 {
@@ -22,8 +22,9 @@ namespace GraphSharp.Sample
 
             for (int i = 6; i < 15; i++)
             {
-                g.AddChildVertex(vertices[i%5], vertices[i]);
+                g.AddChildVertex(vertices[i % 5], vertices[i]);
             }
+
             g.AddChildVertex(vertices[5], vertices[4]);
             g.AddChildVertex(vertices[5], vertices[2]);
             g.AddChildVertex(vertices[16], vertices[0]);

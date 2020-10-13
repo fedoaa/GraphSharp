@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
 namespace GraphSharp.Controls
 {
@@ -10,6 +10,7 @@ namespace GraphSharp.Controls
             {
                 return;
             }
+
             Add(edgeControl);
         }
 
@@ -19,8 +20,8 @@ namespace GraphSharp.Controls
             {
                 return;
             }
+
             Remove(edgeControl);
         }
-
     }
 }

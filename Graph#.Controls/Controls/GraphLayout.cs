@@ -24,7 +24,8 @@ namespace GraphSharp.Controls
             {
                 var g = new BidirectionalGraph<object, IEdge<object>>();
                 var vertices = new object[] { "S", "A", "M", "P", "L", "E" };
-                var edges = new IEdge<object>[] {
+                var edges = new IEdge<object>[]
+                {
                     new Edge<object>(vertices[0], vertices[1]),
                     new Edge<object>(vertices[1], vertices[2]),
                     new Edge<object>(vertices[1], vertices[3]),
@@ -52,7 +53,7 @@ namespace GraphSharp.Controls
         protected readonly Dictionary<TEdge, EdgeControl> EdgeControls = new Dictionary<TEdge, EdgeControl>();
         private readonly Queue<TEdge> _edgesAdded = new Queue<TEdge>();
         private readonly Queue<TEdge> _edgesRemoved = new Queue<TEdge>();
-        protected List<LayoutState<TVertex, TEdge>> LayoutStates { get; }  = new List<LayoutState<TVertex, TEdge>>();
+        protected List<LayoutState<TVertex, TEdge>> LayoutStates { get; } = new List<LayoutState<TVertex, TEdge>>();
         private readonly TimeSpan _notificationLayoutDelay = TimeSpan.FromMilliseconds(5);
         private readonly object _notificationSyncRoot = new object();
         protected readonly Dictionary<TVertex, VertexControl> VertexControls = new Dictionary<TVertex, VertexControl>();
@@ -77,10 +78,11 @@ namespace GraphSharp.Controls
                     {
                         var size = kvp.Value.DesiredSize;
                         Sizes.Add(kvp.Key, new SizeF(
-                                                 (double.IsNaN(size.Width) ? 0 : (float)size.Width),
-                                                 (double.IsNaN(size.Height) ? 0 : (float)size.Height)));
+                            (double.IsNaN(size.Width) ? 0 : (float) size.Width),
+                            (double.IsNaN(size.Height) ? 0 : (float) size.Height)));
                     }
                 }
+
                 return Sizes;
             }
         }
@@ -151,16 +153,16 @@ namespace GraphSharp.Controls
                 return new LayoutContext<TVertex, TEdge, TGraph>(Graph, positions, sizes, ActualLayoutMode);
 
             var borders = (from kvp in VertexControls
-                           where kvp.Value is CompoundVertexControl
-                           select kvp).ToDictionary(
-                    kvp => kvp.Key,
-                    kvp => ((CompoundVertexControl)kvp.Value).VertexBorderThickness);
+                where kvp.Value is CompoundVertexControl
+                select kvp).ToDictionary(
+                kvp => kvp.Key,
+                kvp => ((CompoundVertexControl) kvp.Value).VertexBorderThickness);
 
             var layoutTypes = (from kvp in VertexControls
-                               where kvp.Value is CompoundVertexControl
-                               select kvp).ToDictionary(
+                where kvp.Value is CompoundVertexControl
+                select kvp).ToDictionary(
                 kvp => kvp.Key,
-                kvp => ((CompoundVertexControl)kvp.Value).LayoutMode);
+                kvp => ((CompoundVertexControl) kvp.Value).LayoutMode);
 
             return new CompoundLayoutContext<TVertex, TEdge, TGraph>(Graph, positions, sizes, ActualLayoutMode, borders, layoutTypes);
         }
@@ -182,8 +184,8 @@ namespace GraphSharp.Controls
 
                 rectangles[vertex] =
                     new Rect(
-                        position.X - size.Width * (float)0.5,
-                        position.Y - size.Height * (float)0.5,
+                        position.X - size.Width * (float) 0.5,
+                        position.Y - size.Height * (float) 0.5,
                         size.Width,
                         size.Height);
             }
@@ -203,7 +205,7 @@ namespace GraphSharp.Controls
                 handler = (s, e) =>
                 {
                     Layout(continueLayout);
-                    var gl = (GraphLayout<TVertex, TEdge, TGraph>)e.Source;
+                    var gl = (GraphLayout<TVertex, TEdge, TGraph>) e.Source;
                     gl.Loaded -= handler;
                 };
                 Loaded += handler;
@@ -219,7 +221,7 @@ namespace GraphSharp.Controls
 
             //create the layout algorithm using the factory
             LayoutAlgorithm = LayoutAlgorithmFactory.CreateAlgorithm(LayoutAlgorithmType, layoutContext,
-                                                                      LayoutParameters);
+                LayoutParameters);
 
             if (AsyncCompute)
             {
@@ -228,57 +230,57 @@ namespace GraphSharp.Controls
                 CancelLayout();
 
                 Worker = new BackgroundWorker
-                              {
-                                  WorkerSupportsCancellation = true,
-                                  WorkerReportsProgress = true
-                              };
+                {
+                    WorkerSupportsCancellation = true,
+                    WorkerReportsProgress = true
+                };
 
                 //run the algorithm on a background thread
                 Worker.DoWork += ((sender, e) =>
-                                       {
-                                           var worker = (BackgroundWorker)sender;
-                                           var argument = (AsyncThreadArgument)e.Argument;
-                                           if (argument.ShowAllStates)
-                                               argument.Algorithm.IterationEnded +=
-                                                   ((s, args) =>
-                                                        {
-                                                            var iterArgs = args;
-                                                            if (iterArgs != null)
-                                                            {
-                                                                worker.ReportProgress(
-                                                                    (int)Math.Round(iterArgs.StatusInPercent), iterArgs);
-                                                                iterArgs.Abort = worker.CancellationPending;
-                                                            }
-                                                        });
-                                           else
-                                               argument.Algorithm.ProgressChanged +=
-                                                   ((s, percent) => worker.ReportProgress((int)Math.Round(percent)));
-                                           argument.Algorithm.Compute();
-                                       });
+                {
+                    var worker = (BackgroundWorker) sender;
+                    var argument = (AsyncThreadArgument) e.Argument;
+                    if (argument.ShowAllStates)
+                        argument.Algorithm.IterationEnded +=
+                            ((s, args) =>
+                            {
+                                var iterArgs = args;
+                                if (iterArgs != null)
+                                {
+                                    worker.ReportProgress(
+                                        (int) Math.Round(iterArgs.StatusInPercent), iterArgs);
+                                    iterArgs.Abort = worker.CancellationPending;
+                                }
+                            });
+                    else
+                        argument.Algorithm.ProgressChanged +=
+                            ((s, percent) => worker.ReportProgress((int) Math.Round(percent)));
+                    argument.Algorithm.Compute();
+                });
 
                 //progress changed if an iteration ended
                 Worker.ProgressChanged +=
                     ((s, e) =>
-                         {
-                             if (e.UserState == null)
-                                 LayoutStatusPercent = e.ProgressPercentage;
-                             else
-                                 OnLayoutIterationFinished(e.UserState as ILayoutIterationEventArgs<TVertex>);
-                         });
+                    {
+                        if (e.UserState == null)
+                            LayoutStatusPercent = e.ProgressPercentage;
+                        else
+                            OnLayoutIterationFinished(e.UserState as ILayoutIterationEventArgs<TVertex>);
+                    });
 
                 //background thread finished if the iteration ended
                 Worker.RunWorkerCompleted += ((s, e) =>
-                                                    {
-                                                        OnLayoutFinished();
-                                                        Worker = null;
-                                                    });
+                {
+                    OnLayoutFinished();
+                    Worker = null;
+                });
 
                 OnLayoutStarted();
                 Worker.RunWorkerAsync(new AsyncThreadArgument
-                                           {
-                                               Algorithm = LayoutAlgorithm,
-                                               ShowAllStates = ShowAllStates
-                                           });
+                {
+                    Algorithm = LayoutAlgorithm,
+                    ShowAllStates = ShowAllStates
+                });
             }
             else
             {
@@ -361,13 +363,14 @@ namespace GraphSharp.Controls
                     if (!(kvp.Value is CompoundVertexControl))
                         continue;
 
-                    var cvc = (CompoundVertexControl)kvp.Value;
+                    var cvc = (CompoundVertexControl) kvp.Value;
                     foreach (var vc in cvc.Vertices)
                     {
-                        posDict[(TVertex)vc.Vertex] = GetRelativePosition(vc, cvc);
+                        posDict[(TVertex) vc.Vertex] = GetRelativePosition(vc, cvc);
                     }
                 }
             }
+
             return posDict;
         }
 
@@ -487,29 +490,29 @@ namespace GraphSharp.Controls
         }
 
         protected IDictionary<TVertex, Point> OverlapRemoval(IDictionary<TVertex, Point> positions,
-                                                              IDictionary<TVertex, Size> sizes)
+            IDictionary<TVertex, Size> sizes)
         {
             if (positions == null || sizes == null)
                 return positions; //not valid positions or sizes
 
             bool isValidAlgorithm = OverlapRemovalAlgorithmFactory.IsValidAlgorithm(OverlapRemovalAlgorithmType);
             if (OverlapRemovalConstraint == AlgorithmConstraints.Skip
-                 ||
-                 (OverlapRemovalConstraint == AlgorithmConstraints.Automatic &&
-                   (!LayoutAlgorithmFactory.NeedOverlapRemoval(LayoutAlgorithmType) || !isValidAlgorithm))
-                 || (OverlapRemovalConstraint == AlgorithmConstraints.Must && !isValidAlgorithm))
+                ||
+                (OverlapRemovalConstraint == AlgorithmConstraints.Automatic &&
+                 (!LayoutAlgorithmFactory.NeedOverlapRemoval(LayoutAlgorithmType) || !isValidAlgorithm))
+                || (OverlapRemovalConstraint == AlgorithmConstraints.Must && !isValidAlgorithm))
                 return positions;
 
             //create the algorithm parameters based on the old parameters
             OverlapRemovalParameters = OverlapRemovalAlgorithmFactory.CreateParameters(OverlapRemovalAlgorithmType,
-                                                                                        OverlapRemovalParameters);
+                OverlapRemovalParameters);
 
             //create the context - rectangles, ...
             var context = CreateOverlapRemovalContext(positions, sizes);
 
             //create the concreate algorithm
             OverlapRemovalAlgorithm = OverlapRemovalAlgorithmFactory.CreateAlgorithm(OverlapRemovalAlgorithmType,
-                                                                                      context, OverlapRemovalParameters);
+                context, OverlapRemovalParameters);
             if (OverlapRemovalAlgorithm != null)
             {
                 OverlapRemovalAlgorithm.Compute();
@@ -535,7 +538,7 @@ namespace GraphSharp.Controls
         /// <param name="sizes">The sizes of the vertices.</param>
         /// <returns>The routes of the edges.</returns>
         protected IDictionary<TEdge, Point[]> RouteEdges(IDictionary<TVertex, Point> positions,
-                                                          IDictionary<TVertex, Size> sizes)
+            IDictionary<TVertex, Size> sizes)
         {
             IEdgeRoutingAlgorithm<TVertex, TEdge, TGraph> algorithm = null;
             bool isValidAlgorithmType = EdgeRoutingAlgorithmFactory.IsValidAlgorithm(EdgeRoutingAlgorithmType);
@@ -544,28 +547,28 @@ namespace GraphSharp.Controls
             {
                 //an EdgeRouting algorithm must be used
                 EdgeRoutingParameters = EdgeRoutingAlgorithmFactory.CreateParameters(EdgeRoutingAlgorithmType,
-                                                                                      EdgeRoutingParameters);
+                    EdgeRoutingParameters);
 
                 var context = CreateLayoutContext(positions, sizes);
 
                 algorithm = EdgeRoutingAlgorithmFactory.CreateAlgorithm(EdgeRoutingAlgorithmType, context,
-                                                                         EdgeRoutingParameters);
+                    EdgeRoutingParameters);
                 algorithm.Compute();
             }
             else if (EdgeRoutingConstraint == AlgorithmConstraints.Automatic)
             {
                 if (!LayoutAlgorithmFactory.NeedEdgeRouting(LayoutAlgorithmType) &&
-                     LayoutAlgorithm is IEdgeRoutingAlgorithm<TVertex, TEdge, TGraph>)
+                    LayoutAlgorithm is IEdgeRoutingAlgorithm<TVertex, TEdge, TGraph>)
                     //the layout algorithm routes the edges
                     algorithm = LayoutAlgorithm as IEdgeRoutingAlgorithm<TVertex, TEdge, TGraph>;
                 else if (isValidAlgorithmType)
                 {
                     //the selected EdgeRouting algorithm will route the edges
                     EdgeRoutingParameters = EdgeRoutingAlgorithmFactory.CreateParameters(EdgeRoutingAlgorithmType,
-                                                                                          EdgeRoutingParameters);
+                        EdgeRoutingParameters);
                     var context = CreateLayoutContext(positions, sizes);
                     algorithm = EdgeRoutingAlgorithmFactory.CreateAlgorithm(EdgeRoutingAlgorithmType, context,
-                                                                             EdgeRoutingParameters);
+                        EdgeRoutingParameters);
                     algorithm.Compute();
                 }
             }
@@ -583,8 +586,9 @@ namespace GraphSharp.Controls
         /// <param name="stateIndex">The index of the shown layout state.</param>
         protected void ChangeState(int stateIndex)
         {
-			if (stateIndex >= LayoutStates.Count) return;
-			var activeState = LayoutStates[stateIndex];
+            if (stateIndex >= LayoutStates.Count)
+                return;
+            var activeState = LayoutStates[stateIndex];
 
             LayoutState = activeState;
 

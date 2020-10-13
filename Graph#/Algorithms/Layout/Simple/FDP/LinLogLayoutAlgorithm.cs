@@ -1,436 +1,457 @@
 using System;
 using System.Collections.Generic;
-using QuikGraph;
 using System.Linq;
 using System.Windows;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Simple.FDP
 {
-	public partial class LinLogLayoutAlgorithm<TVertex, TEdge, TGraph> : DefaultParameterizedLayoutAlgorithmBase<TVertex, TEdge, TGraph, LinLogLayoutParameters>
-		where TVertex : class
-		where TEdge : IEdge<TVertex>
-		where TGraph : IBidirectionalGraph<TVertex, TEdge>
-	{
-		#region Constructors
-		public LinLogLayoutAlgorithm( TGraph visitedGraph )
-			: base( visitedGraph ) { }
+    public partial class LinLogLayoutAlgorithm<TVertex, TEdge, TGraph> : DefaultParameterizedLayoutAlgorithmBase<TVertex, TEdge, TGraph, LinLogLayoutParameters>
+        where TVertex : class
+        where TEdge : IEdge<TVertex>
+        where TGraph : IBidirectionalGraph<TVertex, TEdge>
+    {
+        #region Constructors
 
-		public LinLogLayoutAlgorithm( TGraph visitedGraph, IDictionary<TVertex, Point> positions,
-		                              LinLogLayoutParameters parameters )
-			: base( visitedGraph, positions, parameters ) { }
-		#endregion
+        public LinLogLayoutAlgorithm(TGraph visitedGraph)
+            : base(visitedGraph)
+        {
+        }
 
-		#region Member variables - privates
-		class LinLogVertex
-		{
-			public int Index;
-			public TVertex OriginalVertex;
-			public LinLogEdge[] Attractions;
-			public double RepulsionWeight;
-			public Point Position;
-		}
+        public LinLogLayoutAlgorithm(TGraph visitedGraph, IDictionary<TVertex, Point> positions,
+            LinLogLayoutParameters parameters)
+            : base(visitedGraph, positions, parameters)
+        {
+        }
 
-		class LinLogEdge
-		{
-			public LinLogVertex Target;
-			public double AttractionWeight;
-		}
+        #endregion
 
-		private LinLogVertex[] vertices;
-		private Point baryCenter;
-		private double repulsionMultiplier;
+        #region Member variables - privates
 
-		#endregion
+        class LinLogVertex
+        {
+            public int Index;
+            public TVertex OriginalVertex;
+            public LinLogEdge[] Attractions;
+            public double RepulsionWeight;
+            public Point Position;
+        }
+
+        class LinLogEdge
+        {
+            public LinLogVertex Target;
+            public double AttractionWeight;
+        }
+
+        private LinLogVertex[] vertices;
+        private Point baryCenter;
+        private double repulsionMultiplier;
+
+        #endregion
 
 
-		protected override void InternalCompute()
-		{
-			if ( VisitedGraph.VertexCount <= 1 ) return;
+        protected override void InternalCompute()
+        {
+            if (VisitedGraph.VertexCount <= 1)
+                return;
 
-			InitializeWithRandomPositions( 1, 1, -0.5, -0.5 );
+            InitializeWithRandomPositions(1, 1, -0.5, -0.5);
 
-			InitAlgorithm();
-			QuadTree quadTree;
+            InitAlgorithm();
+            QuadTree quadTree;
 
-			double finalRepuExponent = Parameters.repulsiveExponent;
-			double finalAttrExponent = Parameters.attractionExponent;
+            double finalRepuExponent = Parameters.repulsiveExponent;
+            double finalAttrExponent = Parameters.attractionExponent;
 
-			for ( int step = 1; step <= Parameters.iterationCount; step++ )
-			{
-				ComputeBaryCenter();
-				quadTree = BuildQuadTree();
+            for (int step = 1; step <= Parameters.iterationCount; step++)
+            {
+                ComputeBaryCenter();
+                quadTree = BuildQuadTree();
 
-				#region h˚lÈsi f¸ggvÈny meghat·roz·sa
-				if ( Parameters.iterationCount >= 50 && finalRepuExponent < 1.0 )
-				{
-					Parameters.attractionExponent = finalAttrExponent;
-					Parameters.repulsiveExponent = finalRepuExponent;
-					if ( step <= 0.6 * Parameters.iterationCount )
-					{
-						// use energy model with few local minima 
-						Parameters.attractionExponent += 1.1 * ( 1.0 - finalRepuExponent );
-						Parameters.repulsiveExponent += 0.9 * ( 1.0 - finalRepuExponent );
-					}
-					else if ( step <= 0.9 * Parameters.iterationCount )
-					{
-						// gradually move to final energy model
-						Parameters.attractionExponent +=
-							1.1 * ( 1.0 - finalRepuExponent ) * ( 0.9 - step / (double)Parameters.iterationCount ) / 0.3;
-						Parameters.repulsiveExponent +=
-							0.9 * ( 1.0 - finalRepuExponent ) * ( 0.9 - step / (double)Parameters.iterationCount ) / 0.3;
-					}
-				}
-				#endregion
+                #region h√ªl√©si f√ºggv√©ny meghat√°roz√°sa
 
-				#region Move each node
-				for ( int i = 0; i < vertices.Length; i++ )
-				{
-					var v = vertices[i];
-					double oldEnergy = GetEnergy( i, quadTree );
+                if (Parameters.iterationCount >= 50 && finalRepuExponent < 1.0)
+                {
+                    Parameters.attractionExponent = finalAttrExponent;
+                    Parameters.repulsiveExponent = finalRepuExponent;
+                    if (step <= 0.6 * Parameters.iterationCount)
+                    {
+                        // use energy model with few local minima 
+                        Parameters.attractionExponent += 1.1 * (1.0 - finalRepuExponent);
+                        Parameters.repulsiveExponent += 0.9 * (1.0 - finalRepuExponent);
+                    }
+                    else if (step <= 0.9 * Parameters.iterationCount)
+                    {
+                        // gradually move to final energy model
+                        Parameters.attractionExponent +=
+                            1.1 * (1.0 - finalRepuExponent) * (0.9 - step / (double) Parameters.iterationCount) / 0.3;
+                        Parameters.repulsiveExponent +=
+                            0.9 * (1.0 - finalRepuExponent) * (0.9 - step / (double) Parameters.iterationCount) / 0.3;
+                    }
+                }
 
-					// compute direction of the move of the node
-					Vector bestDir;
-					GetDirection( i, quadTree, out bestDir );
+                #endregion
 
-					// line search: compute length of the move
-					Point oldPos = v.Position;
+                #region Move each node
 
-					double bestEnergy = oldEnergy;
-					int bestMultiple = 0;
-					bestDir /= 32;
-					//kisebb mozgat·sok esetÈn a legjobb eset meghat·roz·sa
-					for ( int multiple = 32;
-					      multiple >= 1 && ( bestMultiple == 0 || bestMultiple / 2 == multiple );
-					      multiple /= 2 )
-					{
-						v.Position = oldPos + bestDir * multiple;
-						double curEnergy = GetEnergy( i, quadTree );
-						if ( curEnergy < bestEnergy )
-						{
-							bestEnergy = curEnergy;
-							bestMultiple = multiple;
-						}
-					}
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    var v = vertices[i];
+                    double oldEnergy = GetEnergy(i, quadTree);
 
-					//nagyobb mozgat·s esetÈn van-e jobb megold·s?
-					for ( int multiple = 64;
-					      multiple <= 128 && bestMultiple == multiple / 2;
-					      multiple *= 2 )
-					{
-						v.Position = oldPos + bestDir * multiple;
-						double curEnergy = GetEnergy( i, quadTree );
-						if ( curEnergy < bestEnergy )
-						{
-							bestEnergy = curEnergy;
-							bestMultiple = multiple;
-						}
-					}
+                    // compute direction of the move of the node
+                    Vector bestDir;
+                    GetDirection(i, quadTree, out bestDir);
 
-					//legjobb megold·ssal mozgat·s
-					v.Position = oldPos + bestDir * bestMultiple;
-					if ( bestMultiple > 0 )
-					{
-						quadTree.MoveNode( oldPos, v.Position, v.RepulsionWeight );
-					}
-				}
-				#endregion
+                    // line search: compute length of the move
+                    Point oldPos = v.Position;
 
-				if ( ReportOnIterationEndNeeded )
-					Report( step );
-			}
-			CopyPositions();
-			NormalizePositions();
-		}
+                    double bestEnergy = oldEnergy;
+                    int bestMultiple = 0;
+                    bestDir /= 32;
+                    //kisebb mozgat√°sok eset√©n a legjobb eset meghat√°roz√°sa
+                    for (int multiple = 32;
+                        multiple >= 1 && (bestMultiple == 0 || bestMultiple / 2 == multiple);
+                        multiple /= 2)
+                    {
+                        v.Position = oldPos + bestDir * multiple;
+                        double curEnergy = GetEnergy(i, quadTree);
+                        if (curEnergy < bestEnergy)
+                        {
+                            bestEnergy = curEnergy;
+                            bestMultiple = multiple;
+                        }
+                    }
 
-		protected void CopyPositions()
-		{
-			// Copy positions
-			foreach ( var v in vertices )
-				VertexPositions[v.OriginalVertex] = v.Position;
-		}
+                    //nagyobb mozgat√°s eset√©n van-e jobb megold√°s?
+                    for (int multiple = 64;
+                        multiple <= 128 && bestMultiple == multiple / 2;
+                        multiple *= 2)
+                    {
+                        v.Position = oldPos + bestDir * multiple;
+                        double curEnergy = GetEnergy(i, quadTree);
+                        if (curEnergy < bestEnergy)
+                        {
+                            bestEnergy = curEnergy;
+                            bestMultiple = multiple;
+                        }
+                    }
 
-		protected void Report( int step )
-		{
-			CopyPositions();
-			OnIterationEnded( step, step / (double)Parameters.iterationCount * 100, "Iteration " + step + " finished.", true );
-		}
+                    //legjobb megold√°ssal mozgat√°s
+                    v.Position = oldPos + bestDir * bestMultiple;
+                    if (bestMultiple > 0)
+                    {
+                        quadTree.MoveNode(oldPos, v.Position, v.RepulsionWeight);
+                    }
+                }
 
-		private void GetDirection( int index, QuadTree quadTree, out Vector dir )
-		{
-			dir = new Vector( 0, 0 );
+                #endregion
 
-			double dir2 = AddRepulsionDirection( index, quadTree, ref dir );
-			dir2 += AddAttractionDirection( index, ref dir );
-			dir2 += AddGravitationDirection( index, ref dir );
+                if (ReportOnIterationEndNeeded)
+                    Report(step);
+            }
 
-			if ( dir2 != 0.0 )
-			{
-				dir /= dir2;
+            CopyPositions();
+            NormalizePositions();
+        }
 
-				double length = dir.Length;
-				if ( length > quadTree.Width / 8 )
-				{
-					length /= quadTree.Width / 8;
-					dir /= length;
-				}
-			}
-			else { dir = new Vector( 0, 0 ); }
-		}
+        protected void CopyPositions()
+        {
+            // Copy positions
+            foreach (var v in vertices)
+                VertexPositions[v.OriginalVertex] = v.Position;
+        }
 
-		private double AddGravitationDirection( int index, ref Vector dir )
-		{
-			var v = vertices[index];
-			Vector gravitationVector = ( baryCenter - v.Position );
-			double dist = gravitationVector.Length;
-			double tmp = Parameters.gravitationMultiplier * repulsionMultiplier * Math.Max( v.RepulsionWeight, 1 ) * Math.Pow( dist, Parameters.attractionExponent - 2 );
-			dir += gravitationVector * tmp;
+        protected void Report(int step)
+        {
+            CopyPositions();
+            OnIterationEnded(step, step / (double) Parameters.iterationCount * 100, "Iteration " + step + " finished.", true);
+        }
 
-			return tmp * Math.Abs( Parameters.attractionExponent - 1 );
-		}
+        private void GetDirection(int index, QuadTree quadTree, out Vector dir)
+        {
+            dir = new Vector(0, 0);
 
-		private double AddAttractionDirection( int index, ref Vector dir )
-		{
-			double dir2 = 0.0;
-			var v = vertices[index];
-			foreach ( var e in v.Attractions )
-			{
-				//onhurkok elhagyasa
-				if ( e.Target == v )
-					continue;
+            double dir2 = AddRepulsionDirection(index, quadTree, ref dir);
+            dir2 += AddAttractionDirection(index, ref dir);
+            dir2 += AddGravitationDirection(index, ref dir);
 
-				Vector attractionVector = ( e.Target.Position - v.Position );
-				double dist = attractionVector.Length;
-				if ( dist <= 0 )
-					continue;
+            if (dir2 != 0.0)
+            {
+                dir /= dir2;
 
-				double tmp = e.AttractionWeight * Math.Pow( dist, Parameters.attractionExponent - 2 );
-				dir2 += tmp * Math.Abs( Parameters.attractionExponent - 1 );
+                double length = dir.Length;
+                if (length > quadTree.Width / 8)
+                {
+                    length /= quadTree.Width / 8;
+                    dir /= length;
+                }
+            }
+            else
+            {
+                dir = new Vector(0, 0);
+            }
+        }
 
-				dir += ( e.Target.Position - v.Position ) * tmp;
-			}
-			return dir2;
-		}
+        private double AddGravitationDirection(int index, ref Vector dir)
+        {
+            var v = vertices[index];
+            Vector gravitationVector = (baryCenter - v.Position);
+            double dist = gravitationVector.Length;
+            double tmp = Parameters.gravitationMultiplier * repulsionMultiplier * Math.Max(v.RepulsionWeight, 1) * Math.Pow(dist, Parameters.attractionExponent - 2);
+            dir += gravitationVector * tmp;
 
-		/// <summary>
-		/// Kisz·mÌtja az <code>index</code> sorsz·m˙ pontra hatÛ erıt a 
-		/// quadTree segÌtsÈgÈvel.
-		/// </summary>
-		/// <param name="index">A node sorsz·ma, melyre a repulzÌv erıt sz·mÌtani akarjuk.</param>
-		/// <param name="quadTree"></param>
-		/// <param name="dir">A repulzÌv erıt hozz·adja ehhez a Vectorhoz.</param>
-		/// <returns>Becs¸lt m·sodik deriv·ltja a repulzÌv energi·nak.</returns>
-		private double AddRepulsionDirection( int index, QuadTree quadTree, ref Vector dir )
-		{
-			var v = vertices[index];
+            return tmp * Math.Abs(Parameters.attractionExponent - 1);
+        }
 
-			if ( quadTree == null || quadTree.Index == index || v.RepulsionWeight <= 0 )
-				return 0.0;
+        private double AddAttractionDirection(int index, ref Vector dir)
+        {
+            double dir2 = 0.0;
+            var v = vertices[index];
+            foreach (var e in v.Attractions)
+            {
+                //onhurkok elhagyasa
+                if (e.Target == v)
+                    continue;
 
-			Vector repulsionVector = ( quadTree.Position - v.Position );
-			double dist = repulsionVector.Length;
-			if ( quadTree.Index < 0 && dist < 2.0 * quadTree.Width )
-			{
-				double dir2 = 0.0;
-				for ( int i = 0; i < quadTree.Children.Length; i++ )
-					dir2 += AddRepulsionDirection( index, quadTree.Children[i], ref dir );
-				return dir2;
-			}
+                Vector attractionVector = (e.Target.Position - v.Position);
+                double dist = attractionVector.Length;
+                if (dist <= 0)
+                    continue;
 
-			if ( dist != 0.0 )
-			{
-				double tmp = repulsionMultiplier * v.RepulsionWeight * quadTree.Weight
-				             * Math.Pow( dist, Parameters.repulsiveExponent - 2 );
-				dir -= repulsionVector * tmp;
-				return tmp * Math.Abs( Parameters.repulsiveExponent - 1 );
-			}
+                double tmp = e.AttractionWeight * Math.Pow(dist, Parameters.attractionExponent - 2);
+                dir2 += tmp * Math.Abs(Parameters.attractionExponent - 1);
 
-			return 0.0;
-		}
+                dir += (e.Target.Position - v.Position) * tmp;
+            }
 
-		/*
-				private double GetEnergySum( QuadTree q )
-				{
-					double sum = 0;
-					for ( int i = 0; i < vertices.Length; i++ )
-						sum += GetEnergy( i, q );
-					return sum;
-				}
-		*/
+            return dir2;
+        }
 
-		private double GetEnergy( int index, QuadTree q )
-		{
-			return GetRepulsionEnergy( index, q )
-			       + GetAttractionEnergy( index ) + GetGravitationEnergy( index );
-		}
+        /// <summary>
+        /// Kisz√°m√≠tja az <code>index</code> sorsz√°m√∫ pontra hat√≥ er√µt a 
+        /// quadTree seg√≠ts√©g√©vel.
+        /// </summary>
+        /// <param name="index">A node sorsz√°ma, melyre a repulz√≠v er√µt sz√°m√≠tani akarjuk.</param>
+        /// <param name="quadTree"></param>
+        /// <param name="dir">A repulz√≠v er√µt hozz√°adja ehhez a Vectorhoz.</param>
+        /// <returns>Becs√ºlt m√°sodik deriv√°ltja a repulz√≠v energi√°nak.</returns>
+        private double AddRepulsionDirection(int index, QuadTree quadTree, ref Vector dir)
+        {
+            var v = vertices[index];
 
-		private double GetGravitationEnergy( int index )
-		{
-			var v = vertices[index];
+            if (quadTree == null || quadTree.Index == index || v.RepulsionWeight <= 0)
+                return 0.0;
 
-			double dist = ( v.Position - baryCenter ).Length;
-			return Parameters.gravitationMultiplier * repulsionMultiplier * Math.Max( v.RepulsionWeight, 1 )
-			       * Math.Pow( dist, Parameters.attractionExponent ) / Parameters.attractionExponent;
-		}
+            Vector repulsionVector = (quadTree.Position - v.Position);
+            double dist = repulsionVector.Length;
+            if (quadTree.Index < 0 && dist < 2.0 * quadTree.Width)
+            {
+                double dir2 = 0.0;
+                for (int i = 0; i < quadTree.Children.Length; i++)
+                    dir2 += AddRepulsionDirection(index, quadTree.Children[i], ref dir);
+                return dir2;
+            }
 
-		private double GetAttractionEnergy( int index )
-		{
-			double energy = 0.0;
-			var v = vertices[index];
-			foreach ( var e in v.Attractions )
-			{
-				if ( e.Target == v )
-					continue;
+            if (dist != 0.0)
+            {
+                double tmp = repulsionMultiplier * v.RepulsionWeight * quadTree.Weight
+                             * Math.Pow(dist, Parameters.repulsiveExponent - 2);
+                dir -= repulsionVector * tmp;
+                return tmp * Math.Abs(Parameters.repulsiveExponent - 1);
+            }
 
-				double dist = ( e.Target.Position - v.Position ).Length;
-				energy += e.AttractionWeight * Math.Pow( dist, Parameters.attractionExponent ) / Parameters.attractionExponent;
-			}
-			return energy;
-		}
+            return 0.0;
+        }
 
-		private double GetRepulsionEnergy( int index, QuadTree tree )
-		{
-			if ( tree == null || tree.Index == index || index >= vertices.Length )
-				return 0.0;
+        /*
+                private double GetEnergySum( QuadTree q )
+                {
+                    double sum = 0;
+                    for ( int i = 0; i < vertices.Length; i++ )
+                        sum += GetEnergy( i, q );
+                    return sum;
+                }
+        */
 
-			var v = vertices[index];
+        private double GetEnergy(int index, QuadTree q)
+        {
+            return GetRepulsionEnergy(index, q)
+                   + GetAttractionEnergy(index) + GetGravitationEnergy(index);
+        }
 
-			double dist = ( v.Position - tree.Position ).Length;
-			if ( tree.Index < 0 && dist < ( 2 * tree.Width ) )
-			{
-				double energy = 0.0;
-				for ( int i = 0; i < tree.Children.Length; i++ )
-					energy += GetRepulsionEnergy( index, tree.Children[i] );
+        private double GetGravitationEnergy(int index)
+        {
+            var v = vertices[index];
 
-				return energy;
-			}
+            double dist = (v.Position - baryCenter).Length;
+            return Parameters.gravitationMultiplier * repulsionMultiplier * Math.Max(v.RepulsionWeight, 1)
+                * Math.Pow(dist, Parameters.attractionExponent) / Parameters.attractionExponent;
+        }
 
-			if ( Parameters.repulsiveExponent == 0.0 )
-				return -repulsionMultiplier * v.RepulsionWeight * tree.Weight * Math.Log( dist );
+        private double GetAttractionEnergy(int index)
+        {
+            double energy = 0.0;
+            var v = vertices[index];
+            foreach (var e in v.Attractions)
+            {
+                if (e.Target == v)
+                    continue;
 
-			return -repulsionMultiplier * v.RepulsionWeight * tree.Weight
-			       * Math.Pow( dist, Parameters.repulsiveExponent ) / Parameters.repulsiveExponent;
-		}
+                double dist = (e.Target.Position - v.Position).Length;
+                energy += e.AttractionWeight * Math.Pow(dist, Parameters.attractionExponent) / Parameters.attractionExponent;
+            }
 
-		private void InitAlgorithm()
-		{
-			vertices = new LinLogVertex[VisitedGraph.VertexCount];
+            return energy;
+        }
 
-			var vertexMap = new Dictionary<TVertex, LinLogVertex>();
+        private double GetRepulsionEnergy(int index, QuadTree tree)
+        {
+            if (tree == null || tree.Index == index || index >= vertices.Length)
+                return 0.0;
 
-			//vertexek indexelÈse
-			int i = 0;
-			foreach ( TVertex v in VisitedGraph.Vertices )
-			{
-				vertices[i] = new LinLogVertex
-				              	{
-				              		Index = i,
-				              		OriginalVertex = v,
-				              		Attractions = new LinLogEdge[VisitedGraph.Degree( v )],
-				              		RepulsionWeight = 0,
-				              		Position = VertexPositions[v]
-				              	};
-				vertexMap[v] = vertices[i];
-				i++;
-			}
+            var v = vertices[index];
 
-			//minden vertex-hez felÈpÌti az attractionWeights, attractionIndexes,
-			//Ès a repulsionWeights strukt˙r·t, valamint ·tm·solja a pozÌciÛj·t a VertexPositions-bÛl
-			foreach ( var v in vertices )
-			{
-				int attrIndex = 0;
-				foreach ( var e in VisitedGraph.InEdges( v.OriginalVertex ) )
-				{
-					double weight = e is WeightedEdge<TVertex> ? ( ( e as WeightedEdge<TVertex> ).Weight ) : 1;
-					v.Attractions[attrIndex] = new LinLogEdge
-					                           	{
-					                           		Target = vertexMap[e.Source],
-					                           		AttractionWeight = weight
-					                           	};
-					//TODO look at this line below
-					//v.RepulsionWeight += weight;
-					v.RepulsionWeight += 1;
-					attrIndex++;
-				}
+            double dist = (v.Position - tree.Position).Length;
+            if (tree.Index < 0 && dist < (2 * tree.Width))
+            {
+                double energy = 0.0;
+                for (int i = 0; i < tree.Children.Length; i++)
+                    energy += GetRepulsionEnergy(index, tree.Children[i]);
 
-				foreach ( var e in VisitedGraph.OutEdges( v.OriginalVertex ) )
-				{
-					double weight = e is WeightedEdge<TVertex> ? ( ( e as WeightedEdge<TVertex> ).Weight ) : 1;
-					v.Attractions[attrIndex] = new LinLogEdge
-					                           	{
-					                           		Target = vertexMap[e.Target],
-					                           		AttractionWeight = weight
-					                           	};
-					//v.RepulsionWeight += weight;
-					v.RepulsionWeight += 1;
-					attrIndex++;
-				}
-				v.RepulsionWeight = Math.Max( v.RepulsionWeight, Parameters.gravitationMultiplier );
-			}
+                return energy;
+            }
 
-			repulsionMultiplier = ComputeRepulsionMultiplier();
-		}
+            if (Parameters.repulsiveExponent == 0.0)
+                return -repulsionMultiplier * v.RepulsionWeight * tree.Weight * Math.Log(dist);
 
-		private void ComputeBaryCenter()
-		{
-			baryCenter = new Point( 0, 0 );
-			double repWeightSum = 0.0;
-			foreach ( var v in vertices )
-			{
-				repWeightSum += v.RepulsionWeight;
-				baryCenter.X += v.Position.X * v.RepulsionWeight;
-				baryCenter.Y += v.Position.Y * v.RepulsionWeight;
-			}
-			if ( repWeightSum > 0.0 )
-			{
-				baryCenter.X /= repWeightSum;
-				baryCenter.Y /= repWeightSum;
-			}
-		}
+            return -repulsionMultiplier * v.RepulsionWeight * tree.Weight
+                * Math.Pow(dist, Parameters.repulsiveExponent) / Parameters.repulsiveExponent;
+        }
 
-		private double ComputeRepulsionMultiplier()
-		{
-			double attractionSum = vertices.Sum( v => v.Attractions.Sum( e => e.AttractionWeight ) );
-			double repulsionSum = vertices.Sum( v => v.RepulsionWeight );
+        private void InitAlgorithm()
+        {
+            vertices = new LinLogVertex[VisitedGraph.VertexCount];
 
-			if ( repulsionSum > 0 && attractionSum > 0 )
-				return attractionSum / Math.Pow( repulsionSum, 2 ) * Math.Pow( repulsionSum, 0.5 * ( Parameters.attractionExponent - Parameters.repulsiveExponent ) );
+            var vertexMap = new Dictionary<TVertex, LinLogVertex>();
 
-			return 1;
-		}
+            //vertexek indexel√©se
+            int i = 0;
+            foreach (TVertex v in VisitedGraph.Vertices)
+            {
+                vertices[i] = new LinLogVertex
+                {
+                    Index = i,
+                    OriginalVertex = v,
+                    Attractions = new LinLogEdge[VisitedGraph.Degree(v)],
+                    RepulsionWeight = 0,
+                    Position = VertexPositions[v]
+                };
+                vertexMap[v] = vertices[i];
+                i++;
+            }
 
-		/// <summary>
-		/// FelÈpÌt egy QuadTree-t (olyan mint az OctTree, csak 2D-ben).
-		/// </summary>
-		private QuadTree BuildQuadTree()
-		{
-			//a minim·lis Ès maxim·lis pozÌciÛ sz·mÌt·sa
-			var minPos = new Point( double.MaxValue, double.MaxValue );
-			var maxPos = new Point( -double.MaxValue, -double.MaxValue );
+            //minden vertex-hez fel√©p√≠ti az attractionWeights, attractionIndexes,
+            //√©s a repulsionWeights strukt√∫r√°t, valamint √°tm√°solja a poz√≠ci√≥j√°t a VertexPositions-b√≥l
+            foreach (var v in vertices)
+            {
+                int attrIndex = 0;
+                foreach (var e in VisitedGraph.InEdges(v.OriginalVertex))
+                {
+                    double weight = e is WeightedEdge<TVertex> ? ((e as WeightedEdge<TVertex>).Weight) : 1;
+                    v.Attractions[attrIndex] = new LinLogEdge
+                    {
+                        Target = vertexMap[e.Source],
+                        AttractionWeight = weight
+                    };
+                    //TODO look at this line below
+                    //v.RepulsionWeight += weight;
+                    v.RepulsionWeight += 1;
+                    attrIndex++;
+                }
 
-			foreach ( var v in vertices )
-			{
-				if ( v.RepulsionWeight <= 0 )
-					continue;
+                foreach (var e in VisitedGraph.OutEdges(v.OriginalVertex))
+                {
+                    double weight = e is WeightedEdge<TVertex> ? ((e as WeightedEdge<TVertex>).Weight) : 1;
+                    v.Attractions[attrIndex] = new LinLogEdge
+                    {
+                        Target = vertexMap[e.Target],
+                        AttractionWeight = weight
+                    };
+                    //v.RepulsionWeight += weight;
+                    v.RepulsionWeight += 1;
+                    attrIndex++;
+                }
 
-				minPos.X = Math.Min( minPos.X, v.Position.X );
-				minPos.Y = Math.Min( minPos.Y, v.Position.Y );
-				maxPos.X = Math.Max( maxPos.X, v.Position.X );
-				maxPos.Y = Math.Max( maxPos.Y, v.Position.Y );
-			}
+                v.RepulsionWeight = Math.Max(v.RepulsionWeight, Parameters.gravitationMultiplier);
+            }
 
-			//a nemnulla repulsionWeight-el rendelkezı node-ok hozz·ad·sa a QuadTree-hez.
-			QuadTree result = null;
-			foreach ( var v in vertices )
-			{
-				if ( v.RepulsionWeight <= 0 )
-					continue;
+            repulsionMultiplier = ComputeRepulsionMultiplier();
+        }
 
-				if ( result == null )
-					result = new QuadTree( v.Index, v.Position, v.RepulsionWeight, minPos, maxPos );
-				else
-					result.AddNode( v.Index, v.Position, v.RepulsionWeight, 0 );
-			}
-			return result;
-		}
-	}
+        private void ComputeBaryCenter()
+        {
+            baryCenter = new Point(0, 0);
+            double repWeightSum = 0.0;
+            foreach (var v in vertices)
+            {
+                repWeightSum += v.RepulsionWeight;
+                baryCenter.X += v.Position.X * v.RepulsionWeight;
+                baryCenter.Y += v.Position.Y * v.RepulsionWeight;
+            }
+
+            if (repWeightSum > 0.0)
+            {
+                baryCenter.X /= repWeightSum;
+                baryCenter.Y /= repWeightSum;
+            }
+        }
+
+        private double ComputeRepulsionMultiplier()
+        {
+            double attractionSum = vertices.Sum(v => v.Attractions.Sum(e => e.AttractionWeight));
+            double repulsionSum = vertices.Sum(v => v.RepulsionWeight);
+
+            if (repulsionSum > 0 && attractionSum > 0)
+                return attractionSum / Math.Pow(repulsionSum, 2) * Math.Pow(repulsionSum, 0.5 * (Parameters.attractionExponent - Parameters.repulsiveExponent));
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Fel√©p√≠t egy QuadTree-t (olyan mint az OctTree, csak 2D-ben).
+        /// </summary>
+        private QuadTree BuildQuadTree()
+        {
+            //a minim√°lis √©s maxim√°lis poz√≠ci√≥ sz√°m√≠t√°sa
+            var minPos = new Point(double.MaxValue, double.MaxValue);
+            var maxPos = new Point(-double.MaxValue, -double.MaxValue);
+
+            foreach (var v in vertices)
+            {
+                if (v.RepulsionWeight <= 0)
+                    continue;
+
+                minPos.X = Math.Min(minPos.X, v.Position.X);
+                minPos.Y = Math.Min(minPos.Y, v.Position.Y);
+                maxPos.X = Math.Max(maxPos.X, v.Position.X);
+                maxPos.Y = Math.Max(maxPos.Y, v.Position.Y);
+            }
+
+            //a nemnulla repulsionWeight-el rendelkez√µ node-ok hozz√°ad√°sa a QuadTree-hez.
+            QuadTree result = null;
+            foreach (var v in vertices)
+            {
+                if (v.RepulsionWeight <= 0)
+                    continue;
+
+                if (result == null)
+                    result = new QuadTree(v.Index, v.Position, v.RepulsionWeight, minPos, maxPos);
+                else
+                    result.AddNode(v.Index, v.Position, v.RepulsionWeight, 0);
+            }
+
+            return result;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -82,11 +82,11 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
             _maxIterationCounts[2] = Parameters.Phase3Iterations;
 
             var temperatureMultipliers = new double[3]
-                                              {
-                                                  1.0, 
-                                                  Parameters.Phase2TemperatureInitialMultiplier,
-                                                  Parameters.Phase3TemperatureInitialMultiplier
-                                              };
+            {
+                1.0,
+                Parameters.Phase2TemperatureInitialMultiplier,
+                Parameters.Phase3TemperatureInitialMultiplier
+            };
 
             double initialTemperature = Math.Sqrt(_compoundGraph.VertexCount) * Parameters.IdealEdgeLength;
             double minimalTemperature = initialTemperature * 0.1;
@@ -99,8 +99,8 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 _temperature = initialTemperature * temperatureMultipliers[_phase - 1];
                 _phaseDependentRepulsionMultiplier = _phase < 2 ? 0.5 : 1.0;
                 for (_step = _maxIterationCounts[_phase - 1];
-                     _step > 0 || _phase == 2 && !AllTreesGrown;
-                     _step--)
+                    _step > 0 || _phase == 2 && !AllTreesGrown;
+                    _step--)
                 {
                     ApplySpringForces();
                     ApplyRepulsionForces();
@@ -122,13 +122,16 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                     _temperature *= TemperatureLambda;
                     _temperature = Math.Max(_temperature, minimalTemperature);
                 }
+
                 if (!_gravityCenterCalculated)
                 {
                     _rootCompoundVertex.RecalculateBounds();
                     _gravityCenterCalculated = true;
                 }
+
                 _temperature *= Parameters.TemperatureDecreasing;
             }
+
             SavePositions();
         }
 
@@ -190,6 +193,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 uPos += compensationVector;
                 vPos -= compensationVector;
             }
+
             positionVector.Normalize();
 
             //get the clipping points
@@ -224,6 +228,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 uPos += compensationVector;
                 vPos -= compensationVector;
             }
+
             positionVector.Normalize();
 
             var c_u = LayoutUtil.GetClippingPoint(uSize, uPos, vPos);
@@ -271,6 +276,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 {
                     u.MovableParent.SpringForce += fs;
                 }
+
                 if (!v.IsFixedToParent)
                     v.SpringForce -= fs;
                 else if (v.MovableParent != null)
@@ -302,7 +308,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                         if (u.Parent != v.Parent)
                             continue; //the two vertex not in the same graph
 
-                        var fr = GetRepulsionForce(u.Position, v.Position, u.Size, v.Size, repulsionRange) * Math.Pow(u.Level + 1,2);
+                        var fr = GetRepulsionForce(u.Position, v.Position, u.Size, v.Size, repulsionRange) * Math.Pow(u.Level + 1, 2);
 
                         if (u.IsFixedToParent ^ v.IsFixedToParent)
                             fr *= 2;
@@ -333,7 +339,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
 
                     double length = Math.Max(1, Fg.Length / (Parameters.IdealEdgeLength * 2.0));
                     Fg.Normalize();
-                    Fg *= Parameters.GravitationFactor * _gravityForceMagnitude * Math.Pow(u.Level + 1,2) / Math.Pow(length, 0.25);
+                    Fg *= Parameters.GravitationFactor * _gravityForceMagnitude * Math.Pow(u.Level + 1, 2) / Math.Pow(length, 0.25);
                     u.GravitationForce += Fg;
                 }
             }

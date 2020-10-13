@@ -1,6 +1,5 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Forms;
 using System.Windows.Input;
 using GraphSharp.Sample.Model;
@@ -70,10 +69,10 @@ namespace GraphSharp.Sample.ViewModel
         private void OpenGraphs()
         {
             var ofd = new OpenFileDialog
-                        {
-                            FileName = "FA.gml",
-                            CheckPathExists = true
-                        };
+            {
+                FileName = "FA.gml",
+                CheckPathExists = true
+            };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 GraphInfo = ofd.FileName.Load<PocGraphInfo>();
@@ -92,6 +91,7 @@ namespace GraphSharp.Sample.ViewModel
         }
 
         private PocGraphInfo _graphInfo;
+
         public PocGraphInfo GraphInfo
         {
             get { return _graphInfo; }
@@ -113,7 +113,6 @@ namespace GraphSharp.Sample.ViewModel
                     _commands = value;
                     NotifyChanged(nameof(Commands));
                 }
-
             }
         }
 

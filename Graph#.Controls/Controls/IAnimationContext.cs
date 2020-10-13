@@ -1,4 +1,4 @@
-﻿namespace GraphSharp.Controls
+namespace GraphSharp.Controls
 {
     public interface IAnimationContext
     {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using QuikGraph;
 
@@ -95,6 +95,7 @@ namespace GraphSharp
                 _parentRegistry[v] = parent;
                 childrenList.Add(v);
             }
+
             return ret;
         }
 
@@ -141,6 +142,7 @@ namespace GraphSharp
                 _parentRegistry.Remove(v);
                 _childrenRegistry.Remove(v);
             }
+
             return removed;
         }
     }

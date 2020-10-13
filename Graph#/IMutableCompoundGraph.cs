@@ -1,10 +1,10 @@
-﻿using QuikGraph;
+using QuikGraph;
 
 namespace GraphSharp
 {
-    public interface IMutableCompoundGraph<TVertex, TEdge> 
+    public interface IMutableCompoundGraph<TVertex, TEdge>
         : ICompoundGraph<TVertex, TEdge>,
-          IMutableBidirectionalGraph<TVertex, TEdge> 
+            IMutableBidirectionalGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
     {
     }

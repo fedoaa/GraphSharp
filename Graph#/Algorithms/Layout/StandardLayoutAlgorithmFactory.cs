@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using GraphSharp.Algorithms.Layout.Contextual;
-using QuikGraph;
-using GraphSharp.Algorithms.Layout.Simple.Tree;
+using System.Windows;
+using GraphSharp.Algorithms.Layout.Compound;
+using GraphSharp.Algorithms.Layout.Compound.FDP;
 using GraphSharp.Algorithms.Layout.Simple.Circular;
 using GraphSharp.Algorithms.Layout.Simple.FDP;
 using GraphSharp.Algorithms.Layout.Simple.Hierarchical;
-using GraphSharp.Algorithms.Layout.Compound;
-using GraphSharp.Algorithms.Layout.Compound.FDP;
-using System.Windows;
+using GraphSharp.Algorithms.Layout.Simple.Tree;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout
 {
@@ -33,41 +32,41 @@ namespace GraphSharp.Algorithms.Layout
                 {
                     case "Tree":
                         return new SimpleTreeLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Positions,
-                                                                                     context.Sizes,
-                                                                                     parameters as SimpleTreeLayoutParameters);
+                            context.Sizes,
+                            parameters as SimpleTreeLayoutParameters);
                     case "Circular":
                         return new CircularLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Positions,
-                                                                                   context.Sizes,
-                                                                                   parameters as CircularLayoutParameters);
+                            context.Sizes,
+                            parameters as CircularLayoutParameters);
                     case "FR":
                         return new FRLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Positions,
-                                                                             parameters as FRLayoutParametersBase);
+                            parameters as FRLayoutParametersBase);
                     case "BoundedFR":
                         return new FRLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Positions,
-                                                                             parameters as BoundedFRLayoutParameters);
+                            parameters as BoundedFRLayoutParameters);
                     case "KK":
                         return new KKLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Positions,
-                                                                             parameters as KKLayoutParameters);
+                            parameters as KKLayoutParameters);
                     case "ISOM":
                         return new ISOMLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Positions,
-                                                                               parameters as ISOMLayoutParameters);
+                            parameters as ISOMLayoutParameters);
                     case "LinLog":
                         return new LinLogLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Positions,
-                                                                                 parameters as LinLogLayoutParameters);
+                            parameters as LinLogLayoutParameters);
                     case "EfficientSugiyama":
-                        return new EfficientSugiyamaLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, 
-                                                                                            parameters as EfficientSugiyamaLayoutParameters,
-                                                                                            context.Positions,
-                                                                                            context.Sizes);
+                        return new EfficientSugiyamaLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph,
+                            parameters as EfficientSugiyamaLayoutParameters,
+                            context.Positions,
+                            context.Sizes);
 
                     case "Sugiyama":
                         return new SugiyamaLayoutAlgorithm<TVertex, TEdge, TGraph>(context.Graph, context.Sizes,
-                                                                                   context.Positions,
-                                                                                   parameters as
-                                                                                   SugiyamaLayoutParameters,
-                                                                                   e => (e is TypedEdge<TVertex>
-                                                                                        ? (e as TypedEdge<TVertex>).Type
-                                                                                        : EdgeTypes.Hierarchical));
+                            context.Positions,
+                            parameters as
+                                SugiyamaLayoutParameters,
+                            e => (e is TypedEdge<TVertex>
+                                ? (e as TypedEdge<TVertex>).Type
+                                : EdgeTypes.Hierarchical));
                     case "CompoundFDP":
                         return new CompoundFDPLayoutAlgorithm<TVertex, TEdge, TGraph>(
                             context.Graph,
@@ -97,6 +96,7 @@ namespace GraphSharp.Algorithms.Layout
                         return null;
                 }
             }
+
             return null;
         }
 
@@ -155,10 +155,10 @@ namespace GraphSharp.Algorithms.Layout
         public bool NeedOverlapRemoval(string algorithmType)
         {
             return (algorithmType != "Sugiyama"
-                && algorithmType != "EfficientSugiyama"
-                && algorithmType != "Circular" 
-                && algorithmType != "Tree" 
-                && algorithmType != "CompoundFDP");
+                    && algorithmType != "EfficientSugiyama"
+                    && algorithmType != "Circular"
+                    && algorithmType != "Tree"
+                    && algorithmType != "CompoundFDP");
         }
     }
 }

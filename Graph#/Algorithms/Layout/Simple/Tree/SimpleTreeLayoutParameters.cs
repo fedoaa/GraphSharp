@@ -1,74 +1,78 @@
-﻿namespace GraphSharp.Algorithms.Layout.Simple.Tree
+namespace GraphSharp.Algorithms.Layout.Simple.Tree
 {
-	public class SimpleTreeLayoutParameters : LayoutParametersBase
-	{
-		private double vertexGap = 10;
-		/// <summary>
-		/// Gets or sets the gap between the vertices.
-		/// </summary>
-		public double VertexGap
-		{
-			get { return vertexGap; }
-			set
-			{
-				if ( vertexGap != value )
-				{
-					vertexGap = value;
-					NotifyPropertyChanged( "VertexGap" );
-				}
-			}
-		}
+    public class SimpleTreeLayoutParameters : LayoutParametersBase
+    {
+        private double vertexGap = 10;
 
-		private double layerGap = 10;
-		/// <summary>
-		/// Gets or sets the gap between the layers.
-		/// </summary>
-		public double LayerGap
-		{
-			get { return layerGap; }
-			set
-			{
-				if ( layerGap != value )
-				{
-					layerGap = value;
-					NotifyPropertyChanged( "LayerGap" );
-				}
-			}
-		}
+        /// <summary>
+        /// Gets or sets the gap between the vertices.
+        /// </summary>
+        public double VertexGap
+        {
+            get { return vertexGap; }
+            set
+            {
+                if (vertexGap != value)
+                {
+                    vertexGap = value;
+                    NotifyPropertyChanged("VertexGap");
+                }
+            }
+        }
 
-		private LayoutDirection direction = LayoutDirection.TopToBottom;
-		/// <summary>
-		/// Gets or sets the direction of the layout.
-		/// </summary>
-		public LayoutDirection Direction
-		{
-			get { return direction; }
-			set
-			{
-				if ( direction != value )
-				{
-					direction = value;
-					NotifyPropertyChanged( "Direction" );
-				}
-			}
-		}
+        private double layerGap = 10;
 
-		private SpanningTreeGeneration spanningTreeGeneration = SpanningTreeGeneration.DFS;
-		/// <summary>
-		/// Gets or sets the direction of the layout.
-		/// </summary>
-		public SpanningTreeGeneration SpanningTreeGeneration
-		{
-			get { return spanningTreeGeneration; }
-			set
-			{
-				if ( spanningTreeGeneration != value )
-				{
-					spanningTreeGeneration = value;
-					NotifyPropertyChanged( "SpanningTreeGeneration" );
-				}
-			}
-		}
+        /// <summary>
+        /// Gets or sets the gap between the layers.
+        /// </summary>
+        public double LayerGap
+        {
+            get { return layerGap; }
+            set
+            {
+                if (layerGap != value)
+                {
+                    layerGap = value;
+                    NotifyPropertyChanged("LayerGap");
+                }
+            }
+        }
+
+        private LayoutDirection direction = LayoutDirection.TopToBottom;
+
+        /// <summary>
+        /// Gets or sets the direction of the layout.
+        /// </summary>
+        public LayoutDirection Direction
+        {
+            get { return direction; }
+            set
+            {
+                if (direction != value)
+                {
+                    direction = value;
+                    NotifyPropertyChanged("Direction");
+                }
+            }
+        }
+
+        private SpanningTreeGeneration spanningTreeGeneration = SpanningTreeGeneration.DFS;
+
+        /// <summary>
+        /// Gets or sets the direction of the layout.
+        /// </summary>
+        public SpanningTreeGeneration SpanningTreeGeneration
+        {
+            get { return spanningTreeGeneration; }
+            set
+            {
+                if (spanningTreeGeneration != value)
+                {
+                    spanningTreeGeneration = value;
+                    NotifyPropertyChanged("SpanningTreeGeneration");
+                }
+            }
+        }
 
         private bool optimizeWidthAndHeight = false;
 
@@ -99,5 +103,5 @@
                 NotifyPropertyChanged("WidthPerHeight");
             }
         }
-	}
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using QuikGraph;
 
@@ -59,10 +59,12 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
         //http://www.link.cs.cmu.edu/link/ftp-site/splaying/SplayTree.java
         protected class SegmentContainer : List<Segment>, ISegmentContainer
         {
-
             public SegmentContainer() { }
+
             public SegmentContainer(int capacity)
-                : base(capacity) { }
+                : base(capacity)
+            {
+            }
 
             #region ISegmentContainer Members
 
@@ -113,6 +115,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 for (int i = k + 1; i < Count; i++)
                     sc2.Append(this[i]);
             }
+
             #endregion
 
             #region IData Members

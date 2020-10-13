@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -51,8 +51,8 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
         /// The list of the removed root-tree-nodes and edges by it's level
         /// (level = distance from the closest not removed node).
         /// </summary>
-        private readonly Stack<IList<RemovedTreeNodeData<TVertex,TEdge>>> _removedRootTreeNodeLevels =
-            new Stack<IList<RemovedTreeNodeData<TVertex,TEdge>>>();
+        private readonly Stack<IList<RemovedTreeNodeData<TVertex, TEdge>>> _removedRootTreeNodeLevels =
+            new Stack<IList<RemovedTreeNodeData<TVertex, TEdge>>>();
 
         private readonly HashSet<TVertex> _removedRootTreeNodes = new HashSet<TVertex>();
 
@@ -144,19 +144,19 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
             private ICollection<VertexData> _children;
 
             public CompoundVertexData(TVertex vertex,
-                                      VertexData movableParent,
-                                      bool isFixedToParent,
-                                      Point position,
-                                      Size size,
-                                      Thickness borders,
-                                      CompoundVertexInnerLayoutType innerVertexLayoutType)
+                VertexData movableParent,
+                bool isFixedToParent,
+                Point position,
+                Size size,
+                Thickness borders,
+                CompoundVertexInnerLayoutType innerVertexLayoutType)
                 : base(vertex, movableParent, isFixedToParent, position)
             {
                 Borders = borders;
 
                 //calculate the size of the inner canvas
                 InnerCanvasSize = new Size(Math.Max(0.0, size.Width - Borders.Left - Borders.Right),
-                                           Math.Max(0.0, size.Height - Borders.Top - Borders.Bottom));
+                    Math.Max(0.0, size.Height - Borders.Top - Borders.Bottom));
                 InnerVertexLayoutType = innerVertexLayoutType;
             }
 
@@ -172,7 +172,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
 
                     //set the size of the canvas
                     _size = new Size(_innerCanvasSize.Width + Borders.Left + Borders.Right,
-                                     _innerCanvasSize.Height + Borders.Top + Borders.Bottom);
+                        _innerCanvasSize.Height + Borders.Top + Borders.Bottom);
                 }
             }
 
@@ -220,14 +220,14 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                     return new Point(
                         Position.X - Size.Width / 2 + Borders.Left + InnerCanvasSize.Width / 2,
                         Position.Y - Size.Height / 2 + Borders.Top + InnerCanvasSize.Height / 2
-                        );
+                    );
                 }
                 set
                 {
                     Position = new Point(
                         value.X - InnerCanvasSize.Width / 2 - Borders.Left + Size.Width / 2,
                         value.Y - InnerCanvasSize.Height / 2 - Borders.Top + Size.Height / 2
-                        );
+                    );
                 }
             }
 
@@ -249,6 +249,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                     bottomRight.X = Math.Max(bottomRight.X, child.Position.X + child.Size.Width / 2);
                     bottomRight.Y = Math.Max(bottomRight.Y, child.Position.Y + child.Size.Height / 2);
                 }
+
                 InnerCanvasSize = new Size(bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y);
                 InnerCanvasCenter = new Point((topLeft.X + bottomRight.X) / 2.0, (topLeft.Y + bottomRight.Y) / 2.0);
             }
@@ -298,6 +299,7 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
             /// Gets the vertex which is wrapped by this object.
             /// </summary>
             public readonly TVertex Vertex;
+
             public CompoundVertexData Parent;
             private Vector _springForce;
             private Vector _repulsionForce;
@@ -354,7 +356,8 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 {
                     if (IsFixedToParent)
                         _springForce = new Vector();
-                    else _springForce = value;
+                    else
+                        _springForce = value;
                 }
             }
 
@@ -368,7 +371,8 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 {
                     if (IsFixedToParent)
                         _repulsionForce = new Vector();
-                    else _repulsionForce = value;
+                    else
+                        _repulsionForce = value;
                 }
             }
 
@@ -382,7 +386,8 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 {
                     if (IsFixedToParent)
                         _gravitationForce = new Vector();
-                    else _gravitationForce = value;
+                    else
+                        _gravitationForce = value;
                 }
             }
 
@@ -396,18 +401,20 @@ namespace GraphSharp.Algorithms.Layout.Compound.FDP
                 {
                     if (IsFixedToParent)
                         _applicationForce = new Vector();
-                    else _applicationForce = value;
+                    else
+                        _applicationForce = value;
                 }
             }
 
             internal abstract void ApplyForce(Vector force);
+
             public Vector ApplyForce(double limit)
             {
                 var force = _springForce
-                    + _repulsionForce
-                    + _gravitationForce
-                    + _applicationForce
-                    + 0.5 * _childrenForce;
+                            + _repulsionForce
+                            + _gravitationForce
+                            + _applicationForce
+                            + 0.5 * _childrenForce;
 
                 Parent._childrenForce += force;
 

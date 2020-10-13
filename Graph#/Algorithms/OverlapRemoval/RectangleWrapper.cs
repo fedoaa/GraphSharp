@@ -2,47 +2,48 @@ using System.Windows;
 
 namespace GraphSharp.Algorithms.OverlapRemoval
 {
-	/// <summary>
-	/// A System.Windows.Rect egy strukt˙ra, ezÈrt a heap-en t·rolÛdik. Bizonyos esetekben ez nem
-	/// szerencsÈs, Ìgy sz¸ksÈg van erre a wrapper oszt·lyra. Mivel ez class, ezÈrt nem
-	/// ÈrtÈk szerinti ·tad·s van.
-	/// </summary>
-	public class RectangleWrapper<TObject>
-		where TObject : class
-	{
-		private readonly TObject id;
-		public TObject Id
-		{
-			get { return id; }
-		}
+    /// <summary>
+    /// A System.Windows.Rect egy strukt√∫ra, ez√©rt a heap-en t√°rol√≥dik. Bizonyos esetekben ez nem
+    /// szerencs√©s, √≠gy sz√ºks√©g van erre a wrapper oszt√°lyra. Mivel ez class, ez√©rt nem
+    /// √©rt√©k szerinti √°tad√°s van.
+    /// </summary>
+    public class RectangleWrapper<TObject>
+        where TObject : class
+    {
+        private readonly TObject id;
 
-		public Rect Rectangle;
+        public TObject Id
+        {
+            get { return id; }
+        }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="rectangle"></param>
-		/// <param name="id">Az adott tÈglalap azonosÌtÛja (az overlap-removal vÈgÈn tudnunk kell, hogy 
-		/// melyik tÈglalap melyik objektumhoz tartozik. Az azonosÌt·s megoldhatÛ lesz id alapj·n.</param>
-		public RectangleWrapper( Rect rectangle, TObject id )
-		{
-			Rectangle = rectangle;
-			this.id = id;
-		}
+        public Rect Rectangle;
 
-		public double CenterX
-		{
-			get { return Rectangle.Left + Rectangle.Width / 2; }
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="id">Az adott t√©glalap azonos√≠t√≥ja (az overlap-removal v√©g√©n tudnunk kell, hogy 
+        /// melyik t√©glalap melyik objektumhoz tartozik. Az azonos√≠t√°s megoldhat√≥ lesz id alapj√°n.</param>
+        public RectangleWrapper(Rect rectangle, TObject id)
+        {
+            Rectangle = rectangle;
+            this.id = id;
+        }
 
-		public double CenterY
-		{
-			get { return Rectangle.Top + Rectangle.Height / 2; }
-		}
+        public double CenterX
+        {
+            get { return Rectangle.Left + Rectangle.Width / 2; }
+        }
 
-		public Point Center
-		{
-			get { return new Point( CenterX, CenterY ); }
-		}
-	}
+        public double CenterY
+        {
+            get { return Rectangle.Top + Rectangle.Height / 2; }
+        }
+
+        public Point Center
+        {
+            get { return new Point(CenterX, CenterY); }
+        }
+    }
 }

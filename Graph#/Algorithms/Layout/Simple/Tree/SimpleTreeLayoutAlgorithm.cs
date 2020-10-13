@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -19,22 +19,22 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
         readonly IList<Layer> _layers = new List<Layer>();
         int _direction;
 
-        public SimpleTreeLayoutAlgorithm( TGraph visitedGraph, IDictionary<TVertex, Point> vertexPositions, IDictionary<TVertex, Size> vertexSizes, SimpleTreeLayoutParameters parameters )
-            : base( visitedGraph, vertexPositions, parameters )
+        public SimpleTreeLayoutAlgorithm(TGraph visitedGraph, IDictionary<TVertex, Point> vertexPositions, IDictionary<TVertex, Size> vertexSizes, SimpleTreeLayoutParameters parameters)
+            : base(visitedGraph, vertexPositions, parameters)
         {
-            _sizes = new Dictionary<TVertex, Size>( vertexSizes );
+            _sizes = new Dictionary<TVertex, Size>(vertexSizes);
         }
 
         protected override void InternalCompute()
         {
-            if ( Parameters.Direction == LayoutDirection.LeftToRight || Parameters.Direction == LayoutDirection.RightToLeft )
+            if (Parameters.Direction == LayoutDirection.LeftToRight || Parameters.Direction == LayoutDirection.RightToLeft)
             {
                 //change the sizes
-                foreach ( var sizePair in _sizes.ToArray() )
-                    _sizes[sizePair.Key] = new Size( sizePair.Value.Height, sizePair.Value.Width );
+                foreach (var sizePair in _sizes.ToArray())
+                    _sizes[sizePair.Key] = new Size(sizePair.Value.Height, sizePair.Value.Width);
             }
 
-            if ( Parameters.Direction == LayoutDirection.RightToLeft || Parameters.Direction == LayoutDirection.BottomToTop )
+            if (Parameters.Direction == LayoutDirection.RightToLeft || Parameters.Direction == LayoutDirection.BottomToTop)
                 _direction = -1;
             else
                 _direction = 1;
@@ -42,12 +42,12 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
             GenerateSpanningTree();
 
             //first layout the vertices with 0 in-edge
-            foreach ( var source in _spanningTree.Vertices.Where( v => _spanningTree.InDegree( v ) == 0 ) )
-                CalculatePosition( source, null, 0 );
+            foreach (var source in _spanningTree.Vertices.Where(v => _spanningTree.InDegree(v) == 0))
+                CalculatePosition(source, null, 0);
 
             //then the others
-            foreach ( var source in _spanningTree.Vertices )
-                CalculatePosition( source, null, 0 );
+            foreach (var source in _spanningTree.Vertices)
+                CalculatePosition(source, null, 0);
 
             AssignPositions();
         }
@@ -62,13 +62,13 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
             switch (Parameters.SpanningTreeGeneration)
             {
                 case SpanningTreeGeneration.BFS:
-                    var bfsAlgo = new BreadthFirstSearchAlgorithm<TVertex, TEdge>( VisitedGraph, vb, new Dictionary<TVertex, GraphColor>() );
-                    bfsAlgo.TreeEdge += e => _spanningTree.AddEdge( new Edge<TVertex>( e.Source, e.Target ) );
+                    var bfsAlgo = new BreadthFirstSearchAlgorithm<TVertex, TEdge>(VisitedGraph, vb, new Dictionary<TVertex, GraphColor>());
+                    bfsAlgo.TreeEdge += e => _spanningTree.AddEdge(new Edge<TVertex>(e.Source, e.Target));
                     bfsAlgo.Compute();
                     break;
                 case SpanningTreeGeneration.DFS:
-                    var dfsAlgo = new DepthFirstSearchAlgorithm<TVertex, TEdge>( VisitedGraph );
-                    dfsAlgo.TreeEdge += e => _spanningTree.AddEdge( new Edge<TVertex>( e.Source, e.Target ) );
+                    var dfsAlgo = new DepthFirstSearchAlgorithm<TVertex, TEdge>(VisitedGraph);
+                    dfsAlgo.TreeEdge += e => _spanningTree.AddEdge(new Edge<TVertex>(e.Source, e.Target));
                     dfsAlgo.Compute();
                     break;
             }
@@ -88,14 +88,15 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
             _data[v] = d;
 
             layer.NextPosition += size.Width / 2.0;
-            if ( l > 0 )
+            if (l > 0)
             {
                 layer.NextPosition += _layers[l - 1].LastTranslate;
                 _layers[l - 1].LastTranslate = 0;
             }
-            layer.Size = Math.Max( layer.Size, size.Height + Parameters.LayerGap );
-            layer.Vertices.Add( v );
-            if ( _spanningTree.OutDegree( v ) == 0 )
+
+            layer.Size = Math.Max(layer.Size, size.Height + Parameters.LayerGap);
+            layer.Vertices.Add(v);
+            if (_spanningTree.OutDegree(v) == 0)
             {
                 d.Position = layer.NextPosition;
             }
@@ -104,25 +105,27 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
                 double minPos = double.MaxValue;
                 double maxPos = -double.MaxValue;
                 //first put the children
-                foreach ( var child in _spanningTree.OutEdges( v ).Select( e => e.Target ) )
+                foreach (var child in _spanningTree.OutEdges(v).Select(e => e.Target))
                 {
-                    double childPos = CalculatePosition( child, v, l + 1 );
-                    if ( childPos >= 0 )
+                    double childPos = CalculatePosition(child, v, l + 1);
+                    if (childPos >= 0)
                     {
-                        minPos = Math.Min( minPos, childPos );
-                        maxPos = Math.Max( maxPos, childPos );
+                        minPos = Math.Min(minPos, childPos);
+                        maxPos = Math.Max(maxPos, childPos);
                     }
                 }
-                if ( minPos != double.MaxValue )
-                    d.Position = ( minPos + maxPos ) / 2.0;
+
+                if (minPos != double.MaxValue)
+                    d.Position = (minPos + maxPos) / 2.0;
                 else
                     d.Position = layer.NextPosition;
-                d.Translate = Math.Max( layer.NextPosition - d.Position, 0 );
+                d.Translate = Math.Max(layer.NextPosition - d.Position, 0);
 
                 layer.LastTranslate = d.Translate;
                 d.Position += d.Translate;
                 layer.NextPosition = d.Position;
             }
+
             layer.NextPosition += size.Width / 2.0 + Parameters.VertexGap;
 
             return d.Position;
@@ -131,15 +134,15 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
         protected void AssignPositions()
         {
             double layerSize = 0;
-            bool changeCoordinates = ( Parameters.Direction == LayoutDirection.LeftToRight || Parameters.Direction == LayoutDirection.RightToLeft );
+            bool changeCoordinates = (Parameters.Direction == LayoutDirection.LeftToRight || Parameters.Direction == LayoutDirection.RightToLeft);
 
-            foreach ( var layer in _layers )
+            foreach (var layer in _layers)
             {
-                foreach ( var v in layer.Vertices )
+                foreach (var v in layer.Vertices)
                 {
                     Size size = _sizes[v];
                     var d = _data[v];
-                    if ( d.Parent != null )
+                    if (d.Parent != null)
                     {
                         d.Position += _data[d.Parent].Translate;
                         d.Translate += _data[d.Parent].Translate;
@@ -147,13 +150,14 @@ namespace GraphSharp.Algorithms.Layout.Simple.Tree
 
                     VertexPositions[v] =
                         changeCoordinates
-                            ? new Point( _direction * ( layerSize + size.Height / 2.0 ), d.Position )
-                            : new Point( d.Position, _direction * ( layerSize + size.Height / 2.0 ) );
+                            ? new Point(_direction * (layerSize + size.Height / 2.0), d.Position)
+                            : new Point(d.Position, _direction * (layerSize + size.Height / 2.0));
                 }
+
                 layerSize += layer.Size;
             }
 
-            if ( _direction < 0 )
+            if (_direction < 0)
                 NormalizePositions();
         }
     }

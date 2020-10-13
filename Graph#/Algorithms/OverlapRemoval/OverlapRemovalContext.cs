@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace GraphSharp.Algorithms.OverlapRemoval
@@ -7,7 +7,7 @@ namespace GraphSharp.Algorithms.OverlapRemoval
     {
         public IDictionary<TVertex, Rect> Rectangles { get; private set; }
 
-        public OverlapRemovalContext( IDictionary<TVertex, Rect> rectangles )
+        public OverlapRemovalContext(IDictionary<TVertex, Rect> rectangles)
         {
             Rectangles = rectangles;
         }

@@ -19,24 +19,25 @@ namespace GraphSharp.Controls
             base.OnApplyTemplate();
 
             // get the control of the inner canvas
-            InnerCanvas = Template.FindName(PartInnerCanvas,this) as FrameworkElement ?? this;
+            InnerCanvas = Template.FindName(PartInnerCanvas, this) as FrameworkElement ?? this;
         }
 
         #region Dependency Properties
 
         public ObservableCollection<VertexControl> Vertices
         {
-            get { return (ObservableCollection<VertexControl>)GetValue(VerticesProperty); }
+            get { return (ObservableCollection<VertexControl>) GetValue(VerticesProperty); }
             protected set { SetValue(VerticesPropertyKey, value); }
         }
 
         public static readonly DependencyProperty VerticesProperty;
+
         protected static readonly DependencyPropertyKey VerticesPropertyKey =
             DependencyProperty.RegisterReadOnly("Vertices", typeof(ObservableCollection<VertexControl>), typeof(CompoundVertexControl), new UIPropertyMetadata(null));
 
         public CompoundVertexInnerLayoutType LayoutMode
         {
-            get { return (CompoundVertexInnerLayoutType)GetValue(LayoutModeProperty); }
+            get { return (CompoundVertexInnerLayoutType) GetValue(LayoutModeProperty); }
             set { SetValue(LayoutModeProperty, value); }
         }
 
@@ -46,7 +47,7 @@ namespace GraphSharp.Controls
 
         public bool IsExpanded
         {
-            get { return (bool)GetValue(IsExpandedProperty); }
+            get { return (bool) GetValue(IsExpandedProperty); }
             set { SetValue(IsExpandedProperty, value); }
         }
 
@@ -55,8 +56,8 @@ namespace GraphSharp.Controls
 
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var compoundVertexControl = (CompoundVertexControl)d;
-            if ((bool)e.NewValue)
+            var compoundVertexControl = (CompoundVertexControl) d;
+            if ((bool) e.NewValue)
             {
                 compoundVertexControl.RaiseEvent(new RoutedEventArgs(ExpandedEvent, compoundVertexControl));
             }
@@ -68,7 +69,7 @@ namespace GraphSharp.Controls
 
         public Point InnerCanvasOrigo
         {
-            get { return (Point)GetValue(InnerCanvasOrigoProperty); }
+            get { return (Point) GetValue(InnerCanvasOrigoProperty); }
             set { SetValue(InnerCanvasOrigoProperty, value); }
         }
 
@@ -138,6 +139,7 @@ namespace GraphSharp.Controls
         #endregion
 
         #region Routed Events
+
         public static readonly RoutedEvent ExpandedEvent =
             EventManager.RegisterRoutedEvent("Expanded", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CompoundVertexControl));
 
@@ -155,6 +157,7 @@ namespace GraphSharp.Controls
             add { AddHandler(CollapsedEvent, value); }
             remove { RemoveHandler(CollapsedEvent, value); }
         }
+
         #endregion
 
         #region ICompoundVertexControl Members

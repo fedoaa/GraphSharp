@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using QuikGraph;
 
@@ -13,7 +13,7 @@ namespace GraphSharp.Contracts
     /// <typeparam name="TEdge">
     /// Type of the edge.
     /// </typeparam>
-    [ContractClassFor( typeof( ICompoundGraph<,> ) )]
+    [ContractClassFor(typeof(ICompoundGraph<,>))]
     internal sealed class ICompoundGraphContract<TVertex, TEdge>
         : BidirectionalGraph<TVertex, TEdge>, ICompoundGraph<TVertex, TEdge>
         where TEdge : IEdge<TVertex>
@@ -21,75 +21,75 @@ namespace GraphSharp.Contracts
         #region ICompoundGraph<TVertex,TEdge> Members
 
         [Pure]
-        bool ICompoundGraph<TVertex, TEdge>.AddChildVertex( TVertex parent, TVertex child )
+        bool ICompoundGraph<TVertex, TEdge>.AddChildVertex(TVertex parent, TVertex child)
         {
             ICompoundGraph<TVertex, TEdge> ithis = this;
-            Contract.Requires( !parent.Equals( default( TVertex ) ) );
-            Contract.Requires( ithis.ContainsVertex( parent ) );
+            Contract.Requires(!parent.Equals(default(TVertex)));
+            Contract.Requires(ithis.ContainsVertex(parent));
 
-            return default( bool );
+            return default(bool);
         }
 
         [Pure]
-        int ICompoundGraph<TVertex, TEdge>.AddChildVertexRange( TVertex parent, IEnumerable<TVertex> children )
+        int ICompoundGraph<TVertex, TEdge>.AddChildVertexRange(TVertex parent, IEnumerable<TVertex> children)
         {
             ICompoundGraph<TVertex, TEdge> ithis = this;
-            Contract.Requires( !parent.Equals( default( TVertex ) ) );
-            Contract.Requires( ithis.ContainsVertex( parent ) );
-            Contract.Ensures( Contract.Result<int>() >= 0 );
+            Contract.Requires(!parent.Equals(default(TVertex)));
+            Contract.Requires(ithis.ContainsVertex(parent));
+            Contract.Ensures(Contract.Result<int>() >= 0);
 
-            return default( int );
+            return default(int);
         }
 
         [Pure]
-        TVertex ICompoundGraph<TVertex, TEdge>.GetParent( TVertex vertex )
+        TVertex ICompoundGraph<TVertex, TEdge>.GetParent(TVertex vertex)
         {
             ICompoundGraph<TVertex, TEdge> ithis = this;
-            Contract.Requires( !vertex.Equals( default( TVertex ) ) );
-            Contract.Requires( ithis.ContainsVertex( vertex ) );
+            Contract.Requires(!vertex.Equals(default(TVertex)));
+            Contract.Requires(ithis.ContainsVertex(vertex));
             //TODO this is a bug in the MS Contract, i think -- solve it
             //Contract.Ensures( Contract.Result<TVertex>().Equals( default( TVertex ) ) || ithis.ContainsVertex( Contract.Result<TVertex>() ) );
 
-            return default( TVertex );
+            return default(TVertex);
         }
 
         [Pure]
-        bool ICompoundGraph<TVertex, TEdge>.IsChildVertex( TVertex vertex )
+        bool ICompoundGraph<TVertex, TEdge>.IsChildVertex(TVertex vertex)
         {
             ICompoundGraph<TVertex, TEdge> ithis = this;
-            Contract.Requires( !vertex.Equals( default( TVertex ) ) );
-            Contract.Requires( ithis.ContainsVertex( vertex ) );
+            Contract.Requires(!vertex.Equals(default(TVertex)));
+            Contract.Requires(ithis.ContainsVertex(vertex));
 
-            return default( bool );
+            return default(bool);
         }
 
         [Pure]
-        IEnumerable<TVertex> ICompoundGraph<TVertex, TEdge>.GetChildrenVertices( TVertex vertex )
+        IEnumerable<TVertex> ICompoundGraph<TVertex, TEdge>.GetChildrenVertices(TVertex vertex)
         {
             ICompoundGraph<TVertex, TEdge> ithis = this;
-            Contract.Requires( !vertex.Equals( default( TVertex ) ) );
-            Contract.Requires( ithis.ContainsVertex( vertex ) );
+            Contract.Requires(!vertex.Equals(default(TVertex)));
+            Contract.Requires(ithis.ContainsVertex(vertex));
 
             return new List<TVertex>();
         }
 
         [Pure]
-        int ICompoundGraph<TVertex, TEdge>.GetChildrenCount( TVertex vertex )
+        int ICompoundGraph<TVertex, TEdge>.GetChildrenCount(TVertex vertex)
         {
             ICompoundGraph<TVertex, TEdge> ithis = this;
-            Contract.Requires( ithis.ContainsVertex( vertex ) );
-            Contract.Ensures( Contract.Result<int>() >= 0 );
+            Contract.Requires(ithis.ContainsVertex(vertex));
+            Contract.Ensures(Contract.Result<int>() >= 0);
 
-            return default( int );
+            return default(int);
         }
 
         [Pure]
-        bool ICompoundGraph<TVertex, TEdge>.IsCompoundVertex( TVertex vertex )
+        bool ICompoundGraph<TVertex, TEdge>.IsCompoundVertex(TVertex vertex)
         {
-            Contract.Requires( vertex != null );
-            Contract.Requires( ContainsVertex( vertex ) );
+            Contract.Requires(vertex != null);
+            Contract.Requires(ContainsVertex(vertex));
 
-            return default( bool );
+            return default(bool);
         }
 
         IEnumerable<TVertex> ICompoundGraph<TVertex, TEdge>.CompoundVertices

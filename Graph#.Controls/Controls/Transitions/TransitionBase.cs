@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Controls;
 
 namespace GraphSharp.Controls.Transitions
@@ -9,7 +9,7 @@ namespace GraphSharp.Controls.Transitions
 
         public void Run(IAnimationContext context, Control control, TimeSpan duration)
         {
-            Run( context, control, duration, null );
+            Run(context, control, duration, null);
         }
 
         public abstract void Run(IAnimationContext context, Control control, TimeSpan duration, Action<Control> endMethod);

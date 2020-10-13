@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using GraphSharp.Controls;
 using QuikGraph;
@@ -6,10 +6,11 @@ using QuikGraph;
 namespace GraphSharp.Serialization
 {
     public abstract class GraphInfo
-    {}
+    {
+    }
 
     public class GraphInfo<TVertex, TVertexInfo, TEdge, TEdgeInfo, TGraph> : GraphInfo
-        where TVertex : class 
+        where TVertex : class
         where TVertexInfo : VertexInfo<TVertex>, new()
         where TEdge : class, IEdge<TVertex>
         where TEdgeInfo : EdgeInfo<TEdge>, new()
@@ -46,7 +47,7 @@ namespace GraphSharp.Serialization
             {
                 TEdgeInfo info = new TEdgeInfo
                 {
-                    ID = graph.Edges.Count, 
+                    ID = graph.Edges.Count,
 
                     SourceID = GetId(control.Source.Vertex as TVertex, vertecesSet),
                     TargetID = GetId(control.Target.Vertex as TVertex, vertecesSet)
@@ -67,19 +68,19 @@ namespace GraphSharp.Serialization
             return -1;
         }
 
-//        var g = new BidirectionalGraph<object, IEdge<object>>();
-//        var vertices = new object[] { "S", "A", "M", "P", "L", "E" };
-//        var edges = new IEdge<object>[] {
-//            new Edge<object>(vertices[0], vertices[1]),
-//            new Edge<object>(vertices[1], vertices[2]),
-//            new Edge<object>(vertices[1], vertices[3]),
-//            new Edge<object>(vertices[3], vertices[4]),
-//            new Edge<object>(vertices[0], vertices[4]),
-//            new Edge<object>(vertices[4], vertices[5])
-//        };
-//        g.AddVerticesAndEdgeRange(edges);
-//        OverlapRemovalAlgorithmType = "FSA";
-//        LayoutAlgorithmType = "FR";
-//        Graph = g;
+        //        var g = new BidirectionalGraph<object, IEdge<object>>();
+        //        var vertices = new object[] { "S", "A", "M", "P", "L", "E" };
+        //        var edges = new IEdge<object>[] {
+        //            new Edge<object>(vertices[0], vertices[1]),
+        //            new Edge<object>(vertices[1], vertices[2]),
+        //            new Edge<object>(vertices[1], vertices[3]),
+        //            new Edge<object>(vertices[3], vertices[4]),
+        //            new Edge<object>(vertices[0], vertices[4]),
+        //            new Edge<object>(vertices[4], vertices[5])
+        //        };
+        //        g.AddVerticesAndEdgeRange(edges);
+        //        OverlapRemovalAlgorithmType = "FSA";
+        //        LayoutAlgorithmType = "FR";
+        //        Graph = g;
     }
 }

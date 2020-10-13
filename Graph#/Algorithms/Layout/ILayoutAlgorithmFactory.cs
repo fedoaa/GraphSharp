@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout
@@ -17,21 +17,21 @@ namespace GraphSharp.Algorithms.Layout
         /// <param name="context"></param>
         /// <param name="parameters"></param>
         /// <returns>The new layout algorithm object.</returns>
-        ILayoutAlgorithm<TVertex, TEdge, TGraph> CreateAlgorithm( string newAlgorithmType, ILayoutContext<TVertex, TEdge, TGraph> context, ILayoutParameters parameters );
+        ILayoutAlgorithm<TVertex, TEdge, TGraph> CreateAlgorithm(string newAlgorithmType, ILayoutContext<TVertex, TEdge, TGraph> context, ILayoutParameters parameters);
 
-        ILayoutParameters CreateParameters( string algorithmType, ILayoutParameters oldParameters );
+        ILayoutParameters CreateParameters(string algorithmType, ILayoutParameters oldParameters);
 
-        bool IsValidAlgorithm( string algorithmType );
+        bool IsValidAlgorithm(string algorithmType);
 
         /// <summary>
         /// Gets the type of the algorithm (usually the name of the algorithm which identifies the algorithm).
         /// </summary>
         /// <param name="algorithm">The layout algorithm object.</param>
         /// <returns>The identified of the algorithm.</returns>
-        string GetAlgorithmType( ILayoutAlgorithm<TVertex, TEdge, TGraph> algorithm );
+        string GetAlgorithmType(ILayoutAlgorithm<TVertex, TEdge, TGraph> algorithm);
 
-        bool NeedEdgeRouting( string algorithmType );
+        bool NeedEdgeRouting(string algorithmType);
 
-        bool NeedOverlapRemoval( string algorithmType );
+        bool NeedOverlapRemoval(string algorithmType);
     }
 }

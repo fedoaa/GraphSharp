@@ -1,8 +1,8 @@
-﻿namespace GraphSharp.Algorithms.Layout.Simple.Tree
+namespace GraphSharp.Algorithms.Layout.Simple.Tree
 {
     public enum SpanningTreeGeneration
     {
-        BFS, 
+        BFS,
         DFS
     }
 }

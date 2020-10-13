@@ -1,189 +1,193 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using QuikGraph;
 
 namespace GraphSharp
 {
     public class SoftMutableBidirectionalGraph<TVertex, TEdge> : BidirectionalGraph<TVertex, TEdge>, ISoftMutableGraph<TVertex, TEdge>
-		where TEdge : IEdge<TVertex>
-	{
-		private GraphHideHelper<TVertex, TEdge> _hideHelper;
+        where TEdge : IEdge<TVertex>
+    {
+        private GraphHideHelper<TVertex, TEdge> _hideHelper;
 
-		#region Events
-		public event EdgeAction<TVertex, TEdge> EdgeHidden
-		{
-			add { _hideHelper.EdgeHidden += value;}
-			remove { _hideHelper.EdgeHidden -= value;}
-		}
-		public event EdgeAction<TVertex, TEdge> EdgeUnhidden
-		{
-			add { _hideHelper.EdgeUnhidden += value;}
-			remove { _hideHelper.EdgeUnhidden -= value;}
-		}
+        #region Events
 
-		public event VertexAction<TVertex> VertexHidden
-		{
-			add { _hideHelper.VertexHidden += value;}
-			remove { _hideHelper.VertexHidden -= value;}
-		}
-		public event VertexAction<TVertex> VertexUnhidden
-		{
-			add { _hideHelper.VertexUnhidden += value;}
-			remove { _hideHelper.VertexUnhidden -= value;}
-		}
-		#endregion
+        public event EdgeAction<TVertex, TEdge> EdgeHidden
+        {
+            add { _hideHelper.EdgeHidden += value; }
+            remove { _hideHelper.EdgeHidden -= value; }
+        }
 
-		protected void Init()
-		{
-			_hideHelper = new GraphHideHelper<TVertex, TEdge>( this );
-		}
+        public event EdgeAction<TVertex, TEdge> EdgeUnhidden
+        {
+            add { _hideHelper.EdgeUnhidden += value; }
+            remove { _hideHelper.EdgeUnhidden -= value; }
+        }
 
-		public SoftMutableBidirectionalGraph()
-		{
-			Init();
-		}
+        public event VertexAction<TVertex> VertexHidden
+        {
+            add { _hideHelper.VertexHidden += value; }
+            remove { _hideHelper.VertexHidden -= value; }
+        }
 
-		public SoftMutableBidirectionalGraph( bool allowParallelEdges )
-			: base( allowParallelEdges )
-		{
-			Init();
-		}
+        public event VertexAction<TVertex> VertexUnhidden
+        {
+            add { _hideHelper.VertexUnhidden += value; }
+            remove { _hideHelper.VertexUnhidden -= value; }
+        }
 
-		public SoftMutableBidirectionalGraph( bool allowParallelEdges, int vertexCapacity)
-			: base( allowParallelEdges, vertexCapacity )
-		{
-			Init();
-		}
+        #endregion
 
-		//Delegating the calls to the GraphHideHelper helper class
+        protected void Init()
+        {
+            _hideHelper = new GraphHideHelper<TVertex, TEdge>(this);
+        }
 
-		#region ISoftMutableGraph<TVertex,TEdge> Members
+        public SoftMutableBidirectionalGraph()
+        {
+            Init();
+        }
 
-		public bool HideVertex( TVertex v )
-		{
-			return _hideHelper.HideVertex( v );
-		}
+        public SoftMutableBidirectionalGraph(bool allowParallelEdges)
+            : base(allowParallelEdges)
+        {
+            Init();
+        }
 
-		public bool HideVertex( TVertex v, string tag )
-		{
-			return _hideHelper.HideVertex( v, tag );
-		}
+        public SoftMutableBidirectionalGraph(bool allowParallelEdges, int vertexCapacity)
+            : base(allowParallelEdges, vertexCapacity)
+        {
+            Init();
+        }
 
-		public void HideVertices( IEnumerable<TVertex> vertices )
-		{
-			_hideHelper.HideVertices( vertices );
-		}
+        //Delegating the calls to the GraphHideHelper helper class
 
-		public void HideVertices( IEnumerable<TVertex> vertices, string tag )
-		{
-			_hideHelper.HideVertices( vertices, tag );
-		}
+        #region ISoftMutableGraph<TVertex,TEdge> Members
 
-		public void HideVerticesIf( Func<TVertex, bool> predicate, string tag )
-		{
-			_hideHelper.HideVerticesIf( predicate, tag );
-		}
+        public bool HideVertex(TVertex v)
+        {
+            return _hideHelper.HideVertex(v);
+        }
 
-		public bool IsHiddenVertex( TVertex v )
-		{
-			return _hideHelper.IsHiddenVertex( v );
-		}
+        public bool HideVertex(TVertex v, string tag)
+        {
+            return _hideHelper.HideVertex(v, tag);
+        }
 
-		public bool UnhideVertex( TVertex v )
-		{
-			return _hideHelper.UnhideVertex( v );
-		}
+        public void HideVertices(IEnumerable<TVertex> vertices)
+        {
+            _hideHelper.HideVertices(vertices);
+        }
 
-		public void UnhideVertexAndEdges( TVertex v )
-		{
-			_hideHelper.UnhideVertexAndEdges( v );
-		}
+        public void HideVertices(IEnumerable<TVertex> vertices, string tag)
+        {
+            _hideHelper.HideVertices(vertices, tag);
+        }
 
-		public IEnumerable<TVertex> HiddenVertices
-		{
-			get { return _hideHelper.HiddenVertices; }
-		}
+        public void HideVerticesIf(Func<TVertex, bool> predicate, string tag)
+        {
+            _hideHelper.HideVerticesIf(predicate, tag);
+        }
 
-		public int HiddenVertexCount
-		{
-			get { return _hideHelper.HiddenVertexCount; }
-		}
+        public bool IsHiddenVertex(TVertex v)
+        {
+            return _hideHelper.IsHiddenVertex(v);
+        }
 
-		public bool HideEdge( TEdge e )
-		{
-			return _hideHelper.HideEdge( e );
-		}
+        public bool UnhideVertex(TVertex v)
+        {
+            return _hideHelper.UnhideVertex(v);
+        }
 
-		public bool HideEdge( TEdge e, string tag )
-		{
-			return _hideHelper.HideEdge( e, tag );
-		}
+        public void UnhideVertexAndEdges(TVertex v)
+        {
+            _hideHelper.UnhideVertexAndEdges(v);
+        }
 
-		public void HideEdges( IEnumerable<TEdge> edges )
-		{
-			_hideHelper.HideEdges( edges );
-		}
+        public IEnumerable<TVertex> HiddenVertices
+        {
+            get { return _hideHelper.HiddenVertices; }
+        }
 
-		public void HideEdges( IEnumerable<TEdge> edges, string tag )
-		{
-			_hideHelper.HideEdges( edges, tag );
-		}
+        public int HiddenVertexCount
+        {
+            get { return _hideHelper.HiddenVertexCount; }
+        }
 
-		public void HideEdgesIf( Func<TEdge, bool> predicate, string tag )
-		{
-			_hideHelper.HideEdgesIf( predicate, tag );
-		}
+        public bool HideEdge(TEdge e)
+        {
+            return _hideHelper.HideEdge(e);
+        }
 
-		public bool IsHiddenEdge( TEdge e )
-		{
-			return _hideHelper.IsHiddenEdge( e );
-		}
+        public bool HideEdge(TEdge e, string tag)
+        {
+            return _hideHelper.HideEdge(e, tag);
+        }
 
-		public bool UnhideEdge( TEdge e )
-		{
-			return _hideHelper.UnhideEdge( e );
-		}
+        public void HideEdges(IEnumerable<TEdge> edges)
+        {
+            _hideHelper.HideEdges(edges);
+        }
 
-		public void UnhideEdges( IEnumerable<TEdge> edges )
-		{
-			_hideHelper.UnhideEdges( edges );
-		}
+        public void HideEdges(IEnumerable<TEdge> edges, string tag)
+        {
+            _hideHelper.HideEdges(edges, tag);
+        }
 
-		public void UnhideEdgesIf( Func<TEdge, bool> predicate )
-		{
-			_hideHelper.UnhideEdgesIf( predicate );
-		}
+        public void HideEdgesIf(Func<TEdge, bool> predicate, string tag)
+        {
+            _hideHelper.HideEdgesIf(predicate, tag);
+        }
 
-		public IEnumerable<TEdge> HiddenEdgesOf( TVertex v )
-		{
-			return _hideHelper.HiddenEdgesOf( v );
-		}
+        public bool IsHiddenEdge(TEdge e)
+        {
+            return _hideHelper.IsHiddenEdge(e);
+        }
 
-		public int HiddenEdgeCountOf( TVertex v )
-		{
-			return _hideHelper.HiddenEdgeCountOf( v );
-		}
+        public bool UnhideEdge(TEdge e)
+        {
+            return _hideHelper.UnhideEdge(e);
+        }
 
-		public IEnumerable<TEdge> HiddenEdges
-		{
-			get { return _hideHelper.HiddenEdges; }
-		}
+        public void UnhideEdges(IEnumerable<TEdge> edges)
+        {
+            _hideHelper.UnhideEdges(edges);
+        }
 
-		public int HiddenEdgeCount
-		{
-			get { return _hideHelper.HiddenEdgeCount; }
-		}
+        public void UnhideEdgesIf(Func<TEdge, bool> predicate)
+        {
+            _hideHelper.UnhideEdgesIf(predicate);
+        }
 
-		public bool Unhide( string tag )
-		{
-			return _hideHelper.Unhide( tag );
-		}
+        public IEnumerable<TEdge> HiddenEdgesOf(TVertex v)
+        {
+            return _hideHelper.HiddenEdgesOf(v);
+        }
 
-		public bool UnhideAll()
-		{
-			return _hideHelper.UnhideAll();
-		}
+        public int HiddenEdgeCountOf(TVertex v)
+        {
+            return _hideHelper.HiddenEdgeCountOf(v);
+        }
 
-		#endregion
-	}
+        public IEnumerable<TEdge> HiddenEdges
+        {
+            get { return _hideHelper.HiddenEdges; }
+        }
+
+        public int HiddenEdgeCount
+        {
+            get { return _hideHelper.HiddenEdgeCount; }
+        }
+
+        public bool Unhide(string tag)
+        {
+            return _hideHelper.Unhide(tag);
+        }
+
+        public bool UnhideAll()
+        {
+            return _hideHelper.UnhideAll();
+        }
+
+        #endregion
+    }
 }

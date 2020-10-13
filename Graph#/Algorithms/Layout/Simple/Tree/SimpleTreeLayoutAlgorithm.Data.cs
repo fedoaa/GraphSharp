@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using QuikGraph;
 
 namespace GraphSharp.Algorithms.Layout.Simple.Tree

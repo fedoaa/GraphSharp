@@ -45,6 +45,7 @@ namespace GraphSharp.Algorithms
                     raise = true;
                 }
             }
+
             if (raise)
                 OnStateChanged(EventArgs.Empty);
         }
@@ -68,23 +69,17 @@ namespace GraphSharp.Algorithms
 
         protected void OnStarted(EventArgs e)
         {
-            EventHandler eh = Started;
-            if (eh != null)
-                eh(this, e);
+            Started?.Invoke(this, e);
         }
 
         protected void OnFinished(EventArgs e)
         {
-            EventHandler eh = Finished;
-            if (eh != null)
-                eh(this, e);
+            Finished?.Invoke(this, e);
         }
 
         protected void OnAborted(EventArgs e)
         {
-            EventHandler eh = Aborted;
-            if (eh != null)
-                eh(this, e);
+            Aborted?.Invoke(this, e);
         }
 
         protected void BeginComputation()
@@ -118,6 +113,7 @@ namespace GraphSharp.Algorithms
                     default:
                         throw new InvalidOperationException();
                 }
+
                 _cancelling = 0;
                 OnStateChanged(EventArgs.Empty);
             }

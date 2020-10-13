@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using GraphSharp.Controls;
@@ -14,7 +14,7 @@ namespace GraphSharp.Sample.ViewModel
 
         private static void CommandsChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            GraphLayoutCommand command = (GraphLayoutCommand)e.NewValue;
+            GraphLayoutCommand command = (GraphLayoutCommand) e.NewValue;
             if (command == GraphLayoutCommand.Save)
             {
                 PocGraphLayout g = d as PocGraphLayout;
@@ -66,7 +66,7 @@ namespace GraphSharp.Sample.ViewModel
             Children.Clear();
 
 
-            Dictionary<int, PocVertex> vertexControlsById = new Dictionary<int, PocVertex>(); 
+            Dictionary<int, PocVertex> vertexControlsById = new Dictionary<int, PocVertex>();
             foreach (VertexInfo<PocVertex> info in graphInfo.Verteces.OfType<VertexInfo<PocVertex>>())
             {
                 AddVertexControl(info);

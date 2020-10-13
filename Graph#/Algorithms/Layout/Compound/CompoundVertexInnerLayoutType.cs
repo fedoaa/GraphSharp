@@ -1,4 +1,4 @@
-﻿namespace GraphSharp.Algorithms.Layout.Compound
+namespace GraphSharp.Algorithms.Layout.Compound
 {
     public enum CompoundVertexInnerLayoutType
     {

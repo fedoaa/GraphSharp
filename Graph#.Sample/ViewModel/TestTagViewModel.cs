@@ -1,4 +1,4 @@
-﻿using GraphSharp.Sample.Model;
+using GraphSharp.Sample.Model;
 
 namespace GraphSharp.Sample.ViewModel
 {
@@ -280,7 +280,5 @@ namespace GraphSharp.Sample.ViewModel
             };
             return tags;
         }
-
-
     }
 }

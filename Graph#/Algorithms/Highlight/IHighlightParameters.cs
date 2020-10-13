@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace GraphSharp.Algorithms.Highlight
 {
-	public interface IHighlightParameters : ICloneable, INotifyPropertyChanged
-	{
-	}
+    public interface IHighlightParameters : ICloneable, INotifyPropertyChanged
+    {
+    }
 }

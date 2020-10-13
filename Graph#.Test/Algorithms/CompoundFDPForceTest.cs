@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Windows;
 using GraphSharp.Algorithms.Layout;
 using GraphSharp.Algorithms.Layout.Compound.FDP;
-using System.Windows;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GraphSharp.Test.Algorithms
 {
@@ -22,6 +22,7 @@ namespace GraphSharp.Test.Algorithms
         CompoundFDPLayoutParameters parameters = new CompoundFDPLayoutParameters();
 
         #region Additional test attributes
+
         //
         // You can use the following additional attributes as you write your tests:
         //
@@ -41,6 +42,7 @@ namespace GraphSharp.Test.Algorithms
         // [TestCleanup()]
         // public void MyTestCleanup() { }
         //
+
         #endregion
 
         [TestMethod]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -13,7 +13,7 @@ namespace GraphSharp.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
+            if ((bool) value)
                 return parameter;
 
             return Binding.DoNothing;

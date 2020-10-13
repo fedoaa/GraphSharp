@@ -1,4 +1,4 @@
-﻿namespace GraphSharp.Sample.ViewModel
+namespace GraphSharp.Sample.ViewModel
 {
     public enum GraphLayoutCommand
     {

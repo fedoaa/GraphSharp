@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -58,9 +58,10 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     phase = 2;
                 else if (phase == 2)
                     phase = 1;
-            } while (crossings > 0 
-                && ((phase2IterationLeft > 0 || wasPhase2) 
-                    || (phase1IterationLeft > 0 && (crossings < prevCrossings) && changed)));
+            }
+            while (crossings > 0
+                   && ((phase2IterationLeft > 0 || wasPhase2)
+                       || (phase1IterationLeft > 0 && (crossings < prevCrossings) && changed)));
         }
 
         /// <summary>
@@ -124,6 +125,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     }
                 }
             }
+
             return crossings;
         }
 
@@ -148,6 +150,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         Debug.Write("| \t");
                 }
             }
+
             Debug.WriteLine("");
         }
 
@@ -212,8 +215,11 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             for (startIndex = 0; startIndex < vertices.Length; startIndex = endIndex + 1)
             {
                 for (endIndex = startIndex + 1;
-                      endIndex < vertices.Length && vertices[startIndex].MeasuredPosition == vertices[endIndex].MeasuredPosition;
-                      endIndex++) { }
+                    endIndex < vertices.Length && vertices[startIndex].MeasuredPosition == vertices[endIndex].MeasuredPosition;
+                    endIndex++)
+                {
+                }
+
                 endIndex -= 1;
 
                 if (endIndex > startIndex)
@@ -227,13 +233,15 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         rangeLength++;
                         verticesWithSameMeasure.Add(vertices[i]);
                     }
-                    if (rangeLength > 0) 
+
+                    if (rangeLength > 0)
                     {
                         maxRangeLength = Math.Max(rangeLength, maxRangeLength);
                         ranges.Add(rangeLength);
                     }
                 }
             }
+
             return verticesWithSameMeasure;
         }
 
@@ -279,6 +287,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     _sparseCompactionGraph.AddVertex(vertex);
                 prevVertex = vertex;
             }
+
             _sparseCompactionByLayerBackup[layerIndex] = sparseCompationGraphEdgesOfLayer;
         }
 
@@ -315,8 +324,8 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 
             var lastOnTopLayer = topLayer[topLayer.Count - 1];
             var lastOnBottomLayer = bottomLayer[bottomLayer.Count - 1];
-            int firstLayerSize = lastOnTopLayer.Position + (lastOnTopLayer is ISegmentContainer ? ((ISegmentContainer)lastOnTopLayer).Count : 1);
-            int secondLayerSize = lastOnBottomLayer.Position + (lastOnBottomLayer is ISegmentContainer ? ((ISegmentContainer)lastOnBottomLayer).Count : 1);
+            int firstLayerSize = lastOnTopLayer.Position + (lastOnTopLayer is ISegmentContainer ? ((ISegmentContainer) lastOnTopLayer).Count : 1);
+            int secondLayerSize = lastOnBottomLayer.Position + (lastOnBottomLayer is ISegmentContainer ? ((ISegmentContainer) lastOnBottomLayer).Count : 1);
 
             IList<CrossCounterPair> virtualEdgePairs = FindVirtualEdgePairs(topLayer, bottomLayer);
             IList<SugiEdge> realEdges = FindRealEdges(topLayer);
@@ -353,8 +362,10 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                             while (stack.Count > 0)
                                 sortedVertexList.Add(stack.Pop());
                         }
+
                         stack.Push(v);
                     }
+
                     while (stack.Count > 0)
                     {
                         sortedVertexList.Add(stack.Pop());
@@ -404,9 +415,11 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 
                         bestCrossCount = crossCount;
                     }
+
                     if (crossCount == 0)
                         break;
-                } while (maxPermutations > 0 && Permutate(verticesWithSameMeasure, ranges));
+                }
+                while (maxPermutations > 0 && Permutate(verticesWithSameMeasure, ranges));
 
                 //reload the best solution
                 foreach (var vertex in verticesWithSameMeasure)
@@ -473,6 +486,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 if (clearMark)
                     edge.Marked = false;
             }
+
             return pairs;
         }
 
@@ -519,15 +533,18 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     vg2.Size = 0;
                 }
             }
+
             return virtualEdgePairs;
         }
 
-        private bool Permutate(IList<SugiVertex> vertices, IList<int> ranges) 
+        private bool Permutate(IList<SugiVertex> vertices, IList<int> ranges)
         {
             bool b = false;
-            for (int i = 0, startIndex = 0; i < ranges.Count; startIndex += ranges[i], i++) {
+            for (int i = 0, startIndex = 0; i < ranges.Count; startIndex += ranges[i], i++)
+            {
                 b = b || PermutateSomeHow(vertices, startIndex, ranges[i]);
             }
+
             return b;
         }
 
@@ -536,13 +553,14 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             return count <= 4 ? Permutate(vertices, startIndex, count) : PermutateRandom(vertices, startIndex, count);
         }
 
-        private bool PermutateRandom(IList<SugiVertex> vertices, int startIndex, int count) 
+        private bool PermutateRandom(IList<SugiVertex> vertices, int startIndex, int count)
         {
             int endIndex = startIndex + count;
-            for (int i = startIndex; i < endIndex; i++) 
+            for (int i = startIndex; i < endIndex; i++)
             {
                 vertices[i].PermutationIndex = _rnd.Next(count);
             }
+
             return true;
         }
 
@@ -554,8 +572,10 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 
             //find place to start
             for (i = n - 1;
-                  i > startIndex && vertices[i - 1].PermutationIndex >= vertices[i].PermutationIndex;
-                  i--) { }
+                i > startIndex && vertices[i - 1].PermutationIndex >= vertices[i].PermutationIndex;
+                i--)
+            {
+            }
 
             //all in reverse order
             if (i < startIndex + 1)
@@ -563,8 +583,10 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
 
             //do next permutation
             for (j = n;
-                  j > startIndex + 1 && vertices[j - 1].PermutationIndex <= vertices[i - 1].PermutationIndex;
-                  j--) { }
+                j > startIndex + 1 && vertices[j - 1].PermutationIndex <= vertices[i - 1].PermutationIndex;
+                j--)
+            {
+            }
 
             //swap values i-1, j-1
             int c = vertices[i - 1].PermutationIndex;
@@ -590,6 +612,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             //radix sort of the pair, order by First asc, Second asc
 
             #region Sort by Second ASC
+
             var radixBySecond = new List<CrossCounterPair>[secondLayerVertexCount];
             List<CrossCounterPair> r;
             int pairCount = 0;
@@ -602,13 +625,17 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     r = new List<CrossCounterPair>();
                     radixBySecond[pair.Second] = r;
                 }
+
                 r.Add(pair);
                 pairCount = Math.Max(pairCount, pair.Second);
             }
+
             pairCount += 1;
+
             #endregion
 
             #region Sort By First ASC
+
             var radixByFirst = new List<CrossCounterPair>[firstLayerVertexCount];
             foreach (var list in radixBySecond)
             {
@@ -624,9 +651,11 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         r = new List<CrossCounterPair>();
                         radixByFirst[pair.First] = r;
                     }
+
                     r.Add(pair);
                 }
             }
+
             #endregion
 
             //
@@ -663,6 +692,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                             tree[index].NonInnerSegmentQueue.Enqueue(pair.NonInnerSegment);
                             break;
                     }
+
                     while (index > 0)
                     {
                         if (index % 2 > 0)
@@ -676,15 +706,18 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                                     {
                                         queue.Dequeue().Marked = true;
                                     }
+
                                     break;
                                 case EdgeTypes.NonInnerSegment:
                                     if (tree[index + 1].InnerSegmentMarker)
                                     {
                                         pair.NonInnerSegment.Marked = true;
                                     }
+
                                     break;
                             }
                         }
+
                         index = (index - 1) / 2;
                         tree[index].Accumulator += pair.Weight;
                         switch (pair.Type)
@@ -720,6 +753,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                         queue.Enqueue(new VertexGroup { Position = container.Position, Size = container.Count });
                 }
             }
+
             return queue;
         }
 
@@ -772,11 +806,11 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             var type = straightSweep ? VertexTypes.PVertex : VertexTypes.QVertex;
             for (int i = 1; i < alternatingLayer.Count; i += 2)
             {
-                var vertex = (SugiVertex)alternatingLayer[i];
+                var vertex = (SugiVertex) alternatingLayer[i];
                 if (vertex.Type == type)
                 {
-                    var precedingContainer = (SegmentContainer)alternatingLayer[i - 1];
-                    var succeedingContainer = (SegmentContainer)alternatingLayer[i + 1];
+                    var precedingContainer = (SegmentContainer) alternatingLayer[i - 1];
+                    var succeedingContainer = (SegmentContainer) alternatingLayer[i + 1];
                     precedingContainer.Append(vertex.Segment);
                     precedingContainer.Join(succeedingContainer);
 
@@ -817,7 +851,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                 {
                     vertexStack.Pop();
                     segmentContainerStack.Pop();
-                    var k = (int)Math.Ceiling(vertex.MeasuredPosition - segmentContainer.Position);
+                    var k = (int) Math.Ceiling(vertex.MeasuredPosition - segmentContainer.Position);
                     ISegmentContainer sc1, sc2;
                     segmentContainer.Split(k, out sc1, out sc2);
                     newAlternatingLayer.Add(sc1);
@@ -826,6 +860,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     segmentContainerStack.Push(sc2);
                 }
             }
+
             if (vertexStack.Count > 0)
                 newAlternatingLayer.AddRange(vertexStack.OfType<IData>());
             if (segmentContainerStack.Count > 0)
@@ -844,7 +879,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             //assign positions to vertices on the actualLayer (L_i)
             for (int i = 1; i < alternatingLayer.Count; i += 2)
             {
-                var precedingContainer = (SegmentContainer)alternatingLayer[i - 1];
+                var precedingContainer = (SegmentContainer) alternatingLayer[i - 1];
                 var vertex = alternatingLayer[i];
                 if (i == 1)
                 {
@@ -860,7 +895,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
             //assign positions to containers on the actualLayer (L_i+1)
             for (int i = 0; i < alternatingLayer.Count; i += 2)
             {
-                var container = (SegmentContainer)alternatingLayer[i];
+                var container = (SegmentContainer) alternatingLayer[i];
                 if (i == 0)
                 {
                     container.Position = 0;
@@ -894,6 +929,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
                     vertex.MeasuredPosition += otherVertex.Position;
                     count++;
                 }
+
                 if (count > 0)
                     vertex.MeasuredPosition /= count;
                 else
@@ -905,4 +941,3 @@ namespace GraphSharp.Algorithms.Layout.Simple.Hierarchical
         }
     }
 }
-

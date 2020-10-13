@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -13,7 +13,6 @@ namespace GraphSharp.Controls
         where TEdge : IEdge<TVertex>
         where TGraph : class, IBidirectionalGraph<TVertex, TEdge>
     {
-
         protected void RemoveAllGraphElement()
         {
             foreach (var vertex in VertexControls.Keys.ToArray())
@@ -54,6 +53,7 @@ namespace GraphSharp.Controls
                             RemoveEdgeControl(kvp.Key);
                         }
                     }
+
                     foreach (var kvp in VertexControls.ToList())
                     {
                         if (!Graph.ContainsVertex(kvp.Key))
@@ -106,13 +106,14 @@ namespace GraphSharp.Controls
             {
                 _lastNotificationTimestamp = DateTime.Now;
             }
+
             if (Worker != null)
                 return;
 
             Worker = new BackgroundWorker();
             Worker.DoWork += (s, e) =>
             {
-                var w = (BackgroundWorker)s;
+                var w = (BackgroundWorker) s;
                 lock (_notificationSyncRoot)
                 {
                     while ((DateTime.Now - _lastNotificationTimestamp) < _notificationLayoutDelay)
@@ -141,22 +142,26 @@ namespace GraphSharp.Controls
                 var edge = _edgesRemoved.Dequeue();
                 RemoveEdgeControl(edge);
             }
+
             while (_verticesRemoved.Count > 0)
             {
                 var vertex = _verticesRemoved.Dequeue();
                 RemoveVertexControl(vertex);
             }
+
             var verticesToInitPos = _verticesAdded.ToList();
             while (_verticesAdded.Count > 0)
             {
                 var vertex = _verticesAdded.Dequeue();
                 CreateVertexControl(vertex);
             }
+
             while (_edgesAdded.Count > 0)
             {
                 var edge = _edgesAdded.Dequeue();
                 CreateEdgeControl(edge);
             }
+
             foreach (var vertex in verticesToInitPos)
             {
                 InitializePosition(vertex);
@@ -280,6 +285,7 @@ namespace GraphSharp.Controls
                         count++;
                     }
                 }
+
                 if (count > 0)
                 {
                     pos.X /= count;
@@ -344,5 +350,5 @@ namespace GraphSharp.Controls
             RunDestructionTransition(EdgeControls[edge], false);
             EdgeControls.Remove(edge);
         }
-	}
+    }
 }

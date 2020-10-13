@@ -1,11 +1,11 @@
-﻿using QuikGraph;
+using QuikGraph;
 
 namespace GraphSharp.Algorithms.Highlight
 {
-	public interface IHighlightContext<TVertex, TEdge, TGraph>
-		where TEdge : IEdge<TVertex>
-		where TGraph : IVertexAndEdgeListGraph<TVertex, TEdge>
-	{
-		TGraph Graph { get; }
-	}
+    public interface IHighlightContext<TVertex, TEdge, TGraph>
+        where TEdge : IEdge<TVertex>
+        where TGraph : IVertexAndEdgeListGraph<TVertex, TEdge>
+    {
+        TGraph Graph { get; }
+    }
 }

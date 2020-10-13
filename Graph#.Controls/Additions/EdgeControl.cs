@@ -1,11 +1,9 @@
-﻿using System.Windows;
+using System.Windows;
 
 namespace GraphSharp.Controls
 {
     public partial class EdgeControl
     {
-
-
         private static void SourceChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EdgeControl c = d as EdgeControl;
@@ -15,6 +13,7 @@ namespace GraphSharp.Controls
             {
                 vcn.AsSources.AddEdge(c);
             }
+
             VertexControl vco = e.OldValue as VertexControl;
             if (vco != null)
             {
@@ -31,12 +30,12 @@ namespace GraphSharp.Controls
             {
                 vcn.AsTargets.AddEdge(c);
             }
+
             VertexControl vco = e.OldValue as VertexControl;
             if (vco != null)
             {
                 vco.AsTargets.RemoveEdge(c);
             }
         }
-
     }
 }

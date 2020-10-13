@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace GraphSharp.Algorithms.Layout.Simple.FDP
 {
@@ -8,6 +8,7 @@ namespace GraphSharp.Algorithms.Layout.Simple.FDP
     public class BoundedFRLayoutParameters : FRLayoutParametersBase
     {
         #region Properties, Parameters
+
         //some of the parameters declared with 'internal' modifier to 'speed up'
 
         private double _width = 100;

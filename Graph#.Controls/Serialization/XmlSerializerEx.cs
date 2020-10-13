@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -7,8 +7,7 @@ namespace GraphSharp.Serialization
 {
     public static class XmlSerializerEx
     {
-
-        public static T Load<T>(this string filename) 
+        public static T Load<T>(this string filename)
             where T : class
         {
             try
@@ -19,14 +18,15 @@ namespace GraphSharp.Serialization
                     return xs.Deserialize(stream) as T;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // do nothing
             }
+
             return default(T);
         }
 
-        public static T LoadFromText<T>(string text) 
+        public static T LoadFromText<T>(string text)
             where T : class
         {
             try
@@ -41,6 +41,7 @@ namespace GraphSharp.Serialization
             {
                 //
             }
+
             return default(T);
         }
 
@@ -80,8 +81,8 @@ namespace GraphSharp.Serialization
                 stream.Close();
             }
         }
-        
-        private static XmlSerializer XmlSerializer(Type type) 
+
+        private static XmlSerializer XmlSerializer(Type type)
         {
             XmlSerializer xs = new XmlSerializer(type);
             xs.UnknownAttribute += Xs_UnknownAttribute;
